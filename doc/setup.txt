@@ -1,0 +1,17 @@
+# Create the blank app
+
+rvm get stable
+rvm list known
+rvm install ruby-2.0.0-p195
+
+rvm use ruby 2.0.0
+rvm gemset create gemdata
+rvm use ruby-2.0.0-p195@gemdata
+
+gem install rails --version 4.0.0.rc1 --no-ri --no-rdoc
+
+rails new gemdata --skip-bundle --database=postgresql
+
+cd ~/.pow
+ln -s /Users/jp/work/ruby/gemdata
+
