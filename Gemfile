@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
 # Core
-gem 'rails', '4.0.0.rc1'
-gem 'bcrypt-ruby'
+gem 'rails', '~> 4.0.0'
+gem 'bcrypt-ruby', '~> 3.0.0'
 
 # Database
 gem 'pg'
@@ -15,14 +15,11 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 
 # Uploads
-gem "carrierwave"
-gem "fog"
-
-# Exceptions
-# gem 'exception_notification'
-
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-# gem 'jbuilder', '~> 1.0.1'
+gem 'carrierwave'
+gem 'fog'
 
 # API
 gem 'active_model_serializers', github: 'rails-api/active_model_serializers'
+
+# Exceptions
+# gem 'exception_notification'
