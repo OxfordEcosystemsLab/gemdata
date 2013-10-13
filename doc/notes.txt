@@ -1,0 +1,8 @@
+TODO
+
+- Check table defs
+- Finish csv imports
+- Add error checking
+- 
+
+
