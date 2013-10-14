@@ -15,3 +15,69 @@ rails new gemdata --skip-bundle --database=postgresql
 cd ~/.pow
 ln -s /Users/jp/work/ruby/gemdata
 
+----------------------------
+
+Getting it to run on server:
+
+$ rvm info
+$ rvm use 2.0.0
+$ rvm gemset create gemdata
+$ rvm use 2.0.0-p195@gemdata
+$ cd ~/sites
+$ git clone git@github.com:tidyapps/gemdata.git
+$ bundle install
+$ nano database.yml
+$ bundle exec rake db:create
+$ bundle exec rake db:migrate
+$ bundle exec rake assets:clean assets:precompile
+$ mkdir tmp
+$ touch tmp/restart.txt
+$ rails c
+
+Update nginx config
+
+$ sudo nano /etc/nginx/conf/nginx.conf
+
+  The magic bit
+
+  Link to the sub URI app (/data) from the public dir of the root app (/)
+  See the config file below for more info
+
+$ ln -s /home/spet2050/sites/gemdata/public /home/spet2050/sites/gemnet/public/data
+
+The config: ----------->
+
+    server {
+
+        listen 80;
+        server_name gem.tropicalforests.ox.ac.uk;
+        root /home/spet2050/sites/gemnet/public;
+        passenger_enabled on;
+
+        # The maximum file upload size
+        client_max_body_size 50M;
+
+        # A separate rack/rails app served from the /data sub URI
+        # The app root is a ln -s from the public directory of the root (in gemnet/public)
+        #  ln -s /home/spet2050/sites/gemdata/public /home/spet2050/sites/gemnet/public/data
+        passenger_base_uri /data;
+        location /data {
+            passenger_enabled on;
+            passenger_ruby /home/spet2050/.rvm/wrappers/ruby-2.0.0-p195@gemdata/ruby;
+        }
+    }
+
+<-----------
+
+To restart nginx
+
+$ ps -A | grep nginx
+$ sudo kill 12345
+$ sudo service nginx start
+
+Nginx logs
+
+$ cd /etc/nginx/logs/
+$ tail -100 access.log 
+$ tail -100 error.log 
+
