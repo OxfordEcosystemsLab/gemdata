@@ -78,7 +78,7 @@ ActiveRecord::Schema.define(version: 20131012083222) do
     t.integer  "year",                                            null: false
     t.integer  "month",                                           null: false
     t.integer  "day"
-    t.string   "ingrowth_core_number",                            null: false
+    t.string   "ingrowth_core_num",                               null: false
     t.integer  "time_step",                                       null: false
     t.float    "ingrowth_core_litterfall_g"
     t.float    "soil_humidity_pcnt"
@@ -125,11 +125,11 @@ ActiveRecord::Schema.define(version: 20131012083222) do
 
   create_table "respiration_control_values", force: true do |t|
     t.string   "plot_code",                             null: false
-    t.string   "measurement_code",                      null: false
     t.integer  "year",                                  null: false
     t.integer  "month",                                 null: false
     t.integer  "day"
-    t.boolean  "disturbed_yn",                          null: false
+    t.string   "measurement_code",                      null: false
+    t.string   "disturbance_code",                      null: false
     t.float    "co2_ref_ppm"
     t.float    "pressure_mb"
     t.float    "air_temp_c"
@@ -144,10 +144,10 @@ ActiveRecord::Schema.define(version: 20131012083222) do
 
   create_table "respiration_partitioning_values", force: true do |t|
     t.string   "plot_code",                             null: false
-    t.string   "measurement_code",                      null: false
     t.integer  "year",                                  null: false
     t.integer  "month",                                 null: false
     t.integer  "day"
+    t.string   "measurement_code",                      null: false
     t.float    "co2_ref_ppm"
     t.float    "pressure_mb"
     t.float    "air_temp_c"

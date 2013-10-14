@@ -7,14 +7,14 @@ class CreateCsvTables < ActiveRecord::Migration
       t.integer :year, null: false
       t.integer :month, null: false
       t.integer :day
-      t.string :ingrowth_core_number, null: false
+      t.string :ingrowth_core_num, null: false
       t.integer :time_step, null: false
       t.float :ingrowth_core_litterfall_g
       t.float :soil_humidity_pcnt
       t.float :soil_temperature_c
       t.float :ol_under_2mm_g
       t.float :ml_under_2mm_g
-      t.string :status, default: Lookup::RowStatus.imported
+      t.string :status
       t.text :comments
       t.timestamps
     end
@@ -32,7 +32,7 @@ class CreateCsvTables < ActiveRecord::Migration
       t.float :diameter_2_cm
       t.float :length_cm
       t.float :dry_weight_g
-      t.string :status, default: Lookup::RowStatus.imported
+      t.string :status
       t.text :comments
       t.timestamps
     end
@@ -46,7 +46,7 @@ class CreateCsvTables < ActiveRecord::Migration
       t.float :average_leaf_inclination_angle
       t.float :recalculated_lai
       t.float :std_dev
-      t.string :status, default: Lookup::RowStatus.imported
+      t.string :status
       t.text :comments
       t.timestamps
     end
@@ -67,7 +67,7 @@ class CreateCsvTables < ActiveRecord::Migration
       t.float :palm_leaves_g
       t.float :palm_flower_g
       t.float :palm_fruit_g
-      t.string :status, default: Lookup::RowStatus.imported
+      t.string :status
       t.text :comments
       t.timestamps
     end
@@ -83,42 +83,42 @@ class CreateCsvTables < ActiveRecord::Migration
       t.float :a_shade
       t.float :resp_sun
       t.float :resp_shade
-      t.string :status, default: Lookup::RowStatus.imported
+      t.string :status
       t.text :comments
       t.timestamps
     end
 
     create_table :respiration_control_values do |t|
       t.string :plot_code, null: false
-      t.string :measurement_code, null: false
       t.integer :year, null: false
       t.integer :month, null: false
       t.integer :day
-      t.boolean :disturbed_yn, null: false
+      t.string :measurement_code, null: false
+      t.string :disturbance_code, null: false
       t.float :co2_ref_ppm
       t.float :pressure_mb
       t.float :air_temp_c
       t.float :depth_cm
       t.float :vwc_pcnt
       t.float :delta_flux
-      t.string :status, default: Lookup::RowStatus.imported
+      t.string :status
       t.text :comments
       t.timestamps
     end
 
     create_table :respiration_partitioning_values do |t|
       t.string :plot_code, null: false
-      t.string :measurement_code, null: false
       t.integer :year, null: false
       t.integer :month, null: false
       t.integer :day
+      t.string :measurement_code, null: false
       t.float :co2_ref_ppm
       t.float :pressure_mb
       t.float :air_temp_c
       t.float :depth_cm
       t.float :vwc_pcnt
       t.float :delta_flux
-      t.string :status, default: Lookup::RowStatus.imported
+      t.string :status
       t.text :comments
       t.timestamps
     end
@@ -134,7 +134,7 @@ class CreateCsvTables < ActiveRecord::Migration
       t.float :tree_height_m
       t.float :dbh_height_m
       t.float :dbh_cm
-      t.string :status, default: Lookup::RowStatus.imported
+      t.string :status
       t.text :comments
       t.timestamps
     end
@@ -152,7 +152,7 @@ class CreateCsvTables < ActiveRecord::Migration
       t.float :air_temp_c
       t.float :depth_cm
       t.float :delta_flux
-      t.string :status, default: Lookup::RowStatus.imported
+      t.string :status
       t.text :comments
       t.timestamps
     end
@@ -167,10 +167,12 @@ class CreateCsvTables < ActiveRecord::Migration
       t.float :tree_height_m
       t.float :dbh_height_m
       t.float :dbh_cm
-      t.string :status, default: Lookup::RowStatus.imported
+      t.string :status
       t.text :comments
       t.timestamps
     end
+
+DBH_height,DBH,DB_date,WD,WD_type,dbhgrowth_cm
 
   end
 
