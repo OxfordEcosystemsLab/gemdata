@@ -2,11 +2,10 @@ require 'csv'
 
 class CSVDataImporter
 
-  attr_reader :results
-
-  def initialize(ar_class, csv_file_name)
+  def initialize(ar_class, csv_file, results=[])
     @ar_class = ar_class
-    @csv_file_name = csv_file_name
+    @csv_file = csv_file
+    @results = results
   end
 
   def import!
@@ -18,8 +17,7 @@ class CSVDataImporter
     def import_data
       put_message "Table '#{@ar_class.to_s.tableize}' initial row count: #{@ar_class.count}"
 
-      table_human_name = @ar_class.to_s.underscore.gsub('_',' ').capitalize
-      put_message "Importing #{table_human_name}...", time: true
+      put_message "Importing #{@ar_class.table_human_name}...", time: true
 
       failed, updated, inserted, ignored, skipped = 0, 0, 0, 0, 0
 
@@ -30,8 +28,7 @@ class CSVDataImporter
           current_keys = @ar_class.get_unique_keys_hash
 
           # Loop the CSV rows
-          full_path = Rails.root.join('db', 'import', @csv_file_name)
-          CSV.foreach(full_path, headers: true) do |row|
+          CSV.foreach(@csv_file, headers: true) do |row|
 
             # Swap NaN values for blanks
             row_hash = row.to_hash
@@ -42,7 +39,7 @@ class CSVDataImporter
 
             # Report blank headings
             if $. == 2 && row_hash.keys.any? { |k| k.blank? }
-              raise "You have a blank column heading!"
+              raise "You have a blank column heading :-("
             end
 
             # Jump to next row if blank
@@ -118,7 +115,6 @@ class CSVDataImporter
 
     def put_message(text, options={})
       text = "[#{timestamp}] #{text}" if options[:time]
-      @results ||= []
       @results << text
       puts(text)
     end

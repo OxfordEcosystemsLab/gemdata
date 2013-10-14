@@ -1,0 +1,9 @@
+<h2>GEM Data: Import CSV</h2>
+
+<p><%= link_to "Import again...", new_csv_upload_path %></p>
+
+<p><%= link_to "Refresh page", nil %> to view results.</p>
+
+<div class="results">
+  <%= @results.join("<br />").html_safe %>
+</div>

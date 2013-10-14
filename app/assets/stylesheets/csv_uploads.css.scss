@@ -1,0 +1,21 @@
+// Place all the styles related to the csv_uploads controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+body {
+    font-family: Arial;
+}
+
+p {
+    font-size: 13px;
+}
+
+form {
+    margin-top: 2em;
+}
+
+.results {
+    margin-top: 2em;
+    font-family: monospace;
+    font-size: 11px;
+}

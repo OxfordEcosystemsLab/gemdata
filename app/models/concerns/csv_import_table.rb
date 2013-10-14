@@ -23,6 +23,10 @@ module CSVImportTable
       Hash[select(columns).load.map { |r| [r.unique_key, r.id] }]
     end
 
+    def table_human_name
+      to_s.underscore.gsub('_',' ').capitalize
+    end
+
   end
 
   # Get the unique key value for this table

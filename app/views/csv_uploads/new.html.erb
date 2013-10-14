@@ -1,0 +1,13 @@
+<h2>GEM Data: Import CSV</h2>
+
+<p>Tip: If the csv file is big then try a smaller sample first.</p>
+
+<%= form_tag csv_uploads_path, method: :post, multipart: true do %>
+
+  <%= select_tag "csv_class", options_from_collection_for_select(@import_classes, "to_s", "table_human_name") %>
+
+  <%= file_field_tag :file %>
+  
+  <%= submit_tag "Import" %>
+
+<% end %>

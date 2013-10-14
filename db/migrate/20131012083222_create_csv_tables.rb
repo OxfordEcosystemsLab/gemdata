@@ -172,8 +172,6 @@ class CreateCsvTables < ActiveRecord::Migration
       t.timestamps
     end
 
-DBH_height,DBH,DB_date,WD,WD_type,dbhgrowth_cm
-
   end
 
 end
