@@ -17,7 +17,7 @@ class CsvUploadsController < ApplicationController
 
   def create
     if params[:file]
-      if params[:file].content_type == "text/csv"
+      if valid_mime_type?(params[:file].content_type)
         import_id = SecureRandom.hex
         import_log = ImportLog.new(import_id)
         ar_class = params[:csv_class].constantize
@@ -38,6 +38,10 @@ class CsvUploadsController < ApplicationController
 
   def show
     @results = ImportLog.get_results(params[:id])
+  end
+
+  def valid_mime_type?(content_type)
+    ["text/csv", "application/vnd.ms-excel"].include?(content_type)
   end
 
 end
