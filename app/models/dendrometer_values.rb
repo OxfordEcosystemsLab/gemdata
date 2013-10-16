@@ -9,7 +9,7 @@ class DendrometerValues < ActiveRecord::Base
 
   validates :dbh_height_m,  allow_nil: true, numericality: { greater_than_or_equal_to: 0.2, less_than_or_equal_to: 10 }
   validates :dbh_cm,        allow_nil: true, numericality: { greater_than_or_equal_to: 1,   less_than_or_equal_to: 500 }
-  validates :dbh_date,      allow_nil: true, numericality: { greater_than_or_equal_to: 1983, less_than_or_equal_to: 2050 }
+  validates :dbh_year,      allow_nil: true, numericality: { greater_than_or_equal_to: 1983, less_than_or_equal_to: 2050 }
   validates :dbh_growth_cm, allow_nil: true, numericality: { greater_than_or_equal_to: 5, less_than_or_equal_to: 1500 }
   
   def self.unique_key_columns
