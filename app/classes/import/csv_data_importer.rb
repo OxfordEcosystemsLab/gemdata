@@ -51,6 +51,8 @@ class CSVDataImporter
 
             # Create the AR object and validate
             new_record = @ar_class.new(row_hash)
+            new_record.status = Lookup::RowStatus.imported
+            new_record.quality_code ||= Lookup::QualityCode.ok
 
             # Record not valid: log the error
             unless new_record.valid?
@@ -82,7 +84,6 @@ class CSVDataImporter
             else
 
               # Insert new row
-              new_record.status = Lookup::RowStatus.imported
               new_record.save
               inserted += 1
 
@@ -92,15 +93,15 @@ class CSVDataImporter
 
         # Completion feedback
         total_rows = inserted + updated + ignored + failed + skipped
+        put_message "Import complete.", time: true
         result = []
-        result << "Import complete."
-        result << "#{total_rows} rows processed:"
-        result << "  #{inserted} created"
-        result << "  #{updated} updated"
-        result << "  #{ignored} not changed"
-        result << "  #{skipped} skipped"
-        result << "  #{failed} failed"
-        put_message result.join("\n"), time: true
+        result << "Results: #{total_rows} rows processed"
+        result << "#{inserted} created"
+        result << "#{updated} updated"
+        result << "#{ignored} not changed"
+        result << "#{skipped} skipped"
+        result << "#{failed} failed"
+        put_message result.join(", ")
 
       rescue Exception => ex
         put_message "Import aborted! - #{ex.message}", time: true

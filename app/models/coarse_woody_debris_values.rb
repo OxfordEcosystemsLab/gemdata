@@ -8,7 +8,7 @@ class CoarseWoodyDebrisValues < ActiveRecord::Base
   validates :sub_transect_num, allow_nil: true, numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 10 }
   validates :cwd_num,          presence: true,  numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 10 }
 
-  validates :size_class,       presence: true,  numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 2 }
+  validates :size_class,       allow_nil: true, numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 2 }
 
   validates :diameter_1_cm,    allow_nil: true, numericality: { greater_than: 0, less_than_or_equal_to: 32120 }
   validates :diameter_2_cm,    allow_nil: true, numericality: { greater_than: 0, less_than_or_equal_to: 1200 }

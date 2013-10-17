@@ -14,7 +14,8 @@ class CreateCsvTables < ActiveRecord::Migration
       t.float :soil_temperature_c
       t.float :ol_under_2mm_g
       t.float :ml_under_2mm_g
-      t.string :status
+      t.string :quality_code, null: false
+      t.string :status, null: false
       t.text :comments
       t.timestamps
     end
@@ -27,12 +28,13 @@ class CreateCsvTables < ActiveRecord::Migration
       t.string :transect_num, null: false
       t.string :sub_transect_num
       t.string :cwd_num, null: false
-      t.string :size_class, null: false
+      t.string :size_class
       t.float :diameter_1_cm
       t.float :diameter_2_cm
       t.float :length_cm
       t.float :dry_weight_g
-      t.string :status
+      t.string :quality_code, null: false
+      t.string :status, null: false
       t.text :comments
       t.timestamps
     end
@@ -46,7 +48,8 @@ class CreateCsvTables < ActiveRecord::Migration
       t.float :average_leaf_inclination_angle
       t.float :recalculated_lai
       t.float :std_dev
-      t.string :status
+      t.string :quality_code, null: false
+      t.string :status, null: false
       t.text :comments
       t.timestamps
     end
@@ -67,7 +70,8 @@ class CreateCsvTables < ActiveRecord::Migration
       t.float :palm_leaves_g
       t.float :palm_flower_g
       t.float :palm_fruit_g
-      t.string :status
+      t.string :quality_code, null: false
+      t.string :status, null: false
       t.text :comments
       t.timestamps
     end
@@ -83,7 +87,8 @@ class CreateCsvTables < ActiveRecord::Migration
       t.float :a_shade
       t.float :resp_sun
       t.float :resp_shade
-      t.string :status
+      t.string :quality_code, null: false
+      t.string :status, null: false
       t.text :comments
       t.timestamps
     end
@@ -101,7 +106,8 @@ class CreateCsvTables < ActiveRecord::Migration
       t.float :depth_cm
       t.float :vwc_pcnt
       t.float :delta_flux
-      t.string :status
+      t.string :quality_code, null: false
+      t.string :status, null: false
       t.text :comments
       t.timestamps
     end
@@ -118,7 +124,8 @@ class CreateCsvTables < ActiveRecord::Migration
       t.float :depth_cm
       t.float :vwc_pcnt
       t.float :delta_flux
-      t.string :status
+      t.string :quality_code, null: false
+      t.string :status, null: false
       t.text :comments
       t.timestamps
     end
@@ -133,8 +140,9 @@ class CreateCsvTables < ActiveRecord::Migration
       t.float :wood_density_g_m2
       t.float :tree_height_m
       t.float :dbh_height_m
-      t.float :dbh_cm
-      t.string :status
+      t.float :dbh_mm
+      t.string :quality_code, null: false
+      t.string :status, null: false
       t.text :comments
       t.timestamps
     end
@@ -143,7 +151,7 @@ class CreateCsvTables < ActiveRecord::Migration
       t.string :plot_code, null: false
       t.string :sub_plot
       t.string :tree_tag, null: false
-      t.string :tube_num, null: false
+      t.string :tube_num
       t.integer :year, null: false
       t.integer :month, null: false
       t.integer :day
@@ -152,7 +160,8 @@ class CreateCsvTables < ActiveRecord::Migration
       t.float :air_temp_c
       t.float :depth_cm
       t.float :delta_flux
-      t.string :status
+      t.string :quality_code, null: false
+      t.string :status, null: false
       t.text :comments
       t.timestamps
     end
@@ -164,10 +173,12 @@ class CreateCsvTables < ActiveRecord::Migration
       t.integer :year, null: false
       t.integer :month, null: false
       t.integer :day
-      t.float :tree_height_m
       t.float :dbh_height_m
-      t.float :dbh_cm
-      t.string :status
+      t.float :dbh_mm
+      t.float :dbh_growth_mm
+      t.float :dbh_year
+      t.string :quality_code, null: false
+      t.string :status, null: false
       t.text :comments
       t.timestamps
     end

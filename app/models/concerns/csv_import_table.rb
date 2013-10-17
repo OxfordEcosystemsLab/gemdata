@@ -4,6 +4,11 @@ module CSVImportTable
 
   extend ActiveSupport::Concern
 
+  included do
+    validates :quality_code, presence: true, inclusion: { in: Lookup::QualityCode.codes }
+    validates :status, presence: true, inclusion: { in: Lookup::RowStatus.codes }
+  end
+
   module ClassMethods
 
     def protected_attributes

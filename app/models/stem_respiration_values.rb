@@ -6,7 +6,7 @@ class StemRespirationValues < ActiveRecord::Base
   include ValidateTreeTag
 
   validates :sub_plot,    allow_nil: true, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
-  validates :tube_num,    presence: true,  numericality: { only_integer: true, greater_than_or_equal_to: 1 }
+  validates :tube_num,    allow_nil: true, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
 
   validates :co2_ref_ppm, allow_nil: true, numericality: { greater_than_or_equal_to: 200, less_than_or_equal_to: 800 }
   validates :pressure_mb, allow_nil: true, numericality: { greater_than_or_equal_to: 400, less_than_or_equal_to: 1000 }
