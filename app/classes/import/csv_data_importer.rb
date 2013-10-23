@@ -8,8 +8,13 @@ class CSVDataImporter
     @results = results
   end
 
+  # Import in another thread
   def import!
-    import_data
+    t = Thread.new do
+      import_data
+      ActiveRecord::Base.connection.close
+    end
+    at_exit { t.join }
   end
 
   private

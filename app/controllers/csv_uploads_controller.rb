@@ -22,9 +22,7 @@ class CsvUploadsController < ApplicationController
         import_log = ImportLog.new(import_id)
         ar_class = params[:csv_class].constantize
         csv_importer = CSVDataImporter.new(ar_class, params[:file].tempfile, import_log)
-        Thread.new do
-          csv_importer.import!
-        end
+        csv_importer.import! # In background
         redirect_to csv_upload_path(id: import_id)
       else
         flash[:notice] = "This file does not appear to be a valid csv file. It has a content type of: #{params[:file].content_type}"

@@ -6,3 +6,4 @@ TODO
 - 
 
 
+http://www.cyberciti.biz/tips/postgres-allow-remote-access-tcp-connection.html
