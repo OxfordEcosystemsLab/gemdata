@@ -11,7 +11,8 @@ class CsvUploadsController < ApplicationController
       StemRespirationValues,
       LeafRespirationValues,
       RespirationControlValues,
-      RespirationPartitioningValues
+      RespirationPartitioningValues,
+      MonthlyAveragesValues
     ]
   end
 
