@@ -5,5 +5,7 @@
 <p><%= link_to "Refresh page", nil %> to view results.</p>
 
 <div class="results">
-  <%= @results.join("<br />").html_safe %>
+  <%#= @results.join("<br />").html_safe %>
 </div>
+
+<%= text_area_tag 'results', @results.join("\n").html_safe, class: "results" %>

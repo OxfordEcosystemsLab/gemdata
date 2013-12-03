@@ -9,8 +9,18 @@ form {
     }
 }
 
-.results {
-    margin-top: 2em;
+.OLDresults {
+    margin: 2em 0;
     font-family: monospace;
     font-size: 12px;
+}
+
+textarea {
+    &.results {
+        margin: 2em 0;
+        font-family: monospace;
+        font-size: 11px;
+        color: #000;
+        height: 45em;
+    }
 }

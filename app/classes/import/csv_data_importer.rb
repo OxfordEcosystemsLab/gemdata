@@ -35,9 +35,10 @@ class CSVDataImporter
           # Loop the CSV rows
           CSV.foreach(@csv_file, headers: true) do |row|
 
-            # Swap NaN values for blanks
+            # Swap NaN & NA values for blanks
             row_hash = row.to_hash
             row_hash.map { |k,v| row_hash[k] = (v == 'NaN' ? nil : v) }
+            row_hash.map { |k,v| row_hash[k] = (v == 'NA' ? nil : v) }
 
             # Remove protected attributes
             @ar_class.protected_attributes.each { |col| row_hash.delete(col) }

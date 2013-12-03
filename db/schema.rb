@@ -11,26 +11,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131107110910) do
+ActiveRecord::Schema.define(version: 20131012083222) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "coarse_woody_debris_values", force: true do |t|
-    t.string   "plot_code",        null: false
-    t.integer  "year",             null: false
-    t.integer  "month",            null: false
+    t.string   "plot_code",                null: false
+    t.integer  "year",                     null: false
+    t.integer  "month",                    null: false
     t.integer  "day"
-    t.string   "transect_num",     null: false
-    t.string   "sub_transect_num"
-    t.string   "cwd_num",          null: false
+    t.string   "transect_num",             null: false
+    t.string   "sub_transect_num",         null: false
+    t.float    "sub_transect_area_m2",     null: false
+    t.string   "sub_transect_start_point"
+    t.string   "sub_transect_end_point"
+    t.string   "cwd_num",                  null: false
     t.string   "size_class"
+    t.string   "decay_class"
     t.float    "diameter_1_cm"
     t.float    "diameter_2_cm"
     t.float    "length_cm"
     t.float    "dry_weight_g"
-    t.string   "quality_code",     null: false
-    t.string   "status",           null: false
+    t.string   "quality_code",             null: false
+    t.string   "status",                   null: false
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -55,23 +59,25 @@ ActiveRecord::Schema.define(version: 20131107110910) do
   end
 
   create_table "fine_litterfall_values", force: true do |t|
-    t.string   "plot_code",     null: false
-    t.integer  "year",          null: false
-    t.integer  "month",         null: false
+    t.string   "plot_code",              null: false
+    t.integer  "year",                   null: false
+    t.integer  "month",                  null: false
     t.integer  "day"
-    t.string   "collector_num", null: false
-    t.float    "leaves_g"
-    t.float    "twigs_g"
-    t.float    "flowers_g"
-    t.float    "fruits_g"
-    t.float    "bromeliads_g"
-    t.float    "epiphytes_g"
-    t.float    "other_g"
+    t.string   "litter_trap_num",        null: false
+    t.float    "litter_trap_size_m2",    null: false
+    t.integer  "collection_period_days", null: false
+    t.float    "leaves_g_per_trap"
+    t.float    "twigs_g_per_trap"
+    t.float    "flowers_g_per_trap"
+    t.float    "fruits_g_per_trap"
+    t.float    "bromeliads_g_per_trap"
+    t.float    "epiphytes_g_per_trap"
+    t.float    "other_g_per_trap"
     t.float    "palm_leaves_g"
     t.float    "palm_flower_g"
     t.float    "palm_fruit_g"
-    t.string   "quality_code",  null: false
-    t.string   "status",        null: false
+    t.string   "quality_code",           null: false
+    t.string   "status",                 null: false
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -84,6 +90,8 @@ ActiveRecord::Schema.define(version: 20131107110910) do
     t.integer  "day"
     t.string   "ingrowth_core_num",          null: false
     t.integer  "time_step",                  null: false
+    t.integer  "time_step_minutes",          null: false
+    t.string   "is_stock_yn",                null: false
     t.float    "ingrowth_core_litterfall_g"
     t.float    "soil_humidity_pcnt"
     t.float    "soil_temperature_c"
@@ -177,10 +185,12 @@ ActiveRecord::Schema.define(version: 20131107110910) do
     t.integer  "month",            null: false
     t.integer  "day"
     t.string   "measurement_code", null: false
+    t.string   "plot_corner_code"
     t.string   "disturbance_code", null: false
     t.float    "co2_ref_ppm"
     t.float    "pressure_mb"
     t.float    "air_temp_c"
+    t.float    "soil_temp_c"
     t.float    "depth_cm"
     t.float    "vwc_pcnt"
     t.float    "delta_flux"
@@ -197,9 +207,11 @@ ActiveRecord::Schema.define(version: 20131107110910) do
     t.integer  "month",            null: false
     t.integer  "day"
     t.string   "measurement_code", null: false
+    t.string   "plot_corner_code"
     t.float    "co2_ref_ppm"
     t.float    "pressure_mb"
     t.float    "air_temp_c"
+    t.float    "soil_temp_c"
     t.float    "depth_cm"
     t.float    "vwc_pcnt"
     t.float    "delta_flux"

@@ -40,7 +40,7 @@ class CsvUploadsController < ApplicationController
   end
 
   def valid_mime_type?(content_type)
-    ["text/csv", "application/vnd.ms-excel"].include?(content_type)
+    ["text/comma-separated-values", "text/csv", "application/csv", "application/excel", "application/vnd.ms-excel", "application/vnd.msexcel"].include?(content_type)
   end
 
 end
