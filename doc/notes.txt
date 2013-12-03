@@ -1,9 +1,0 @@
-TODO
-
-- Check table defs
-- Finish csv imports
-- Add error checking
-- 
-
-
-http://www.cyberciti.biz/tips/postgres-allow-remote-access-tcp-connection.html

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gemdata</title>
+  <%= stylesheet_link_tag    "application", media: "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+  <section role="main">
+    <div class="row">
+
+      <div class="large-3 medium-4 columns">
+        <div class="sidebar">
+          <nav>
+            <ul class="side-nav">
+              <li class="heading">Data uploads</li>
+              <li><%= link_to "Select file", new_csv_upload_path %></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+
+      <div class="large-9 medium-8 columns">
+        <%= yield %>
+      </div>
+
+    </div>
+  </section>
+
+</body>
+</html>

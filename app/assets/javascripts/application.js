@@ -10,6 +10,18 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
+// Bower components
+//
 //= require jquery
-//= require jquery_ujs
-//= require_tree .
+//= require jquery-ujs
+//
+// Zurb Foundation
+//
+//= require foundation/js/vendor/custom.modernizr
+//
+//= require foundation/js/foundation/foundation
+// NOT= require foundation/js/foundation/foundation.topbar
+//
+// Application javascript
+//
+//= require_directory .

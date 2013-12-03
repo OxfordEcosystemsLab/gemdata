@@ -2,25 +2,15 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-body {
-    font-family: Arial;
-}
-
-p {
-    font-size: 13px;
-}
-
 form {
     margin-top: 2em;
+    .buttons {
+        margin-top: 2em;
+    }
 }
 
 .results {
     margin-top: 2em;
     font-family: monospace;
-    font-size: 11px;
-}
-
-.notice {
-    margin-top: 2em;
-    color: #b00;
+    font-size: 12px;
 }
