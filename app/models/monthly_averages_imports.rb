@@ -1,4 +1,4 @@
-class MonthlyAveragesValues < ActiveRecord::Base
+class MonthlyAveragesImports < ActiveRecord::Base
 
   include CSVImportTable
 

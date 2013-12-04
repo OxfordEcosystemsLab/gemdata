@@ -1,4 +1,4 @@
-class LeafAreaIndexValues < ActiveRecord::Base
+class LeafAreaIndexImports < ActiveRecord::Base
 
   include CSVImportTable
 

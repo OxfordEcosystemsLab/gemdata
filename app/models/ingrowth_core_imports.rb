@@ -1,4 +1,4 @@
-class IngrowthCoreValues < ActiveRecord::Base
+class IngrowthCoreImports < ActiveRecord::Base
 
   include CSVImportTable
 
@@ -9,6 +9,8 @@ class IngrowthCoreValues < ActiveRecord::Base
 
   validates :time_step_minutes,          presence: true,  numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 20 }
   validates :is_stock_yn,                presence: true,  format: { with: /\A[yn]\z/, message: "should be 'y' or 'n'" }
+
+  validates :collection_period_days,     presence: true,  numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 45 }
 
   validates :ingrowth_core_litterfall_g, allow_nil: true, numericality: { greater_than_or_equal_to: 0 }
   validates :soil_humidity_pcnt,         allow_nil: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }

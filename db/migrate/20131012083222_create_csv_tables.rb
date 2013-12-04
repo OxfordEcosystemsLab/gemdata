@@ -2,7 +2,7 @@ class CreateCsvTables < ActiveRecord::Migration
 
   def change
 
-    create_table :ingrowth_core_values do |t|
+    create_table :ingrowth_core_imports do |t|
       t.string :plot_code, null: false
       t.integer :year, null: false
       t.integer :month, null: false
@@ -11,6 +11,7 @@ class CreateCsvTables < ActiveRecord::Migration
       t.integer :time_step, null: false
       t.integer :time_step_minutes, null: false
       t.string :is_stock_yn, null: false
+      t.integer :collection_period_days, null: false
       t.float :ingrowth_core_litterfall_g
       t.float :soil_humidity_pcnt
       t.float :soil_temperature_c
@@ -22,7 +23,7 @@ class CreateCsvTables < ActiveRecord::Migration
       t.timestamps
     end
 
-    create_table :coarse_woody_debris_values do |t|
+    create_table :coarse_woody_debris_imports do |t|
       t.string :plot_code, null: false
       t.integer :year, null: false
       t.integer :month, null: false
@@ -35,6 +36,7 @@ class CreateCsvTables < ActiveRecord::Migration
       t.string :cwd_num, null: false
       t.string :size_class
       t.string :decay_class
+      t.integer :collection_period_days, null: false
       t.float :diameter_1_cm
       t.float :diameter_2_cm
       t.float :length_cm
@@ -45,7 +47,7 @@ class CreateCsvTables < ActiveRecord::Migration
       t.timestamps
     end
 
-    create_table :leaf_area_index_values do |t|
+    create_table :leaf_area_index_imports do |t|
       t.string :plot_code, null: false
       t.integer :year, null: false
       t.integer :month, null: false
@@ -60,13 +62,13 @@ class CreateCsvTables < ActiveRecord::Migration
       t.timestamps
     end
 
-    create_table :fine_litterfall_values do |t|
+    create_table :fine_litterfall_imports do |t|
       t.string :plot_code, null: false
       t.integer :year, null: false
       t.integer :month, null: false
       t.integer :day
-      t.string :litter_trap_num, null: false
-      t.float :litter_trap_size_m2, null: false
+      t.string :litterfall_trap_num, null: false
+      t.float :litterfall_trap_size_m2, null: false
       t.integer :collection_period_days, null: false
       t.float :leaves_g_per_trap
       t.float :twigs_g_per_trap
@@ -84,7 +86,7 @@ class CreateCsvTables < ActiveRecord::Migration
       t.timestamps
     end
 
-    create_table :leaf_respiration_values do |t|
+    create_table :leaf_respiration_imports do |t|
       t.string :plot_code, null: false
       t.string :tree_tag, null: false
       t.integer :year, null: false
@@ -101,7 +103,7 @@ class CreateCsvTables < ActiveRecord::Migration
       t.timestamps
     end
 
-    create_table :respiration_control_values do |t|
+    create_table :respiration_control_imports do |t|
       t.string :plot_code, null: false
       t.integer :year, null: false
       t.integer :month, null: false
@@ -122,13 +124,13 @@ class CreateCsvTables < ActiveRecord::Migration
       t.timestamps
     end
 
-    create_table :respiration_partitioning_values do |t|
+    create_table :respiration_partitioning_imports do |t|
       t.string :plot_code, null: false
       t.integer :year, null: false
       t.integer :month, null: false
       t.integer :day
       t.string :measurement_code, null: false
-      t.string :plot_corner_code
+      t.string :plot_corner_code, null: false
       t.float :co2_ref_ppm
       t.float :pressure_mb
       t.float :air_temp_c
@@ -142,16 +144,17 @@ class CreateCsvTables < ActiveRecord::Migration
       t.timestamps
     end
 
-    create_table :small_stem_values do |t|
+    create_table :small_stem_imports do |t|
       t.string :plot_code, null: false
       t.string :sub_plot
       t.string :tree_tag, null: false
       t.integer :year, null: false
       t.integer :month, null: false
       t.integer :day
+      t.integer :growth_period_days, null: false
       t.float :wood_density_g_m2
       t.float :tree_height_m
-      t.float :dbh_height_m
+      t.float :pom_height_m
       t.float :dbh_mm
       t.string :quality_code, null: false
       t.string :status, null: false
@@ -159,7 +162,7 @@ class CreateCsvTables < ActiveRecord::Migration
       t.timestamps
     end
 
-    create_table :stem_respiration_values do |t|
+    create_table :stem_respiration_imports do |t|
       t.string :plot_code, null: false
       t.string :sub_plot
       t.string :tree_tag, null: false
@@ -178,24 +181,25 @@ class CreateCsvTables < ActiveRecord::Migration
       t.timestamps
     end
 
-    create_table :dendrometer_values do |t|
+    create_table :dendrometer_imports do |t|
       t.string :plot_code, null: false
       t.string :sub_plot
       t.string :tree_tag, null: false
       t.integer :year, null: false
       t.integer :month, null: false
       t.integer :day
-      t.float :dbh_height_m
-      t.float :dbh_mm
-      t.float :dbh_growth_mm
-      t.float :dbh_year
+      t.integer :growth_period_days, null: false
+      t.float :pom_height_m
+      t.integer :dbh_first_year
+      t.float :dbh_first_year_mm
+      t.float :dendrometer_reading_mm
       t.string :quality_code, null: false
       t.string :status, null: false
       t.text :comments
       t.timestamps
     end
 
-    create_table :monthly_averages_values do |t|
+    create_table :monthly_averages_imports do |t|
       t.string :plot_code, null: false
       t.integer :year, null: false
       t.integer :month, null: false

@@ -1,4 +1,4 @@
-class CoarseWoodyDebrisValues < ActiveRecord::Base
+class CoarseWoodyDebrisImports < ActiveRecord::Base
 
   include CSVImportTable
 
@@ -12,6 +12,8 @@ class CoarseWoodyDebrisValues < ActiveRecord::Base
   validates :sub_transect_end_point,   allow_nil: true, format: { with: /\A[012345],[012345]\z/, message: "should be in format 'N,N' (no quotes) where N is 0 to 5" }
 
   validates :cwd_num,              presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 10 }
+
+  validates :collection_period_days, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 45 }
 
   validates :size_class,           allow_nil: true, numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 2 }
   validates :decay_class,          allow_nil: true, numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 5 }

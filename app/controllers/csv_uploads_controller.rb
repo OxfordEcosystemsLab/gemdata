@@ -2,17 +2,17 @@ class CsvUploadsController < ApplicationController
 
   def new
     @import_classes = [
-      DendrometerValues,
-      SmallStemValues,
-      FineLitterfallValues,
-      LeafAreaIndexValues,
-      IngrowthCoreValues,
-      CoarseWoodyDebrisValues,
-      StemRespirationValues,
-      LeafRespirationValues,
-      RespirationControlValues,
-      RespirationPartitioningValues,
-      MonthlyAveragesValues
+      DendrometerImports,
+      SmallStemImports,
+      FineLitterfallImports,
+      LeafAreaIndexImports,
+      IngrowthCoreImports,
+      CoarseWoodyDebrisImports,
+      StemRespirationImports,
+      LeafRespirationImports,
+      RespirationControlImports,
+      RespirationPartitioningImports,
+      MonthlyAveragesImports
     ]
   end
 

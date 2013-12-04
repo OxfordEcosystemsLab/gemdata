@@ -1,4 +1,4 @@
-class LeafRespirationValues < ActiveRecord::Base
+class LeafRespirationImports < ActiveRecord::Base
 
   include CSVImportTable
 

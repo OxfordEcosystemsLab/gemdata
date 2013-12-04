@@ -11,12 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131012083222) do
+ActiveRecord::Schema.define(version: 20131204100929) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "coarse_woody_debris_values", force: true do |t|
+  create_table "coarse_woody_debris_imports", force: true do |t|
     t.string   "plot_code",                null: false
     t.integer  "year",                     null: false
     t.integer  "month",                    null: false
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20131012083222) do
     t.string   "cwd_num",                  null: false
     t.string   "size_class"
     t.string   "decay_class"
+    t.integer  "collection_period_days",   null: false
     t.float    "diameter_1_cm"
     t.float    "diameter_2_cm"
     t.float    "length_cm"
@@ -40,31 +41,111 @@ ActiveRecord::Schema.define(version: 20131012083222) do
     t.datetime "updated_at"
   end
 
-  create_table "dendrometer_values", force: true do |t|
-    t.string   "plot_code",     null: false
+  create_table "coarse_woody_debris_values", force: true do |t|
+    t.integer  "cwd_sub_transect_id",    null: false
+    t.datetime "collection_date",        null: false
+    t.integer  "collection_period_days", null: false
+    t.string   "cwd_num",                null: false
+    t.string   "size_class"
+    t.string   "decay_class"
+    t.float    "diameter_1_cm"
+    t.float    "diameter_2_cm"
+    t.float    "length_cm"
+    t.float    "dry_weight_g"
+    t.string   "quality_code",           null: false
+    t.string   "status",                 null: false
+    t.text     "comments"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "coarse_woody_debris_values", ["cwd_sub_transect_id"], name: "index_coarse_woody_debris_values_on_cwd_sub_transect_id", using: :btree
+
+  create_table "cwd_sub_transects", force: true do |t|
+    t.string   "cwd_sub_transects_num",    null: false
+    t.integer  "cwd_transect_id",          null: false
+    t.float    "sub_transect_area_m2",     null: false
+    t.string   "sub_transect_start_point"
+    t.string   "sub_transect_end_point"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "cwd_sub_transects", ["cwd_transect_id"], name: "index_cwd_sub_transects_on_cwd_transect_id", using: :btree
+
+  create_table "cwd_transects", force: true do |t|
+    t.string   "cwd_transect_num", null: false
+    t.integer  "plot_id",          null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "cwd_transects", ["plot_id"], name: "index_cwd_transects_on_plot_id", using: :btree
+
+  create_table "dendrometer_imports", force: true do |t|
+    t.string   "plot_code",              null: false
     t.string   "sub_plot"
-    t.string   "tree_tag",      null: false
-    t.integer  "year",          null: false
-    t.integer  "month",         null: false
+    t.string   "tree_tag",               null: false
+    t.integer  "year",                   null: false
+    t.integer  "month",                  null: false
     t.integer  "day"
-    t.float    "dbh_height_m"
-    t.float    "dbh_mm"
-    t.float    "dbh_growth_mm"
-    t.float    "dbh_year"
-    t.string   "quality_code",  null: false
-    t.string   "status",        null: false
+    t.integer  "growth_period_days",     null: false
+    t.float    "pom_height_m"
+    t.integer  "dbh_first_year"
+    t.float    "dbh_first_year_mm"
+    t.float    "dendrometer_reading_mm"
+    t.string   "quality_code",           null: false
+    t.string   "status",                 null: false
+    t.text     "comments"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "dendrometer_values", force: true do |t|
+    t.integer  "tree_id",                null: false
+    t.datetime "reading_date",           null: false
+    t.integer  "growth_period_days",     null: false
+    t.float    "pom_height_m"
+    t.integer  "dbh_first_year"
+    t.float    "dbh_first_year_mm"
+    t.float    "dendrometer_reading_mm"
+    t.string   "quality_code",           null: false
+    t.string   "status",                 null: false
+    t.text     "comments"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "dendrometer_values", ["tree_id"], name: "index_dendrometer_values_on_tree_id", using: :btree
+
+  create_table "fine_litterfall_imports", force: true do |t|
+    t.string   "plot_code",               null: false
+    t.integer  "year",                    null: false
+    t.integer  "month",                   null: false
+    t.integer  "day"
+    t.string   "litterfall_trap_num",     null: false
+    t.float    "litterfall_trap_size_m2", null: false
+    t.integer  "collection_period_days",  null: false
+    t.float    "leaves_g_per_trap"
+    t.float    "twigs_g_per_trap"
+    t.float    "flowers_g_per_trap"
+    t.float    "fruits_g_per_trap"
+    t.float    "bromeliads_g_per_trap"
+    t.float    "epiphytes_g_per_trap"
+    t.float    "other_g_per_trap"
+    t.float    "palm_leaves_g"
+    t.float    "palm_flower_g"
+    t.float    "palm_fruit_g"
+    t.string   "quality_code",            null: false
+    t.string   "status",                  null: false
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "fine_litterfall_values", force: true do |t|
-    t.string   "plot_code",              null: false
-    t.integer  "year",                   null: false
-    t.integer  "month",                  null: false
-    t.integer  "day"
-    t.string   "litter_trap_num",        null: false
-    t.float    "litter_trap_size_m2",    null: false
+    t.integer  "litterfall_trap_id",     null: false
+    t.datetime "collection_date",        null: false
     t.integer  "collection_period_days", null: false
     t.float    "leaves_g_per_trap"
     t.float    "twigs_g_per_trap"
@@ -83,12 +164,34 @@ ActiveRecord::Schema.define(version: 20131012083222) do
     t.datetime "updated_at"
   end
 
-  create_table "ingrowth_core_values", force: true do |t|
+  add_index "fine_litterfall_values", ["litterfall_trap_id"], name: "index_fine_litterfall_values_on_litterfall_trap_id", using: :btree
+
+  create_table "ingrowth_core_imports", force: true do |t|
     t.string   "plot_code",                  null: false
     t.integer  "year",                       null: false
     t.integer  "month",                      null: false
     t.integer  "day"
     t.string   "ingrowth_core_num",          null: false
+    t.integer  "time_step",                  null: false
+    t.integer  "time_step_minutes",          null: false
+    t.string   "is_stock_yn",                null: false
+    t.integer  "collection_period_days",     null: false
+    t.float    "ingrowth_core_litterfall_g"
+    t.float    "soil_humidity_pcnt"
+    t.float    "soil_temperature_c"
+    t.float    "ol_under_2mm_g"
+    t.float    "ml_under_2mm_g"
+    t.string   "quality_code",               null: false
+    t.string   "status",                     null: false
+    t.text     "comments"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "ingrowth_core_values", force: true do |t|
+    t.integer  "ingrowth_core_id",           null: false
+    t.datetime "collection_date",            null: false
+    t.integer  "collection_period_days",     null: false
     t.integer  "time_step",                  null: false
     t.integer  "time_step_minutes",          null: false
     t.string   "is_stock_yn",                null: false
@@ -104,7 +207,18 @@ ActiveRecord::Schema.define(version: 20131012083222) do
     t.datetime "updated_at"
   end
 
-  create_table "leaf_area_index_values", force: true do |t|
+  add_index "ingrowth_core_values", ["ingrowth_core_id"], name: "index_ingrowth_core_values_on_ingrowth_core_id", using: :btree
+
+  create_table "ingrowth_cores", force: true do |t|
+    t.string   "ingrowth_core_num", null: false
+    t.integer  "plot_id",           null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "ingrowth_cores", ["plot_id"], name: "index_ingrowth_cores_on_plot_id", using: :btree
+
+  create_table "leaf_area_index_imports", force: true do |t|
     t.string   "plot_code",                      null: false
     t.integer  "year",                           null: false
     t.integer  "month",                          null: false
@@ -120,7 +234,23 @@ ActiveRecord::Schema.define(version: 20131012083222) do
     t.datetime "updated_at"
   end
 
-  create_table "leaf_respiration_values", force: true do |t|
+  create_table "leaf_area_index_values", force: true do |t|
+    t.integer  "plot_id",                        null: false
+    t.datetime "reading_date",                   null: false
+    t.float    "true_lai"
+    t.float    "average_leaf_inclination_angle"
+    t.float    "recalculated_lai"
+    t.float    "std_dev"
+    t.string   "quality_code",                   null: false
+    t.string   "status",                         null: false
+    t.text     "comments"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "leaf_area_index_values", ["plot_id"], name: "index_leaf_area_index_values_on_plot_id", using: :btree
+
+  create_table "leaf_respiration_imports", force: true do |t|
     t.string   "plot_code",    null: false
     t.string   "tree_tag",     null: false
     t.integer  "year",         null: false
@@ -138,7 +268,32 @@ ActiveRecord::Schema.define(version: 20131012083222) do
     t.datetime "updated_at"
   end
 
-  create_table "monthly_averages_values", force: true do |t|
+  create_table "leaf_respiration_values", force: true do |t|
+    t.integer  "tree_id",      null: false
+    t.datetime "reading_date", null: false
+    t.float    "correction"
+    t.float    "a_sun"
+    t.float    "a_shade"
+    t.float    "resp_sun"
+    t.float    "resp_shade"
+    t.string   "quality_code", null: false
+    t.string   "status",       null: false
+    t.text     "comments"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "leaf_respiration_values", ["tree_id"], name: "index_leaf_respiration_values_on_tree_id", using: :btree
+
+  create_table "litterfall_traps", force: true do |t|
+    t.integer "plot_id",                 null: false
+    t.string  "litterfall_trap_num",     null: false
+    t.float   "litterfall_trap_size_m2", null: false
+  end
+
+  add_index "litterfall_traps", ["plot_id"], name: "index_litterfall_traps_on_plot_id", using: :btree
+
+  create_table "monthly_averages_imports", force: true do |t|
     t.string   "plot_code",                    null: false
     t.integer  "year",                         null: false
     t.integer  "month",                        null: false
@@ -179,7 +334,16 @@ ActiveRecord::Schema.define(version: 20131012083222) do
     t.datetime "updated_at"
   end
 
-  create_table "respiration_control_values", force: true do |t|
+  create_table "plots", force: true do |t|
+    t.string   "plot_code",  null: false
+    t.integer  "site_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "plots", ["site_id"], name: "index_plots_on_site_id", using: :btree
+
+  create_table "respiration_control_imports", force: true do |t|
     t.string   "plot_code",        null: false
     t.integer  "year",             null: false
     t.integer  "month",            null: false
@@ -201,13 +365,13 @@ ActiveRecord::Schema.define(version: 20131012083222) do
     t.datetime "updated_at"
   end
 
-  create_table "respiration_partitioning_values", force: true do |t|
+  create_table "respiration_partitioning_imports", force: true do |t|
     t.string   "plot_code",        null: false
     t.integer  "year",             null: false
     t.integer  "month",            null: false
     t.integer  "day"
     t.string   "measurement_code", null: false
-    t.string   "plot_corner_code"
+    t.string   "plot_corner_code", null: false
     t.float    "co2_ref_ppm"
     t.float    "pressure_mb"
     t.float    "air_temp_c"
@@ -222,25 +386,80 @@ ActiveRecord::Schema.define(version: 20131012083222) do
     t.datetime "updated_at"
   end
 
-  create_table "small_stem_values", force: true do |t|
-    t.string   "plot_code",         null: false
+  create_table "sites", force: true do |t|
+    t.string   "site_code",  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "small_stem_imports", force: true do |t|
+    t.string   "plot_code",          null: false
     t.string   "sub_plot"
-    t.string   "tree_tag",          null: false
-    t.integer  "year",              null: false
-    t.integer  "month",             null: false
+    t.string   "tree_tag",           null: false
+    t.integer  "year",               null: false
+    t.integer  "month",              null: false
     t.integer  "day"
+    t.integer  "growth_period_days", null: false
     t.float    "wood_density_g_m2"
     t.float    "tree_height_m"
-    t.float    "dbh_height_m"
+    t.float    "pom_height_m"
     t.float    "dbh_mm"
-    t.string   "quality_code",      null: false
-    t.string   "status",            null: false
+    t.string   "quality_code",       null: false
+    t.string   "status",             null: false
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "stem_respiration_values", force: true do |t|
+  create_table "small_stem_values", force: true do |t|
+    t.integer  "tree_id",            null: false
+    t.datetime "reading_date",       null: false
+    t.integer  "growth_period_days", null: false
+    t.float    "pom_height_m"
+    t.float    "dbh_mm"
+    t.float    "tree_height_m"
+    t.float    "wood_density_g_m2"
+    t.string   "quality_code",       null: false
+    t.string   "status",             null: false
+    t.text     "comments"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "small_stem_values", ["tree_id"], name: "index_small_stem_values_on_tree_id", using: :btree
+
+  create_table "soil_respiration_tubes", force: true do |t|
+    t.integer  "plot_id",          null: false
+    t.string   "tube_code",        null: false
+    t.string   "plot_corner_code", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "soil_respiration_tubes", ["plot_id"], name: "index_soil_respiration_tubes_on_plot_id", using: :btree
+
+  create_table "soil_respiration_values", force: true do |t|
+    t.integer  "soil_respiration_tube_id", null: false
+    t.datetime "reading_date",             null: false
+    t.string   "measurement_type",         null: false
+    t.string   "disturbance_code",         null: false
+    t.float    "co2_ref_ppm"
+    t.float    "pressure_mb"
+    t.float    "air_temp_c"
+    t.float    "soil_temp_c"
+    t.float    "depth_cm"
+    t.float    "vwc_pcnt"
+    t.float    "delta_flux"
+    t.string   "quality_code",             null: false
+    t.string   "status",                   null: false
+    t.text     "comments"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "soil_respiration_values", ["soil_respiration_tube_id"], name: "index_soil_respiration_values_on_soil_respiration_tube_id", using: :btree
+
+  create_table "stem_respiration_imports", force: true do |t|
     t.string   "plot_code",    null: false
     t.string   "sub_plot"
     t.string   "tree_tag",     null: false
@@ -259,5 +478,78 @@ ActiveRecord::Schema.define(version: 20131012083222) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "stem_respiration_values", force: true do |t|
+    t.integer  "tree_id",      null: false
+    t.datetime "reading_date", null: false
+    t.string   "tube_num"
+    t.float    "co2_ref_ppm"
+    t.float    "pressure_mb"
+    t.float    "air_temp_c"
+    t.float    "depth_cm"
+    t.float    "delta_flux"
+    t.string   "quality_code", null: false
+    t.string   "status",       null: false
+    t.text     "comments"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "stem_respiration_values", ["tree_id"], name: "index_stem_respiration_values_on_tree_id", using: :btree
+
+  create_table "sub_plots", force: true do |t|
+    t.string   "sub_plot_code",    null: false
+    t.string   "sub_plot_type",    null: false
+    t.float    "sub_plot_area_m2", null: false
+    t.integer  "plot_id",          null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sub_plots", ["plot_id"], name: "index_sub_plots_on_plot_id", using: :btree
+
+  create_table "trees", force: true do |t|
+    t.string   "tree_code",   null: false
+    t.string   "tree_class",  null: false
+    t.integer  "sub_plot_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "trees", ["sub_plot_id"], name: "index_trees_on_sub_plot_id", using: :btree
+
+  add_foreign_key "coarse_woody_debris_values", "cwd_sub_transects", name: "coarse_woody_debris_values_cwd_sub_transect_id_fk"
+
+  add_foreign_key "cwd_sub_transects", "cwd_transects", name: "cwd_sub_transects_cwd_transect_id_fk"
+
+  add_foreign_key "cwd_transects", "plots", name: "cwd_transects_plot_id_fk"
+
+  add_foreign_key "dendrometer_values", "trees", name: "dendrometer_values_tree_id_fk"
+
+  add_foreign_key "fine_litterfall_values", "litterfall_traps", name: "fine_litterfall_values_litterfall_trap_id_fk"
+
+  add_foreign_key "ingrowth_core_values", "ingrowth_cores", name: "ingrowth_core_values_ingrowth_core_id_fk"
+
+  add_foreign_key "ingrowth_cores", "plots", name: "ingrowth_cores_plot_id_fk"
+
+  add_foreign_key "leaf_area_index_values", "plots", name: "leaf_area_index_values_plot_id_fk"
+
+  add_foreign_key "leaf_respiration_values", "trees", name: "leaf_respiration_values_tree_id_fk"
+
+  add_foreign_key "litterfall_traps", "plots", name: "litterfall_traps_plot_id_fk"
+
+  add_foreign_key "plots", "sites", name: "plots_site_id_fk"
+
+  add_foreign_key "small_stem_values", "trees", name: "small_stem_values_tree_id_fk"
+
+  add_foreign_key "soil_respiration_tubes", "plots", name: "soil_respiration_tubes_plot_id_fk"
+
+  add_foreign_key "soil_respiration_values", "soil_respiration_tubes", name: "soil_respiration_values_soil_respiration_tube_id_fk"
+
+  add_foreign_key "stem_respiration_values", "trees", name: "stem_respiration_values_tree_id_fk"
+
+  add_foreign_key "sub_plots", "plots", name: "sub_plots_plot_id_fk"
+
+  add_foreign_key "trees", "sub_plots", name: "trees_sub_plot_id_fk"
 
 end

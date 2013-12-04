@@ -1,4 +1,4 @@
-class StemRespirationValues < ActiveRecord::Base
+class StemRespirationImports < ActiveRecord::Base
 
   include CSVImportTable
 

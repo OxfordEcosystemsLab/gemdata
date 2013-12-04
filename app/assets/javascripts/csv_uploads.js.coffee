@@ -1,3 +1,17 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
+class @CSVUploads
+
+
+    constructor: ->
+        @scope = $("#csv_upload_progress")
+        if @scope
+            @jumpToBottomOfTextarea()
+
+
+    jumpToBottomOfTextarea: ->
+
+        @scope.on 'click', 'a[data-hook="jump_bottom"]', (event) ->
+            textbox = $('textarea[data-field="upload_results"]')
+            textbox.scrollTop(
+                textbox[0].scrollHeight - textbox.height()
+            )
+            event.preventDefault()
