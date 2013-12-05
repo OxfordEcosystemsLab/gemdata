@@ -9,6 +9,7 @@ class CreateNormalisedTables < ActiveRecord::Migration
       t.string :global_region_name
       t.timestamps
     end
+    add_index :global_regions, :global_region_code, unique: true
 
     create_table :regions do |t|
       t.references :global_region, null: false
@@ -16,6 +17,7 @@ class CreateNormalisedTables < ActiveRecord::Migration
       t.string :region_name
       t.timestamps
     end
+    add_index :regions, :region_code, unique: true
     add_foreign_key :regions, :global_regions
     add_index :regions, :global_region_id
 
@@ -32,6 +34,7 @@ class CreateNormalisedTables < ActiveRecord::Migration
       t.string :region_country_name
       t.timestamps
     end
+    add_index :region_countries, :region_country_code, unique: true
     add_foreign_key :region_countries, :regions
     add_index :region_countries, :region_id
     add_foreign_key :region_countries, :countries
@@ -43,6 +46,7 @@ class CreateNormalisedTables < ActiveRecord::Migration
       t.string :site_name
       t.timestamps
     end
+    add_index :sites, :site_code, unique: true
     add_foreign_key :sites, :region_countries
     add_index :sites, :region_country_id
 
@@ -77,6 +81,7 @@ class CreateNormalisedTables < ActiveRecord::Migration
       t.string :disturbances
       t.timestamps
     end
+    add_index :plots, :plot_code, unique: true
     add_foreign_key :plots, :sites
     add_index :plots, :site_id
 
@@ -87,6 +92,7 @@ class CreateNormalisedTables < ActiveRecord::Migration
       t.float :sub_plot_area_m2, null: false # Not null ?
       t.timestamps
     end
+    add_index :sub_plots, [:plot_id, :sub_plot_code], unique: true
     add_foreign_key :sub_plots, :plots
     add_index :sub_plots, :plot_id
 
@@ -106,6 +112,7 @@ class CreateNormalisedTables < ActiveRecord::Migration
       t.string :person_email
       t.timestamps
     end
+    add_index :people, :person_name, unique: true
 
     create_table :people_roles do |t|
       t.references :person, null: false
@@ -124,6 +131,7 @@ class CreateNormalisedTables < ActiveRecord::Migration
       t.references :plot, null: false
       t.timestamps
     end
+    add_index :ingrowth_cores, [:plot_id, :ingrowth_core_num], unique: true
     add_foreign_key :ingrowth_cores, :plots
     add_index :ingrowth_cores, :plot_id
 
@@ -153,6 +161,7 @@ class CreateNormalisedTables < ActiveRecord::Migration
       t.references :plot, null: false
       t.timestamps
     end
+    add_index :cwd_transects, [:plot_id, :cwd_transect_num], unique: true
     add_foreign_key :cwd_transects, :plots
     add_index :cwd_transects, :plot_id
 
@@ -164,6 +173,7 @@ class CreateNormalisedTables < ActiveRecord::Migration
       t.string :sub_transect_end_point
       t.timestamps
     end
+    add_index :cwd_sub_transects, [:cwd_transect_id, :cwd_sub_transects_num], unique: true, name: "index_cwd_sub_transects_on_transect_and_sub_transect"
     add_foreign_key :cwd_sub_transects, :cwd_transects
     add_index :cwd_sub_transects, :cwd_transect_id
 
@@ -208,6 +218,7 @@ class CreateNormalisedTables < ActiveRecord::Migration
       t.string :litterfall_trap_num, null: false
       t.float :litterfall_trap_size_m2, null: false
     end
+    add_index :litterfall_traps, [:plot_id, :litterfall_trap_num], unique: true
     add_foreign_key :litterfall_traps, :plots
     add_index :litterfall_traps, :plot_id
 
@@ -240,6 +251,7 @@ class CreateNormalisedTables < ActiveRecord::Migration
       t.string :plot_corner_code, null: false
       t.timestamps
     end
+    add_index :soil_respiration_tubes, [:plot_id, :tube_code, :plot_corner_code], unique: true, name: "index_soil_respiration_tubes_on_plot_and_tube_info"
     add_foreign_key :soil_respiration_tubes, :plots
     add_index :soil_respiration_tubes, :plot_id
 
