@@ -1,17 +1,17 @@
 source 'https://rubygems.org'
 
 # Core
-gem 'rails', '~> 4.0.0'
-gem 'bcrypt-ruby', '~> 3.0.0'
+gem 'rails', '~> 4.0.2'
+gem 'bcrypt-ruby', '>= 3.0.0'
 
 # Database
 gem 'pg'
 gem 'foreigner'
 
 # Assets
-gem 'sass-rails', '~> 4.0.0.rc1'
+gem 'sass-rails', '>= 4.0.0.rc1'
 gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.0.0'
+gem 'coffee-rails', '>= 4.0.0'
 gem 'jquery-rails'
 
 # Uploads
