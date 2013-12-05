@@ -12,7 +12,9 @@ class CsvUploadsController < ApplicationController
       LeafRespirationImports,
       RespirationControlImports,
       RespirationPartitioningImports,
-      MonthlyAveragesImports
+      MonthlyAveragesImports,
+      PlotMetadataImports,
+      GlobalNetworkImports
     ]
   end
 

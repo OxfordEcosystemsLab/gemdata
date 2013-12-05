@@ -2,39 +2,120 @@ class CreateNormalisedTables < ActiveRecord::Migration
 
   def change
 
-    # Plots
+    # Plot sturcture
 
-    create_table :sites do |t|
-      t.string :site_code, null: false
+    create_table :global_regions do |t|
+      t.string :global_region_code, null: false
+      t.string :global_region_name
       t.timestamps
     end
 
+    create_table :regions do |t|
+      t.references :global_region, null: false
+      t.string :region_code, null: false
+      t.string :region_name
+      t.timestamps
+    end
+    add_foreign_key :regions, :global_regions
+    add_index :regions, :global_region_id
+
+    create_table :countries do |t|
+      t.string :country_code, null: false
+      t.string :country_name
+      t.timestamps
+    end
+
+    create_table :region_countries do |t|
+      t.references :region, null: false
+      t.references :country, null: false
+      t.string :region_country_code, null: false
+      t.string :region_country_name
+      t.timestamps
+    end
+    add_foreign_key :region_countries, :regions
+    add_index :region_countries, :region_id
+    add_foreign_key :region_countries, :countries
+    add_index :region_countries, :country_id
+
+    create_table :sites do |t|
+      t.references :region_country, null: false
+      t.string :site_code, null: false
+      t.string :site_name
+      t.timestamps
+    end
+    add_foreign_key :sites, :region_countries
+    add_index :sites, :region_country_id
+
+    # Allow null site so as to not block plot data without the site having been setup yet
     create_table :plots do |t|
+      t.references :site
       t.string :plot_code, null: false
-      t.references :site # Null ?
+      t.string :plot_desc
+      t.float :latitude
+      t.float :longitude
+      t.float :ne_latitude
+      t.float :ne_longitude
+      t.float :nw_latitude
+      t.float :nw_longitude
+      t.float :se_latitude
+      t.float :se_longitude
+      t.float :sw_latitude
+      t.float :sw_longitude
+      t.string :plot_shape
+      t.float :plot_area_m2
+      t.float :elevation_m
+      t.float :slope_deg
+      t.float :aspect_deg
+      t.string :start_date_rainfor
+      t.string :start_date_ccycle
+      t.string :end_date_ccycle
+      t.string :data_collected_code
+      t.string :data_collection_list
+      t.string :small_stem_plot_area
+      t.float :cwd_transect_area_m2
+      t.string :partitionning_collars_installation_date
+      t.string :disturbances
       t.timestamps
     end
     add_foreign_key :plots, :sites
     add_index :plots, :site_id
 
     create_table :sub_plots do |t|
+      t.references :plot, null: false
       t.string :sub_plot_code, null: false
       t.string :sub_plot_type, null: false # Standard grid or small stem
       t.float :sub_plot_area_m2, null: false # Not null ?
-      t.references :plot, null: false
       t.timestamps
     end
     add_foreign_key :sub_plots, :plots
     add_index :sub_plots, :plot_id
 
     create_table :trees do |t|
+      t.references :sub_plot, null: false
       t.string :tree_code, null: false
       t.string :tree_class, null: false # Small or large
-      t.references :sub_plot, null: false
       t.timestamps
     end
     add_foreign_key :trees, :sub_plots
     add_index :trees, :sub_plot_id
+
+    # People
+
+    create_table :people do |t|
+      t.string :person_name, null: false
+      t.string :person_email
+      t.timestamps
+    end
+
+    create_table :people_roles do |t|
+      t.references :person, null: false
+      t.references :plot, null: false
+      t.timestamps
+    end
+    add_foreign_key :people_roles, :people
+    add_index :people_roles, :person_id
+    add_foreign_key :people_roles, :plots
+    add_index :people_roles, :plot_id
 
     # Ingrowth Cores
 
@@ -59,7 +140,6 @@ class CreateNormalisedTables < ActiveRecord::Migration
       t.float :ol_under_2mm_g
       t.float :ml_under_2mm_g
       t.string :quality_code, null: false
-      t.string :status, null: false
       t.text :comments
       t.timestamps
     end
@@ -99,7 +179,6 @@ class CreateNormalisedTables < ActiveRecord::Migration
       t.float :length_cm
       t.float :dry_weight_g
       t.string :quality_code, null: false
-      t.string :status, null: false
       t.text :comments
       t.timestamps
     end
@@ -116,7 +195,6 @@ class CreateNormalisedTables < ActiveRecord::Migration
       t.float :recalculated_lai
       t.float :std_dev
       t.string :quality_code, null: false
-      t.string :status, null: false
       t.text :comments
       t.timestamps
     end
@@ -148,7 +226,6 @@ class CreateNormalisedTables < ActiveRecord::Migration
       t.float :palm_flower_g
       t.float :palm_fruit_g
       t.string :quality_code, null: false
-      t.string :status, null: false
       t.text :comments
       t.timestamps
     end
@@ -179,7 +256,6 @@ class CreateNormalisedTables < ActiveRecord::Migration
       t.float :vwc_pcnt
       t.float :delta_flux
       t.string :quality_code, null: false
-      t.string :status, null: false
       t.text :comments
       t.timestamps
     end
@@ -196,7 +272,6 @@ class CreateNormalisedTables < ActiveRecord::Migration
       t.float :depth_cm
       t.float :delta_flux
       t.string :quality_code, null: false
-      t.string :status, null: false
       t.text :comments
       t.timestamps
     end
@@ -212,7 +287,6 @@ class CreateNormalisedTables < ActiveRecord::Migration
       t.float :resp_sun
       t.float :resp_shade
       t.string :quality_code, null: false
-      t.string :status, null: false
       t.text :comments
       t.timestamps
     end
@@ -230,7 +304,6 @@ class CreateNormalisedTables < ActiveRecord::Migration
       t.float :tree_height_m
       t.float :wood_density_g_m2
       t.string :quality_code, null: false
-      t.string :status, null: false
       t.text :comments
       t.timestamps
     end
@@ -246,7 +319,6 @@ class CreateNormalisedTables < ActiveRecord::Migration
       t.float :dbh_first_year_mm
       t.float :dendrometer_reading_mm
       t.string :quality_code, null: false
-      t.string :status, null: false
       t.text :comments
       t.timestamps
     end

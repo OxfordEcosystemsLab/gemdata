@@ -53,13 +53,19 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.float    "length_cm"
     t.float    "dry_weight_g"
     t.string   "quality_code",           null: false
-    t.string   "status",                 null: false
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "coarse_woody_debris_values", ["cwd_sub_transect_id"], name: "index_coarse_woody_debris_values_on_cwd_sub_transect_id", using: :btree
+
+  create_table "countries", force: true do |t|
+    t.string   "country_code", null: false
+    t.string   "country_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "cwd_sub_transects", force: true do |t|
     t.string   "cwd_sub_transects_num",    null: false
@@ -110,7 +116,6 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.float    "dbh_first_year_mm"
     t.float    "dendrometer_reading_mm"
     t.string   "quality_code",           null: false
-    t.string   "status",                 null: false
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -158,13 +163,34 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.float    "palm_flower_g"
     t.float    "palm_fruit_g"
     t.string   "quality_code",           null: false
-    t.string   "status",                 null: false
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "fine_litterfall_values", ["litterfall_trap_id"], name: "index_fine_litterfall_values_on_litterfall_trap_id", using: :btree
+
+  create_table "global_network_imports", force: true do |t|
+    t.string "global_region_code",  null: false
+    t.string "global_region_name"
+    t.string "region_code",         null: false
+    t.string "region_name"
+    t.string "country_code",        null: false
+    t.string "country_name"
+    t.string "country_region_code"
+    t.string "country_region_name"
+    t.string "site_code",           null: false
+    t.string "site_name"
+    t.string "plot_code",           null: false
+    t.string "plot_name"
+  end
+
+  create_table "global_regions", force: true do |t|
+    t.string   "global_region_code", null: false
+    t.string   "global_region_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "ingrowth_core_imports", force: true do |t|
     t.string   "plot_code",                  null: false
@@ -201,7 +227,6 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.float    "ol_under_2mm_g"
     t.float    "ml_under_2mm_g"
     t.string   "quality_code",               null: false
-    t.string   "status",                     null: false
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -242,7 +267,6 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.float    "recalculated_lai"
     t.float    "std_dev"
     t.string   "quality_code",                   null: false
-    t.string   "status",                         null: false
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -277,7 +301,6 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.float    "resp_sun"
     t.float    "resp_shade"
     t.string   "quality_code", null: false
-    t.string   "status",       null: false
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -334,14 +357,114 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.datetime "updated_at"
   end
 
+  create_table "people", force: true do |t|
+    t.string   "person_name",  null: false
+    t.string   "person_email"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "people_roles", force: true do |t|
+    t.integer  "person_id",  null: false
+    t.integer  "plot_id",    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "people_roles", ["person_id"], name: "index_people_roles_on_person_id", using: :btree
+  add_index "people_roles", ["plot_id"], name: "index_people_roles_on_plot_id", using: :btree
+
+  create_table "plot_metadata_imports", force: true do |t|
+    t.string   "plot_code",                               null: false
+    t.float    "latitude"
+    t.float    "longitude"
+    t.float    "ne_latitude"
+    t.float    "ne_longitude"
+    t.float    "nw_latitude"
+    t.float    "nw_longitude"
+    t.float    "se_latitude"
+    t.float    "se_longitude"
+    t.float    "sw_latitude"
+    t.float    "sw_longitude"
+    t.string   "plot_shape"
+    t.float    "plot_area_m2"
+    t.float    "elevation_m"
+    t.float    "slope_deg"
+    t.float    "aspect_deg"
+    t.string   "principal_investigator"
+    t.string   "data_manager"
+    t.string   "field_manager"
+    t.string   "field_researchers"
+    t.string   "start_date_rainfor"
+    t.string   "start_date_ccycle"
+    t.string   "end_date_ccycle"
+    t.string   "data_collected_code"
+    t.string   "data_collection_list"
+    t.string   "small_stem_plot_area"
+    t.float    "cwd_transect_area_m2"
+    t.string   "partitionning_collars_installation_date"
+    t.string   "disturbances"
+    t.string   "status",                                  null: false
+    t.text     "comments"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "plots", force: true do |t|
-    t.string   "plot_code",  null: false
     t.integer  "site_id"
+    t.string   "plot_code",                               null: false
+    t.string   "plot_desc"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.float    "ne_latitude"
+    t.float    "ne_longitude"
+    t.float    "nw_latitude"
+    t.float    "nw_longitude"
+    t.float    "se_latitude"
+    t.float    "se_longitude"
+    t.float    "sw_latitude"
+    t.float    "sw_longitude"
+    t.string   "plot_shape"
+    t.float    "plot_area_m2"
+    t.float    "elevation_m"
+    t.float    "slope_deg"
+    t.float    "aspect_deg"
+    t.string   "start_date_rainfor"
+    t.string   "start_date_ccycle"
+    t.string   "end_date_ccycle"
+    t.string   "data_collected_code"
+    t.string   "data_collection_list"
+    t.string   "small_stem_plot_area"
+    t.float    "cwd_transect_area_m2"
+    t.string   "partitionning_collars_installation_date"
+    t.string   "disturbances"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "plots", ["site_id"], name: "index_plots_on_site_id", using: :btree
+
+  create_table "region_countries", force: true do |t|
+    t.integer  "region_id",           null: false
+    t.integer  "country_id",          null: false
+    t.string   "region_country_code", null: false
+    t.string   "region_country_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "region_countries", ["country_id"], name: "index_region_countries_on_country_id", using: :btree
+  add_index "region_countries", ["region_id"], name: "index_region_countries_on_region_id", using: :btree
+
+  create_table "regions", force: true do |t|
+    t.integer  "global_region_id", null: false
+    t.string   "region_code",      null: false
+    t.string   "region_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "regions", ["global_region_id"], name: "index_regions_on_global_region_id", using: :btree
 
   create_table "respiration_control_imports", force: true do |t|
     t.string   "plot_code",        null: false
@@ -387,10 +510,14 @@ ActiveRecord::Schema.define(version: 20131204100929) do
   end
 
   create_table "sites", force: true do |t|
-    t.string   "site_code",  null: false
+    t.integer  "region_country_id", null: false
+    t.string   "site_code",         null: false
+    t.string   "site_name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "sites", ["region_country_id"], name: "index_sites_on_region_country_id", using: :btree
 
   create_table "small_stem_imports", force: true do |t|
     t.string   "plot_code",          null: false
@@ -420,7 +547,6 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.float    "tree_height_m"
     t.float    "wood_density_g_m2"
     t.string   "quality_code",       null: false
-    t.string   "status",             null: false
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -451,7 +577,6 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.float    "vwc_pcnt"
     t.float    "delta_flux"
     t.string   "quality_code",             null: false
-    t.string   "status",                   null: false
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -489,7 +614,6 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.float    "depth_cm"
     t.float    "delta_flux"
     t.string   "quality_code", null: false
-    t.string   "status",       null: false
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -498,10 +622,10 @@ ActiveRecord::Schema.define(version: 20131204100929) do
   add_index "stem_respiration_values", ["tree_id"], name: "index_stem_respiration_values_on_tree_id", using: :btree
 
   create_table "sub_plots", force: true do |t|
+    t.integer  "plot_id",          null: false
     t.string   "sub_plot_code",    null: false
     t.string   "sub_plot_type",    null: false
     t.float    "sub_plot_area_m2", null: false
-    t.integer  "plot_id",          null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -509,9 +633,9 @@ ActiveRecord::Schema.define(version: 20131204100929) do
   add_index "sub_plots", ["plot_id"], name: "index_sub_plots_on_plot_id", using: :btree
 
   create_table "trees", force: true do |t|
+    t.integer  "sub_plot_id", null: false
     t.string   "tree_code",   null: false
     t.string   "tree_class",  null: false
-    t.integer  "sub_plot_id", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -538,7 +662,17 @@ ActiveRecord::Schema.define(version: 20131204100929) do
 
   add_foreign_key "litterfall_traps", "plots", name: "litterfall_traps_plot_id_fk"
 
+  add_foreign_key "people_roles", "people", name: "people_roles_person_id_fk"
+  add_foreign_key "people_roles", "plots", name: "people_roles_plot_id_fk"
+
   add_foreign_key "plots", "sites", name: "plots_site_id_fk"
+
+  add_foreign_key "region_countries", "countries", name: "region_countries_country_id_fk"
+  add_foreign_key "region_countries", "regions", name: "region_countries_region_id_fk"
+
+  add_foreign_key "regions", "global_regions", name: "regions_global_region_id_fk"
+
+  add_foreign_key "sites", "region_countries", name: "sites_region_country_id_fk"
 
   add_foreign_key "small_stem_values", "trees", name: "small_stem_values_tree_id_fk"
 

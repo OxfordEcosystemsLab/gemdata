@@ -199,6 +199,56 @@ class CreateCsvTables < ActiveRecord::Migration
       t.timestamps
     end
 
+    create_table :global_network_imports do |t|
+      t.string :global_region_code, null: false
+      t.string :global_region_name
+      t.string :region_code, null: false
+      t.string :region_name
+      t.string :country_code, null: false
+      t.string :country_name
+      t.string :country_region_code
+      t.string :country_region_name
+      t.string :site_code, null: false
+      t.string :site_name
+      t.string :plot_code, null: false
+      t.string :plot_name
+    end
+
+    create_table :plot_metadata_imports do |t|
+      t.string :plot_code, null: false
+      t.float :latitude
+      t.float :longitude
+      t.float :ne_latitude
+      t.float :ne_longitude
+      t.float :nw_latitude
+      t.float :nw_longitude
+      t.float :se_latitude
+      t.float :se_longitude
+      t.float :sw_latitude
+      t.float :sw_longitude
+      t.string :plot_shape
+      t.float :plot_area_m2
+      t.float :elevation_m
+      t.float :slope_deg
+      t.float :aspect_deg
+      t.string :principal_investigator
+      t.string :data_manager
+      t.string :field_manager
+      t.string :field_researchers
+      t.string :start_date_rainfor
+      t.string :start_date_ccycle
+      t.string :end_date_ccycle
+      t.string :data_collected_code
+      t.string :data_collection_list
+      t.string :small_stem_plot_area
+      t.float :cwd_transect_area_m2
+      t.string :partitionning_collars_installation_date
+      t.string :disturbances
+      t.string :status, null: false
+      t.text :comments
+      t.timestamps
+    end    
+
     create_table :monthly_averages_imports do |t|
       t.string :plot_code, null: false
       t.integer :year, null: false
