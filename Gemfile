@@ -3,8 +3,12 @@ source 'https://rubygems.org'
 # Core
 gem 'rails', '~> 4.0.2'
 gem 'bcrypt-ruby', '>= 3.0.0'
-gem 'therubyracer', :group => [:development, :test]
-gem 'sqlite3', :group => [:development, :test]
+
+group :development, :test do
+  gem 'therubyracer'
+  gem 'sqlite3'
+  gem 'rspec-rails'
+end
 
 # Database
 gem 'pg'
