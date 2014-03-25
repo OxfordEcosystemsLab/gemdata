@@ -46,7 +46,7 @@ class ToughnessMeasurement < ActiveRecord::Base
     end
 
     def extract_match(i)
-      code_format = /^(WAY.+)-([IT]|CSP.+)-(B.+)$/
+      code_format = /^(WAY\d+)-((?:[IT]|CSP)\d+)-(B\d.*)$/
       @match ||= @code.match(code_format)
       if (@match)
         return @match[i]
