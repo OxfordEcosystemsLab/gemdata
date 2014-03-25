@@ -25,7 +25,7 @@ describe ToughnessMeasurement do
 
   it 'can read a CSP code' do
     t = @valid
-    t.code = "WAY01-CSP28003-B77-S"
+    t.code = "WAY01-CSP28003-77-S"
     expect(t).to be_valid
   end
 
