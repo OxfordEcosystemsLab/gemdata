@@ -1,12 +1,8 @@
 class ToughnessMeasurement < ActiveRecord::Base
 
-  include CSVImportTable
+  attr_accessor :code, :branch
 
-  attr_accessor :code
-
-  validates :plot_code,   presence: true
-  validates :tree_code,   presence: true
-  validates :branch_code, presence: true
+  validates :branch,      presence: true
   validates :date,        presence: true
   validates :evaluator,   presence: true
   validates :replica,     presence: true
@@ -30,9 +26,9 @@ class ToughnessMeasurement < ActiveRecord::Base
       return false
     end
 
-    @plot   = Plot.where(:code => @plot_code).first_or_create
-    @tree   = Tree.where(:code => @tree_code, :plot_id => @plot.id)
-    @branch = Branch.where(:code => @branch_code, :tree_id => @tree.id).first_or_create
+    @plot   = Plot.where(:plot_code => @plot_code).first_or_create
+    @tree   = TraitsTree.where(:code => @tree_code, :plot_id => @plot.id).first_or_create
+    @branch = Branch.where(:code => @branch_code, :traits_tree_id => @tree.id).first_or_create
   end
 
   private
