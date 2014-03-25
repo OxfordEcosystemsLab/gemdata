@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140323184321) do
+ActiveRecord::Schema.define(version: 20140325201855) do
+
+  create_table "branches", force: true do |t|
+    t.string   "code"
+    t.integer  "traits_tree_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "branches", ["code"], name: "index_branches_on_code", unique: true
+  add_index "branches", ["traits_tree_id"], name: "index_branches_on_traits_tree_id"
 
   create_table "coarse_woody_debris_imports", force: true do |t|
     t.string   "plot_code",                null: false
@@ -655,6 +665,15 @@ ActiveRecord::Schema.define(version: 20140323184321) do
   end
 
   add_index "toughness_measurements", ["branch_id"], name: "index_toughness_measurements_on_branch_id"
+
+  create_table "traits_trees", force: true do |t|
+    t.string   "code"
+    t.integer  "plot_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "traits_trees", ["code"], name: "index_traits_trees_on_code", unique: true
 
   create_table "trees", force: true do |t|
     t.integer  "sub_plot_id", null: false
