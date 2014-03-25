@@ -28,4 +28,10 @@ describe ToughnessMeasurement do
     t.code = "WAY01-CSP28003-B77-S"
     expect(t).to be_valid
   end
+
+  it 'raises an exception on invalid code' do
+    t = @valid
+    expect{t.code = "What's all this? What's all this?"}.to raise_error
+    expect(t).to_not be_valid
+  end
 end
