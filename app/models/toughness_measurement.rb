@@ -1,5 +1,6 @@
-class ToughnessMeasurement < ActiveRecord::Base
+require 'csv'
 
+class ToughnessMeasurement < ActiveRecord::Base
 
   validates :branch_id,   presence: true
   validates :date,        presence: true
@@ -19,7 +20,19 @@ class ToughnessMeasurement < ActiveRecord::Base
     tree   = TraitsTree.where(:code => tree_code, :plot_id => plot.id).first_or_create
     branch = Branch.where(:code => branch_code, :traits_tree_id => tree.id).first_or_create
     write_attribute(:branch_id, branch.id)
+  end
 
+  def read_csv(line)
+    values = CSV.parse_line(line)
+    # values[0] is lugar
+    write_attribute(:date, Date.strptime(values[1], "%d/%m/%Y"))
+    write_attribute(:evaluator, values[2])
+    self.code = values[3]
+    write_attribute(:replica, values[4])
+    write_attribute(:thickness, values[5])
+    write_attribute(:width, values[6])
+    write_attribute(:lines, values[7])
+    write_attribute(:punch, values[8])
   end
 
   private

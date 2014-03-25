@@ -34,4 +34,10 @@ describe ToughnessMeasurement do
     expect{t.code = "What's all this? What's all this?"}.to raise_error
     expect(t).to_not be_valid
   end
+
+  it 'can read CSV' do
+    t = ToughnessMeasurement.new
+    t.read_csv 'Wayqecha,26/04/2013,Yolvi,WAY01-CSP28003-78-S,L12,0.65,6.97,15.5,4.9,'
+    expect(t).to be_valid
+  end
 end
