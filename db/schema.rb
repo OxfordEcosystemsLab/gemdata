@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(version: 20140406132658) do
   create_table "branch_architectures", force: true do |t|
     t.integer  "branch_id"
     t.datetime "date"
+    t.string   "evaluator"
     t.integer  "section"
     t.integer  "parent"
     t.string   "tip"
