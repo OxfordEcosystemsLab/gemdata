@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140406132658) do
+ActiveRecord::Schema.define(version: 20140406200603) do
 
   create_table "branch_architectures", force: true do |t|
     t.integer  "branch_id"
@@ -702,5 +702,17 @@ ActiveRecord::Schema.define(version: 20140406132658) do
   end
 
   add_index "trees", ["sub_plot_id"], name: "index_trees_on_sub_plot_id"
+
+  create_table "wood_densities", force: true do |t|
+    t.integer  "branch_id"
+    t.datetime "date"
+    t.string   "evaluator"
+    t.string   "branch_number"
+    t.float    "volume"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "wood_densities", ["branch_id"], name: "index_wood_densities_on_branch_id"
 
 end
