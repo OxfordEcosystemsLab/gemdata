@@ -14,8 +14,8 @@
 ActiveRecord::Schema.define(version: 20140325201855) do
 
   create_table "branches", force: true do |t|
-    t.string   "code"
-    t.integer  "traits_tree_id"
+    t.string   "code",           null: false
+    t.integer  "traits_tree_id", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -667,13 +667,14 @@ ActiveRecord::Schema.define(version: 20140325201855) do
   add_index "toughness_measurements", ["branch_id"], name: "index_toughness_measurements_on_branch_id"
 
   create_table "traits_trees", force: true do |t|
-    t.string   "code"
-    t.integer  "plot_id"
+    t.string   "code",       null: false
+    t.integer  "plot_id",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "traits_trees", ["code"], name: "index_traits_trees_on_code", unique: true
+  add_index "traits_trees", ["plot_id"], name: "index_traits_trees_on_plot_id"
 
   create_table "trees", force: true do |t|
     t.integer  "sub_plot_id", null: false
