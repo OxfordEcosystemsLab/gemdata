@@ -3,6 +3,7 @@ class CreateBranchArchitectures < ActiveRecord::Migration
     create_table :branch_architectures do |t|
       t.references :branch, index: true
       t.datetime :date
+      t.string   :evaluator
       t.integer :section
       t.integer :parent
       t.string :tip
