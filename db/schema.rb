@@ -11,7 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140406200603) do
+ActiveRecord::Schema.define(version: 20140407214819) do
+
+  create_table "arizonas", force: true do |t|
+    t.integer  "leaf_id"
+    t.datetime "date"
+    t.string   "evaluators"
+    t.float    "fresh_mass"
+    t.float    "dry_mass"
+    t.float    "thickness"
+    t.float    "petiole_width"
+    t.string   "comments"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "arizonas", ["leaf_id"], name: "index_arizonas_on_leaf_id"
 
   create_table "branch_architectures", force: true do |t|
     t.integer  "branch_id"
