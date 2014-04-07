@@ -48,4 +48,19 @@ describe ArizonaImporter do
 
     expect(az).to be_valid
   end
+
+  it 'interprets 0.00, 0 and - as nil' do
+    csv = 'Wayqecha,26/04/2013,Naia-Colby,Hesperomeles ferruginea,WAY01-CSP28003-77-SUN-L1T,0,0.00,-,,'
+
+    importer = ArizonaImporter.new
+    importer.read_csv csv
+    az = importer.get_object
+
+    expect(az.fresh_mass).to be_nil
+    expect(az.dry_mass).to be_nil
+    expect(az.thickness).to be_nil
+    expect(az.petiole_width).to be_nil
+
+    expect(az).to_not be_valid
+  end
 end
