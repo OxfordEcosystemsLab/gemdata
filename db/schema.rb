@@ -11,10 +11,49 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131204100929) do
+ActiveRecord::Schema.define(version: 20140407214819) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  create_table "arizonas", force: true do |t|
+    t.integer  "leaf_id"
+    t.datetime "date"
+    t.string   "evaluators"
+    t.float    "fresh_mass"
+    t.float    "dry_mass"
+    t.float    "thickness"
+    t.float    "petiole_width"
+    t.string   "comments"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "arizonas", ["leaf_id"], name: "index_arizonas_on_leaf_id"
+
+  create_table "branch_architectures", force: true do |t|
+    t.integer  "branch_id"
+    t.datetime "date"
+    t.string   "evaluator"
+    t.integer  "section"
+    t.integer  "parent"
+    t.string   "tip"
+    t.float    "diam_inf"
+    t.float    "diam_sup"
+    t.float    "longitude"
+    t.string   "comments"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "branch_architectures", ["branch_id"], name: "index_branch_architectures_on_branch_id"
+
+  create_table "branches", force: true do |t|
+    t.string   "code",           null: false
+    t.integer  "traits_tree_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "branches", ["code"], name: "index_branches_on_code", unique: true
+  add_index "branches", ["traits_tree_id"], name: "index_branches_on_traits_tree_id"
 
   create_table "coarse_woody_debris_imports", force: true do |t|
     t.string   "plot_code",                null: false
@@ -58,7 +97,7 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.datetime "updated_at"
   end
 
-  add_index "coarse_woody_debris_values", ["cwd_sub_transect_id"], name: "index_coarse_woody_debris_values_on_cwd_sub_transect_id", using: :btree
+  add_index "coarse_woody_debris_values", ["cwd_sub_transect_id"], name: "index_coarse_woody_debris_values_on_cwd_sub_transect_id"
 
   create_table "countries", force: true do |t|
     t.string   "country_code", null: false
@@ -77,8 +116,8 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.datetime "updated_at"
   end
 
-  add_index "cwd_sub_transects", ["cwd_transect_id", "cwd_sub_transects_num"], name: "index_cwd_sub_transects_on_transect_and_sub_transect", unique: true, using: :btree
-  add_index "cwd_sub_transects", ["cwd_transect_id"], name: "index_cwd_sub_transects_on_cwd_transect_id", using: :btree
+  add_index "cwd_sub_transects", ["cwd_transect_id", "cwd_sub_transects_num"], name: "index_cwd_sub_transects_on_transect_and_sub_transect", unique: true
+  add_index "cwd_sub_transects", ["cwd_transect_id"], name: "index_cwd_sub_transects_on_cwd_transect_id"
 
   create_table "cwd_transects", force: true do |t|
     t.string   "cwd_transect_num", null: false
@@ -87,8 +126,8 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.datetime "updated_at"
   end
 
-  add_index "cwd_transects", ["plot_id", "cwd_transect_num"], name: "index_cwd_transects_on_plot_id_and_cwd_transect_num", unique: true, using: :btree
-  add_index "cwd_transects", ["plot_id"], name: "index_cwd_transects_on_plot_id", using: :btree
+  add_index "cwd_transects", ["plot_id", "cwd_transect_num"], name: "index_cwd_transects_on_plot_id_and_cwd_transect_num", unique: true
+  add_index "cwd_transects", ["plot_id"], name: "index_cwd_transects_on_plot_id"
 
   create_table "dendrometer_imports", force: true do |t|
     t.string   "plot_code",              null: false
@@ -123,7 +162,7 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.datetime "updated_at"
   end
 
-  add_index "dendrometer_values", ["tree_id"], name: "index_dendrometer_values_on_tree_id", using: :btree
+  add_index "dendrometer_values", ["tree_id"], name: "index_dendrometer_values_on_tree_id"
 
   create_table "fine_litterfall_imports", force: true do |t|
     t.string   "plot_code",               null: false
@@ -170,7 +209,7 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.datetime "updated_at"
   end
 
-  add_index "fine_litterfall_values", ["litterfall_trap_id"], name: "index_fine_litterfall_values_on_litterfall_trap_id", using: :btree
+  add_index "fine_litterfall_values", ["litterfall_trap_id"], name: "index_fine_litterfall_values_on_litterfall_trap_id"
 
   create_table "global_network_imports", force: true do |t|
     t.string "global_region_code",  null: false
@@ -194,7 +233,7 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.datetime "updated_at"
   end
 
-  add_index "global_regions", ["global_region_code"], name: "index_global_regions_on_global_region_code", unique: true, using: :btree
+  add_index "global_regions", ["global_region_code"], name: "index_global_regions_on_global_region_code", unique: true
 
   create_table "ingrowth_core_imports", force: true do |t|
     t.string   "plot_code",                  null: false
@@ -236,7 +275,7 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.datetime "updated_at"
   end
 
-  add_index "ingrowth_core_values", ["ingrowth_core_id"], name: "index_ingrowth_core_values_on_ingrowth_core_id", using: :btree
+  add_index "ingrowth_core_values", ["ingrowth_core_id"], name: "index_ingrowth_core_values_on_ingrowth_core_id"
 
   create_table "ingrowth_cores", force: true do |t|
     t.string   "ingrowth_core_num", null: false
@@ -245,8 +284,8 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.datetime "updated_at"
   end
 
-  add_index "ingrowth_cores", ["plot_id", "ingrowth_core_num"], name: "index_ingrowth_cores_on_plot_id_and_ingrowth_core_num", unique: true, using: :btree
-  add_index "ingrowth_cores", ["plot_id"], name: "index_ingrowth_cores_on_plot_id", using: :btree
+  add_index "ingrowth_cores", ["plot_id", "ingrowth_core_num"], name: "index_ingrowth_cores_on_plot_id_and_ingrowth_core_num", unique: true
+  add_index "ingrowth_cores", ["plot_id"], name: "index_ingrowth_cores_on_plot_id"
 
   create_table "leaf_area_index_imports", force: true do |t|
     t.string   "plot_code",                      null: false
@@ -277,7 +316,7 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.datetime "updated_at"
   end
 
-  add_index "leaf_area_index_values", ["plot_id"], name: "index_leaf_area_index_values_on_plot_id", using: :btree
+  add_index "leaf_area_index_values", ["plot_id"], name: "index_leaf_area_index_values_on_plot_id"
 
   create_table "leaf_respiration_imports", force: true do |t|
     t.string   "plot_code",    null: false
@@ -311,7 +350,7 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.datetime "updated_at"
   end
 
-  add_index "leaf_respiration_values", ["tree_id"], name: "index_leaf_respiration_values_on_tree_id", using: :btree
+  add_index "leaf_respiration_values", ["tree_id"], name: "index_leaf_respiration_values_on_tree_id"
 
   create_table "litterfall_traps", force: true do |t|
     t.integer "plot_id",                 null: false
@@ -319,8 +358,8 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.float   "litterfall_trap_size_m2", null: false
   end
 
-  add_index "litterfall_traps", ["plot_id", "litterfall_trap_num"], name: "index_litterfall_traps_on_plot_id_and_litterfall_trap_num", unique: true, using: :btree
-  add_index "litterfall_traps", ["plot_id"], name: "index_litterfall_traps_on_plot_id", using: :btree
+  add_index "litterfall_traps", ["plot_id", "litterfall_trap_num"], name: "index_litterfall_traps_on_plot_id_and_litterfall_trap_num", unique: true
+  add_index "litterfall_traps", ["plot_id"], name: "index_litterfall_traps_on_plot_id"
 
   create_table "monthly_averages_imports", force: true do |t|
     t.string   "plot_code",                    null: false
@@ -370,7 +409,7 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.datetime "updated_at"
   end
 
-  add_index "people", ["person_name"], name: "index_people_on_person_name", unique: true, using: :btree
+  add_index "people", ["person_name"], name: "index_people_on_person_name", unique: true
 
   create_table "people_roles", force: true do |t|
     t.integer  "person_id",  null: false
@@ -379,8 +418,8 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.datetime "updated_at"
   end
 
-  add_index "people_roles", ["person_id"], name: "index_people_roles_on_person_id", using: :btree
-  add_index "people_roles", ["plot_id"], name: "index_people_roles_on_plot_id", using: :btree
+  add_index "people_roles", ["person_id"], name: "index_people_roles_on_person_id"
+  add_index "people_roles", ["plot_id"], name: "index_people_roles_on_plot_id"
 
   create_table "plot_metadata_imports", force: true do |t|
     t.string   "plot_code",                               null: false
@@ -450,8 +489,8 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.datetime "updated_at"
   end
 
-  add_index "plots", ["plot_code"], name: "index_plots_on_plot_code", unique: true, using: :btree
-  add_index "plots", ["site_id"], name: "index_plots_on_site_id", using: :btree
+  add_index "plots", ["plot_code"], name: "index_plots_on_plot_code", unique: true
+  add_index "plots", ["site_id"], name: "index_plots_on_site_id"
 
   create_table "region_countries", force: true do |t|
     t.integer  "region_id",           null: false
@@ -462,9 +501,9 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.datetime "updated_at"
   end
 
-  add_index "region_countries", ["country_id"], name: "index_region_countries_on_country_id", using: :btree
-  add_index "region_countries", ["region_country_code"], name: "index_region_countries_on_region_country_code", unique: true, using: :btree
-  add_index "region_countries", ["region_id"], name: "index_region_countries_on_region_id", using: :btree
+  add_index "region_countries", ["country_id"], name: "index_region_countries_on_country_id"
+  add_index "region_countries", ["region_country_code"], name: "index_region_countries_on_region_country_code", unique: true
+  add_index "region_countries", ["region_id"], name: "index_region_countries_on_region_id"
 
   create_table "regions", force: true do |t|
     t.integer  "global_region_id", null: false
@@ -474,8 +513,8 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.datetime "updated_at"
   end
 
-  add_index "regions", ["global_region_id"], name: "index_regions_on_global_region_id", using: :btree
-  add_index "regions", ["region_code"], name: "index_regions_on_region_code", unique: true, using: :btree
+  add_index "regions", ["global_region_id"], name: "index_regions_on_global_region_id"
+  add_index "regions", ["region_code"], name: "index_regions_on_region_code", unique: true
 
   create_table "respiration_control_imports", force: true do |t|
     t.string   "plot_code",        null: false
@@ -528,8 +567,8 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.datetime "updated_at"
   end
 
-  add_index "sites", ["region_country_id"], name: "index_sites_on_region_country_id", using: :btree
-  add_index "sites", ["site_code"], name: "index_sites_on_site_code", unique: true, using: :btree
+  add_index "sites", ["region_country_id"], name: "index_sites_on_region_country_id"
+  add_index "sites", ["site_code"], name: "index_sites_on_site_code", unique: true
 
   create_table "small_stem_imports", force: true do |t|
     t.string   "plot_code",          null: false
@@ -564,7 +603,7 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.datetime "updated_at"
   end
 
-  add_index "small_stem_values", ["tree_id"], name: "index_small_stem_values_on_tree_id", using: :btree
+  add_index "small_stem_values", ["tree_id"], name: "index_small_stem_values_on_tree_id"
 
   create_table "soil_respiration_tubes", force: true do |t|
     t.integer  "plot_id",          null: false
@@ -574,8 +613,8 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.datetime "updated_at"
   end
 
-  add_index "soil_respiration_tubes", ["plot_id", "tube_code", "plot_corner_code"], name: "index_soil_respiration_tubes_on_plot_and_tube_info", unique: true, using: :btree
-  add_index "soil_respiration_tubes", ["plot_id"], name: "index_soil_respiration_tubes_on_plot_id", using: :btree
+  add_index "soil_respiration_tubes", ["plot_id", "tube_code", "plot_corner_code"], name: "index_soil_respiration_tubes_on_plot_and_tube_info", unique: true
+  add_index "soil_respiration_tubes", ["plot_id"], name: "index_soil_respiration_tubes_on_plot_id"
 
   create_table "soil_respiration_values", force: true do |t|
     t.integer  "soil_respiration_tube_id", null: false
@@ -595,7 +634,7 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.datetime "updated_at"
   end
 
-  add_index "soil_respiration_values", ["soil_respiration_tube_id"], name: "index_soil_respiration_values_on_soil_respiration_tube_id", using: :btree
+  add_index "soil_respiration_values", ["soil_respiration_tube_id"], name: "index_soil_respiration_values_on_soil_respiration_tube_id"
 
   create_table "stem_respiration_imports", force: true do |t|
     t.string   "plot_code",    null: false
@@ -632,7 +671,7 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.datetime "updated_at"
   end
 
-  add_index "stem_respiration_values", ["tree_id"], name: "index_stem_respiration_values_on_tree_id", using: :btree
+  add_index "stem_respiration_values", ["tree_id"], name: "index_stem_respiration_values_on_tree_id"
 
   create_table "sub_plots", force: true do |t|
     t.integer  "plot_id",          null: false
@@ -643,8 +682,31 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.datetime "updated_at"
   end
 
-  add_index "sub_plots", ["plot_id", "sub_plot_code"], name: "index_sub_plots_on_plot_id_and_sub_plot_code", unique: true, using: :btree
-  add_index "sub_plots", ["plot_id"], name: "index_sub_plots_on_plot_id", using: :btree
+  add_index "sub_plots", ["plot_id", "sub_plot_code"], name: "index_sub_plots_on_plot_id_and_sub_plot_code", unique: true
+  add_index "sub_plots", ["plot_id"], name: "index_sub_plots_on_plot_id"
+
+  create_table "toughness_measurements", force: true do |t|
+    t.integer  "branch_id", null: false
+    t.datetime "date",      null: false
+    t.string   "evaluator"
+    t.string   "replica"
+    t.float    "thickness"
+    t.float    "width"
+    t.integer  "lines"
+    t.float    "punch"
+  end
+
+  add_index "toughness_measurements", ["branch_id"], name: "index_toughness_measurements_on_branch_id"
+
+  create_table "traits_trees", force: true do |t|
+    t.string   "code",       null: false
+    t.integer  "plot_id",    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "traits_trees", ["code"], name: "index_traits_trees_on_code", unique: true
+  add_index "traits_trees", ["plot_id"], name: "index_traits_trees_on_plot_id"
 
   create_table "trees", force: true do |t|
     t.integer  "sub_plot_id", null: false
@@ -654,50 +716,18 @@ ActiveRecord::Schema.define(version: 20131204100929) do
     t.datetime "updated_at"
   end
 
-  add_index "trees", ["sub_plot_id"], name: "index_trees_on_sub_plot_id", using: :btree
+  add_index "trees", ["sub_plot_id"], name: "index_trees_on_sub_plot_id"
 
-  add_foreign_key "coarse_woody_debris_values", "cwd_sub_transects", name: "coarse_woody_debris_values_cwd_sub_transect_id_fk"
+  create_table "wood_densities", force: true do |t|
+    t.integer  "branch_id"
+    t.datetime "date"
+    t.string   "evaluator"
+    t.string   "branch_number"
+    t.float    "volume"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
-  add_foreign_key "cwd_sub_transects", "cwd_transects", name: "cwd_sub_transects_cwd_transect_id_fk"
-
-  add_foreign_key "cwd_transects", "plots", name: "cwd_transects_plot_id_fk"
-
-  add_foreign_key "dendrometer_values", "trees", name: "dendrometer_values_tree_id_fk"
-
-  add_foreign_key "fine_litterfall_values", "litterfall_traps", name: "fine_litterfall_values_litterfall_trap_id_fk"
-
-  add_foreign_key "ingrowth_core_values", "ingrowth_cores", name: "ingrowth_core_values_ingrowth_core_id_fk"
-
-  add_foreign_key "ingrowth_cores", "plots", name: "ingrowth_cores_plot_id_fk"
-
-  add_foreign_key "leaf_area_index_values", "plots", name: "leaf_area_index_values_plot_id_fk"
-
-  add_foreign_key "leaf_respiration_values", "trees", name: "leaf_respiration_values_tree_id_fk"
-
-  add_foreign_key "litterfall_traps", "plots", name: "litterfall_traps_plot_id_fk"
-
-  add_foreign_key "people_roles", "people", name: "people_roles_person_id_fk"
-  add_foreign_key "people_roles", "plots", name: "people_roles_plot_id_fk"
-
-  add_foreign_key "plots", "sites", name: "plots_site_id_fk"
-
-  add_foreign_key "region_countries", "countries", name: "region_countries_country_id_fk"
-  add_foreign_key "region_countries", "regions", name: "region_countries_region_id_fk"
-
-  add_foreign_key "regions", "global_regions", name: "regions_global_region_id_fk"
-
-  add_foreign_key "sites", "region_countries", name: "sites_region_country_id_fk"
-
-  add_foreign_key "small_stem_values", "trees", name: "small_stem_values_tree_id_fk"
-
-  add_foreign_key "soil_respiration_tubes", "plots", name: "soil_respiration_tubes_plot_id_fk"
-
-  add_foreign_key "soil_respiration_values", "soil_respiration_tubes", name: "soil_respiration_values_soil_respiration_tube_id_fk"
-
-  add_foreign_key "stem_respiration_values", "trees", name: "stem_respiration_values_tree_id_fk"
-
-  add_foreign_key "sub_plots", "plots", name: "sub_plots_plot_id_fk"
-
-  add_foreign_key "trees", "sub_plots", name: "trees_sub_plot_id_fk"
+  add_index "wood_densities", ["branch_id"], name: "index_wood_densities_on_branch_id"
 
 end

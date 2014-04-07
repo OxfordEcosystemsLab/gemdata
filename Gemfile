@@ -4,6 +4,12 @@ source 'https://rubygems.org'
 gem 'rails', '~> 4.0.2'
 gem 'bcrypt-ruby', '>= 3.0.0'
 
+group :development, :test do
+  gem 'therubyracer'
+  gem 'sqlite3'
+  gem 'rspec-rails'
+end
+
 # Database
 gem 'pg'
 gem 'foreigner'
