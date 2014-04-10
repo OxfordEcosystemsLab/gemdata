@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 20140415221308) do
 
   add_index "branch_architectures", ["branch_id"], name: "index_branch_architectures_on_branch_id"
 
+<<<<<<< HEAD
   create_table "branch_light_measurements", force: true do |t|
     t.integer  "branch_light_placement_id"
     t.integer  "number"
@@ -57,6 +58,8 @@ ActiveRecord::Schema.define(version: 20140415221308) do
 
   add_index "branch_light_measurements", ["branch_light_placement_id"], name: "index_branch_light_measurements_on_branch_light_placement_id"
 
+=======
+>>>>>>> Generate branch light placement model
   create_table "branch_light_placements", force: true do |t|
     t.integer  "branch_id"
     t.integer  "weather_id"
