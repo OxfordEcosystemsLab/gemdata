@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140408190440) do
+ActiveRecord::Schema.define(version: 20140415213132) do
 
   create_table "arizonas", force: true do |t|
     t.integer  "leaf_id"
@@ -210,6 +210,33 @@ ActiveRecord::Schema.define(version: 20140408190440) do
   end
 
   add_index "fine_litterfall_values", ["litterfall_trap_id"], name: "index_fine_litterfall_values_on_litterfall_trap_id"
+
+  create_table "fp_families", force: true do |t|
+    t.integer  "apg_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "fp_genus", force: true do |t|
+    t.integer  "fp_family_id"
+    t.integer  "fp_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "fp_genus", ["fp_family_id"], name: "index_fp_genus_on_fp_family_id"
+
+  create_table "fp_species", force: true do |t|
+    t.integer  "fp_genus_id"
+    t.integer  "fp_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "fp_species", ["fp_genus_id"], name: "index_fp_species_on_fp_genus_id"
 
   create_table "global_network_imports", force: true do |t|
     t.string "global_region_code",  null: false
@@ -712,9 +739,11 @@ ActiveRecord::Schema.define(version: 20140408190440) do
     t.integer  "plot_id",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "fp_species_id"
   end
 
   add_index "traits_trees", ["code"], name: "index_traits_trees_on_code", unique: true
+  add_index "traits_trees", ["fp_species_id"], name: "index_traits_trees_on_fp_species_id"
   add_index "traits_trees", ["plot_id"], name: "index_traits_trees_on_plot_id"
 
   create_table "trees", force: true do |t|
