@@ -29,4 +29,9 @@ describe ForestPlotsImporter do
 
     expect(tree).to be_valid
   end
+
+  it 'selects existing plots'
+  it 'selects existing species'
+  it 'selects existing genera'
+  it 'selects existing families'
 end
