@@ -27,4 +27,10 @@ class Arizona < ActiveRecord::Base
   def is_P_or_T_leaf?
     leaf.code.match /[PT]$/ unless leaf.nil?
   end
+
+  def code=(code)
+    reader = CodeReader.new(code)
+    branch = reader.find_or_create_branch
+    self.leaf = Leaf.where(:code => reader.suffix, :branch => branch).first_or_create
+  end
 end

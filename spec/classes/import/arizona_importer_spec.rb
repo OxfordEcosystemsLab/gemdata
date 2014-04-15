@@ -3,9 +3,10 @@ require 'spec_helper'
 describe ArizonaImporter do
 
   before :each do
-    reader = CodeReader.new('WAY01-CSP28001-32-SUN-L1L').find_or_create_branch
-    branch = reader.find_or_create_branch
-    leaf   = Leaf.where(:code => reader.suffix, :branch => branch).find_or_create
+    plot = Plot.create(:plot_code => 'WAY01')
+    tree = TraitsTree.first_or_create(:code => 'CSP28001-32', :plot => plot)
+    branch = Branch.first_or_create(:code => 'SUN', :traits_tree => tree)
+    @leaf = Leaf.where(:code => 'L1L', :branch => branch).create
   end
 
   it 'can read CSV with leaf code L' do
@@ -17,7 +18,7 @@ describe ArizonaImporter do
 
     expect(az.leaf).to eq(@leaf)
     expect(az.date).to eq(Date.new(2013,04,26))
-    expect(az.evaluator).to eq('Naia-Colby')
+    expect(az.evaluators).to eq('Naia-Colby')
     expect(az.fresh_mass).to eq(4.41)
     expect(az.dry_mass).to eq(1.07)
     expect(az.thickness).to eq(0.820)
