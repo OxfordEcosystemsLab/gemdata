@@ -10,6 +10,7 @@ describe ForestPlotsImporter do
     tree = importer.get_object
 
     expect(tree.fp_id).to eq(54832)
+    expect(tree.code).to eq('T2')
 
     plot = tree.plot
     expect(plot.fp_id).to eq(90)

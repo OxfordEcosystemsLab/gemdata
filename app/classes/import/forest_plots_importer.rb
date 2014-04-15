@@ -14,6 +14,7 @@ class ForestPlotsImporter
     values = CSV.parse_line(line)
 
     @tree.fp_id = values[10]
+    @tree.code = 'T' + values[19]
 
     @tree.plot = Plot.create(:fp_id => values[0], :plot_code => values[1])
 
