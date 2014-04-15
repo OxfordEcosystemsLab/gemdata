@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140415213132) do
+ActiveRecord::Schema.define(version: 20140415221308) do
 
   create_table "arizonas", force: true do |t|
     t.integer  "leaf_id"
@@ -523,6 +523,7 @@ ActiveRecord::Schema.define(version: 20140415213132) do
     t.string   "disturbances"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "fp_id"
   end
 
   add_index "plots", ["plot_code"], name: "index_plots_on_plot_code", unique: true
@@ -740,6 +741,7 @@ ActiveRecord::Schema.define(version: 20140415213132) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "fp_species_id"
+    t.integer  "fp_id"
   end
 
   add_index "traits_trees", ["code"], name: "index_traits_trees_on_code", unique: true
