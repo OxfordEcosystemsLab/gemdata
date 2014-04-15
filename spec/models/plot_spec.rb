@@ -8,4 +8,9 @@ describe Plot do
     plot.plot_code = 'asdf'
     expect(plot).to be_valid
   end
+
+  it 'removes a dash' do
+    plot = Plot.create(:plot_code => 'WAY-234')
+    expect(plot.plot_code).to eq('WAY234')
+  end
 end
