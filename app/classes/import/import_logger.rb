@@ -6,15 +6,18 @@ class ImportLogger
     @options = options
   end
 
-  def put_message(text)
-    text = "[#{timestamp}] #{text}" if @options[:time]
-    @log << text
-    puts(text)
+  def notice(text)
+    put_message text
   end
 
-  # maybe eventually define #error #warn #notice
 
   private
+
+    def put_message(text)
+      text = "[#{timestamp}] #{text}" if @options[:time]
+      @log << text
+      puts(text)
+    end
 
     def timestamp
       Time.now.strftime("%H:%M:%S")
