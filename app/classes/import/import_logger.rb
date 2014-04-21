@@ -1,12 +1,13 @@
 # A utility class for providing logging during an import
 class ImportLogger
 
-  def initialize(log)
+  def initialize(log, options={})
     @log = log || ImportLog.new
+    @options = options
   end
 
-  def put_message(text, options={})
-    text = "[#{timestamp}] #{text}" if options[:time]
+  def put_message(text)
+    text = "[#{timestamp}] #{text}" if @options[:time]
     @log << text
     puts(text)
   end
