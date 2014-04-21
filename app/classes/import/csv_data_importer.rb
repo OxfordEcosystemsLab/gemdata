@@ -24,8 +24,6 @@ class CSVDataImporter
 
       put_message "Importing #{@ar_class.table_human_name}...", time: true
 
-      failed, updated, inserted, ignored, skipped = 0, 0, 0, 0, 0
-
       begin
         @ar_class.transaction do
 
