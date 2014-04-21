@@ -26,10 +26,6 @@ class CSVDataImporter
 
       begin
         @ar_class.transaction do
-
-          # Get a hash of all current unique keys to id
-          current_keys = @ar_class.get_unique_keys_hash
-
           status_counts = Hash.new(0)
 
           # Loop the CSV rows

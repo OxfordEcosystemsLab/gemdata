@@ -86,7 +86,8 @@ module CSVImportTable
     end
 
     # Check for an existing record
-    existing_record_id = current_keys[new_record.unique_key]
+    unique_keys = self.get_unique_keys_hash
+    existing_record_id = unique_keys[new_record.unique_key]
     if existing_record_id
 
       # Update existing
