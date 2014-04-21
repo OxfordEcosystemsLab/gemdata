@@ -10,6 +10,13 @@ class ImportLogger
     put_message text
   end
 
+  def warn(text)
+    put_message "[WARN] #{text}"
+  end
+
+  def error(text)
+    put_message "[ERROR] #{text}"
+  end
 
   private
 
