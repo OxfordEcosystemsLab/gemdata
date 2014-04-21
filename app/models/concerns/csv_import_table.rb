@@ -4,7 +4,8 @@
 #     returns an array of columns that uniquely identify a record
 #
 #   read_row
-#     takes a CSV row and returns an import status
+#     takes a CSV row (array) and an ImportLogger
+#     returns an import status
 #
 module CSVImportTable
 
@@ -49,7 +50,7 @@ module CSVImportTable
     key.join
   end
 
-  def self.read_row(row)
+  def self.read_row(row, logger)
 
     # Swap NaN & NA values for blanks
     row_hash = row.to_hash
@@ -66,7 +67,7 @@ module CSVImportTable
 
     # Jump to next row if blank
     if row_hash.blank?
-      put_message "Row #{$.} skipped - empty row"
+      logger.put_message "Row #{$.} skipped - empty row"
       skipped += 1
       next
     end
@@ -79,7 +80,7 @@ module CSVImportTable
     # Record not valid: log the error
     unless new_record.valid?
       validation_errors = new_record.errors.messages.map { |k,v| "#{k} #{v.first}" }.join(", ")
-      put_message "Row #{$.} failed - #{validation_errors}"
+      logger.put_message "Row #{$.} failed - #{validation_errors}"
       import_status = Lookup::ImportStatus.failed
       next
     end
@@ -96,7 +97,7 @@ module CSVImportTable
           existing.save
           import_status = Lookup::ImportStatus.updated
         else
-          put_message "Row #{$.} skipped - status of existing row (id:#{existing.id}) isn't 'imported'"
+          logger.put_message "Row #{$.} skipped - status of existing row (id:#{existing.id}) isn't 'imported'"
           import_status = Lookup::ImportStatus.skipped
         end
       else

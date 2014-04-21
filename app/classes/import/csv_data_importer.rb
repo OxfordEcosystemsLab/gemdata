@@ -2,10 +2,10 @@ require 'csv'
 
 class CSVDataImporter
 
-  def initialize(ar_class, csv_file, results=[])
+  def initialize(ar_class, csv_file, results)
     @ar_class = ar_class
     @csv_file = csv_file
-    @results = results
+    @logger = ImportLogger.new(results)
   end
 
   # Import in another thread
@@ -34,7 +34,7 @@ class CSVDataImporter
 
           # Loop the CSV rows
           CSV.foreach(@csv_file, headers: true) do |row|
-            status = @ar_class.read_row(row)
+            status = @ar_class.read_row(row, @logger)
             status_counts[status] += 1
           end
         end
