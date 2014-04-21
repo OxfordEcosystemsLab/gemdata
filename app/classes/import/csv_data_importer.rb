@@ -32,9 +32,12 @@ class CSVDataImporter
           # Get a hash of all current unique keys to id
           current_keys = @ar_class.get_unique_keys_hash
 
+          status_counts = Hash.new(0)
+
           # Loop the CSV rows
           CSV.foreach(@csv_file, headers: true) do |row|
-            @ar_class.read_row(row)
+            status = @ar_class.read_row(row)
+            status_counts[status] += 1
           end
         end
 
@@ -43,11 +46,11 @@ class CSVDataImporter
         put_message "Import complete.", time: true
         result = []
         result << "Results: #{total_rows} rows processed"
-        result << "#{inserted} created"
-        result << "#{updated} updated"
-        result << "#{ignored} not changed"
-        result << "#{skipped} skipped"
-        result << "#{failed} failed"
+        result << "#{status_counts['inserted']} created"
+        result << "#{status_counts['updated']} updated"
+        result << "#{status_counts['ignore']} not changed"
+        result << "#{status_counts['skipped']} skipped"
+        result << "#{status_counts['failed']} failed"
         put_message result.join(", ")
 
       rescue Exception => ex
