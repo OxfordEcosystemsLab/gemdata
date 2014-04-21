@@ -64,14 +64,4 @@ class CSVDataImporter
       put_message "Table '#{@ar_class.to_s.tableize}' new row count: #{@ar_class.count}"
     end
 
-    def put_message(text, options={})
-      text = "[#{timestamp}] #{text}" if options[:time]
-      @results << text
-      puts(text)
-    end
-
-    def timestamp
-      Time.now.strftime("%H:%M:%S")
-    end
-
 end
