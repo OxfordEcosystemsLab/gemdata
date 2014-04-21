@@ -80,7 +80,7 @@ module CSVImportTable
     unless new_record.valid?
       validation_errors = new_record.errors.messages.map { |k,v| "#{k} #{v.first}" }.join(", ")
       put_message "Row #{$.} failed - #{validation_errors}"
-      failed += 1
+      import_status = Lookup::ImportStatus.failed
       next
     end
 
@@ -94,22 +94,24 @@ module CSVImportTable
       if existing.changed?
         if existing.status == Lookup::RowStatus.imported
           existing.save
-          updated += 1
+          import_status = Lookup::ImportStatus.updated
         else
           put_message "Row #{$.} skipped - status of existing row (id:#{existing.id}) isn't 'imported'"
-          skipped += 1
+          import_status = Lookup::ImportStatus.skipped
         end
       else
-        ignored += 1
+        import_status = Lookup::ImportStatus.ignored
       end
 
     else
 
       # Insert new row
       new_record.save
-      inserted += 1
+      import_status = Lookup::ImportStatus.inserted
 
     end
+
+    return import_status
   end
 
 end
