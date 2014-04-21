@@ -57,7 +57,7 @@ module CSVImportTable
     row_hash.map { |k,v| row_hash[k] = (v == 'NA' ? nil : v) }
 
     # Remove protected attributes
-    @ar_class.protected_attributes.each { |col| row_hash.delete(col) }
+    self.protected_attributes.each { |col| row_hash.delete(col) }
 
     # Report blank headings
     if $. == 2 && row_hash.keys.any? { |k| k.blank? }
@@ -72,7 +72,7 @@ module CSVImportTable
     end
 
     # Create the AR object and validate
-    new_record = @ar_class.new(row_hash)
+    new_record = self.new(row_hash)
     new_record.status = Lookup::RowStatus.imported
     new_record.quality_code ||= Lookup::QualityCode.ok
 
@@ -89,7 +89,7 @@ module CSVImportTable
     if existing_record_id
 
       # Update existing
-      existing = @ar_class.find_by(id: existing_record_id)
+      existing = self.find_by(id: existing_record_id)
       existing.attributes = row_hash
       if existing.changed?
         if existing.status == Lookup::RowStatus.imported
