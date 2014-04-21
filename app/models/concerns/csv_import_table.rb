@@ -67,7 +67,7 @@ module CSVImportTable
 
     # Jump to next row if blank
     if row_hash.blank?
-      logger.put_message "Row #{$.} skipped - empty row"
+      logger.warn "Row #{$.} skipped - empty row"
       skipped += 1
       next
     end
@@ -80,7 +80,7 @@ module CSVImportTable
     # Record not valid: log the error
     unless new_record.valid?
       validation_errors = new_record.errors.messages.map { |k,v| "#{k} #{v.first}" }.join(", ")
-      logger.put_message "Row #{$.} failed - #{validation_errors}"
+      logger.error "Row #{$.} failed - #{validation_errors}"
       import_status = Lookup::ImportStatus.failed
       next
     end
@@ -97,7 +97,7 @@ module CSVImportTable
           existing.save
           import_status = Lookup::ImportStatus.updated
         else
-          logger.put_message "Row #{$.} skipped - status of existing row (id:#{existing.id}) isn't 'imported'"
+          logger.warn "Row #{$.} skipped - status of existing row (id:#{existing.id}) isn't 'imported'"
           import_status = Lookup::ImportStatus.skipped
         end
       else

@@ -20,9 +20,9 @@ class CSVDataImporter
   private
 
     def import_data
-      put_message "Table '#{@ar_class.to_s.tableize}' initial row count: #{@ar_class.count}"
+      @logger.notice "Table '#{@ar_class.to_s.tableize}' initial row count: #{@ar_class.count}"
 
-      put_message "Importing #{@ar_class.table_human_name}...", time: true
+      @logger.notice "Importing #{@ar_class.table_human_name}...", time: true
 
       begin
         @ar_class.transaction do
@@ -41,7 +41,7 @@ class CSVDataImporter
 
         # Completion feedback
         total_rows = inserted + updated + ignored + failed + skipped
-        put_message "Import complete.", time: true
+        @logger.notice "Import complete.", time: true
         result = []
         result << "Results: #{total_rows} rows processed"
         result << "#{status_counts['inserted']} created"
@@ -49,17 +49,17 @@ class CSVDataImporter
         result << "#{status_counts['ignore']} not changed"
         result << "#{status_counts['skipped']} skipped"
         result << "#{status_counts['failed']} failed"
-        put_message result.join(", ")
+        @logger.notice result.join(", ")
 
       rescue Exception => ex
-        put_message "Import aborted! - #{ex.message}", time: true
+        @logger.error "Import aborted! - #{ex.message}", time: true
         if ex.class.to_s == "ActiveRecord::UnknownAttributeError"
           allowed_attribute_list = @ar_class.allowed_attributes.join(", ")
-          put_message "Allowed column names: #{allowed_attribute_list}"
+          @logger.notice "Allowed column names: #{allowed_attribute_list}"
         end
       end
 
-      put_message "Table '#{@ar_class.to_s.tableize}' new row count: #{@ar_class.count}"
+      @logger.notice "Table '#{@ar_class.to_s.tableize}' new row count: #{@ar_class.count}"
     end
 
 end
