@@ -45,9 +45,47 @@ ActiveRecord::Schema.define(version: 20140415221308) do
 
   add_index "branch_architectures", ["branch_id"], name: "index_branch_architectures_on_branch_id"
 
+  create_table "branch_light_measurements", force: true do |t|
+    t.integer  "branch_light_placement_id"
+    t.integer  "number"
+    t.datetime "datetime"
+    t.float    "measurement"
+    t.float    "photons"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "branch_light_measurements", ["branch_light_placement_id"], name: "index_branch_light_measurements_on_branch_light_placement_id"
+
+  create_table "branch_light_placements", force: true do |t|
+    t.integer  "branch_id"
+    t.integer  "weather_id"
+    t.string   "sun_shade"
+    t.string   "pic1"
+    t.string   "pic2"
+    t.string   "pic3"
+    t.float    "hd_pic"
+    t.float    "alt_pic"
+    t.float    "az_pic"
+    t.float    "az_branch"
+    t.float    "vd_branch"
+    t.float    "hd_branch"
+    t.float    "vground_branch"
+    t.string   "light_cond"
+    t.string   "liana_cov"
+    t.string   "note"
+    t.datetime "start"
+    t.datetime "end"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "branch_light_placements", ["branch_id"], name: "index_branch_light_placements_on_branch_id"
+  add_index "branch_light_placements", ["weather_id"], name: "index_branch_light_placements_on_weather_id"
+
   create_table "branches", force: true do |t|
-    t.string   "code",           null: false
-    t.integer  "traits_tree_id", null: false
+    t.string   "code"
+    t.integer  "traits_tree_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -387,6 +425,75 @@ ActiveRecord::Schema.define(version: 20140415221308) do
   end
 
   add_index "leafs", ["branch_id"], name: "index_leafs_on_branch_id"
+
+  create_table "light_hangings", force: true do |t|
+    t.integer  "traits_tree_id"
+    t.integer  "weather_reading_id"
+    t.integer  "last_sensor"
+    t.float    "last_sensor_height"
+    t.float    "first_sensor_to_crown_top"
+    t.float    "az"
+    t.float    "vd"
+    t.float    "hd"
+    t.string   "note"
+    t.datetime "start"
+    t.datetime "end"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "light_hangings", ["traits_tree_id"], name: "index_light_hangings_on_traits_tree_id"
+  add_index "light_hangings", ["weather_reading_id"], name: "index_light_hangings_on_weather_reading_id"
+
+  create_table "light_references", force: true do |t|
+    t.integer  "number"
+    t.datetime "datetime"
+    t.float    "measurement"
+    t.float    "photons"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "light_string_measurements", force: true do |t|
+    t.integer  "light_string_hanging_id"
+    t.datetime "datetime"
+    t.integer  "record"
+    t.float    "m0"
+    t.float    "m0_5"
+    t.float    "m1"
+    t.float    "m1_5"
+    t.float    "m2"
+    t.float    "m2_5"
+    t.float    "m3"
+    t.float    "m3_5"
+    t.float    "m4"
+    t.float    "m4_5"
+    t.float    "m5"
+    t.float    "m6"
+    t.float    "m7"
+    t.float    "m8"
+    t.float    "m9"
+    t.float    "m10"
+    t.float    "m11"
+    t.float    "m12"
+    t.float    "m13"
+    t.float    "m14"
+    t.float    "m15"
+    t.float    "m16"
+    t.float    "m17"
+    t.float    "m18"
+    t.float    "m19"
+    t.float    "m21"
+    t.float    "m22"
+    t.float    "m23"
+    t.float    "m24"
+    t.float    "m25"
+    t.float    "m26"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "light_string_measurements", ["light_string_hanging_id"], name: "index_light_string_measurements_on_light_string_hanging_id"
 
   create_table "litterfall_traps", force: true do |t|
     t.integer "plot_id",                 null: false
@@ -736,8 +843,8 @@ ActiveRecord::Schema.define(version: 20140415221308) do
   add_index "toughness_measurements", ["branch_id"], name: "index_toughness_measurements_on_branch_id"
 
   create_table "traits_trees", force: true do |t|
-    t.string   "code",       null: false
-    t.integer  "plot_id",    null: false
+    t.string   "code"
+    t.integer  "plot_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "fp_species_id"
@@ -746,7 +853,6 @@ ActiveRecord::Schema.define(version: 20140415221308) do
 
   add_index "traits_trees", ["code"], name: "index_traits_trees_on_code", unique: true
   add_index "traits_trees", ["fp_species_id"], name: "index_traits_trees_on_fp_species_id"
-  add_index "traits_trees", ["plot_id"], name: "index_traits_trees_on_plot_id"
 
   create_table "trees", force: true do |t|
     t.integer  "sub_plot_id", null: false
@@ -757,6 +863,20 @@ ActiveRecord::Schema.define(version: 20140415221308) do
   end
 
   add_index "trees", ["sub_plot_id"], name: "index_trees_on_sub_plot_id"
+
+  create_table "weather_readings", force: true do |t|
+    t.integer  "plot_id"
+    t.datetime "datetime"
+    t.integer  "clouds"
+    t.string   "light"
+    t.string   "rain"
+    t.string   "note"
+    t.string   "second_note"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "weather_readings", ["plot_id"], name: "index_weather_readings_on_plot_id"
 
   create_table "wood_densities", force: true do |t|
     t.integer  "branch_id"

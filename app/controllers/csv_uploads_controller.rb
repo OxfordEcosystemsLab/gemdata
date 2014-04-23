@@ -18,6 +18,14 @@ class CsvUploadsController < ApplicationController
     ]
   end
 
+  def traits
+    @import_classes = [
+      ArizonaImporter,
+      WoodDensityImporter,
+      ForestPlotsImporter
+    ]
+  end
+
   def create
     if params[:file]
       if valid_mime_type?(params[:file].content_type)

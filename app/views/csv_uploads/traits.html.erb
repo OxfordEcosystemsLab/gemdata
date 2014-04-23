@@ -1,0 +1,25 @@
+<h2>GEM Traits Data: Import CSV</h2>
+
+<p>Tip: If the csv file is big then try a smaller sample first.</p>
+
+<%= form_tag csv_uploads_path, method: :post, multipart: true do %>
+<div class="row">
+  <div class="small-10 medium-6 columns">
+
+    <%= select_tag "csv_class", options_from_collection_for_select(@import_classes, "to_s", "table_human_name") %>
+
+    <%= file_field_tag :file %>
+    <% if notice %>
+      <div class="panel callout radius">
+        <%= notice %>
+      </div>
+    <% end %>
+
+    <div class="buttons">
+      <%= submit_tag "Import", class: "button radius" %>
+    </div>  
+
+  </div>
+</div>
+<% end %>
+

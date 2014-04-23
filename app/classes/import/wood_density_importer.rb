@@ -10,6 +10,10 @@ class WoodDensityImporter
     @wood = WoodDensity.new
   end
 
+  def self.table_human_name
+    'Wood Density'
+  end
+
   def read_csv(line)
     values = CSV.parse_line(line)
     @wood.date = Date.strptime(values[1], "%d/%m/%Y")

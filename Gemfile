@@ -8,6 +8,7 @@ group :development, :test do
   gem 'therubyracer'
   gem 'sqlite3'
   gem 'rspec-rails'
+  gem 'debugger'
 end
 
 # Database

@@ -5,7 +5,7 @@ class CSVDataImporter
   def initialize(ar_class, csv_file, results)
     @ar_class = ar_class
     @csv_file = csv_file
-    @logger = ImportLogger.new(results)
+    @logger = ImportLogger.new(results, time: true)
   end
 
   # Import in another thread
@@ -20,42 +20,48 @@ class CSVDataImporter
   private
 
     def import_data
-      @logger.notice "Table '#{@ar_class.to_s.tableize}' initial row count: #{@ar_class.count}"
+      @logger.notice "Table '#{@ar_class.table_name}' initial row count: #{@ar_class.count}"
 
-      @logger.notice "Importing #{@ar_class.table_human_name}...", time: true
+      @logger.notice "Importing #{@ar_class.table_human_name}..."
 
-      begin
-        @ar_class.transaction do
-          status_counts = Hash.new(0)
+      status_counts = Hash.new(0)
+      @ar_class.transaction do
 
-          # Loop the CSV rows
-          CSV.foreach(@csv_file, headers: true) do |row|
-            status = @ar_class.read_row(row, @logger)
+        transaction_has_errors = false
+
+        # Loop the CSV rows
+        CSV.foreach(@csv_file, headers: true) do |row|
+          begin
+            status = @ar_class.read_row(row, @logger) || Lookup::ImportStatus.failed
             status_counts[status] += 1
+          rescue => ex
+            transaction_has_errors = true
+            @logger.error "Import aborted processing line #{$.}! - #{ex.message}"
+            if ex.class.to_s == "ActiveRecord::UnknownAttributeError"
+              allowed_attribute_list = @ar_class.allowed_attributes.join(", ")
+              @logger.notice "Allowed column names: #{allowed_attribute_list}"
+            end
           end
         end
 
-        # Completion feedback
-        total_rows = inserted + updated + ignored + failed + skipped
-        @logger.notice "Import complete.", time: true
-        result = []
-        result << "Results: #{total_rows} rows processed"
-        result << "#{status_counts['inserted']} created"
-        result << "#{status_counts['updated']} updated"
-        result << "#{status_counts['ignore']} not changed"
-        result << "#{status_counts['skipped']} skipped"
-        result << "#{status_counts['failed']} failed"
-        @logger.notice result.join(", ")
-
-      rescue Exception => ex
-        @logger.error "Import aborted! - #{ex.message}", time: true
-        if ex.class.to_s == "ActiveRecord::UnknownAttributeError"
-          allowed_attribute_list = @ar_class.allowed_attributes.join(", ")
-          @logger.notice "Allowed column names: #{allowed_attribute_list}"
+        if transaction_has_errors
+          raise 'transaction_has_errors'
         end
       end
 
-      @logger.notice "Table '#{@ar_class.to_s.tableize}' new row count: #{@ar_class.count}"
+      # Completion feedback
+      total_rows = status_counts.length
+      @logger.notice "Import complete."
+      result = []
+      result << "Results: #{total_rows} rows processed"
+      result << "#{status_counts['inserted']} created"
+      result << "#{status_counts['updated']} updated"
+      result << "#{status_counts['ignore']} not changed"
+      result << "#{status_counts['skipped']} skipped"
+      result << "#{status_counts['failed']} failed"
+      @logger.notice result.join(", ")
+
+      @logger.notice "Table '#{@ar_class.table_name}' new row count: #{@ar_class.count}"
     end
 
 end

@@ -35,6 +35,10 @@ module CSVImportTable
       Hash[select(columns).load.map { |r| [r.unique_key, r.id] }]
     end
 
+    def table_name
+      to_s.tableize
+    end
+
     def table_human_name
       to_s.underscore.gsub('_',' ').capitalize
     end
@@ -69,7 +73,7 @@ module CSVImportTable
     if row_hash.blank?
       logger.warn "Row #{$.} skipped - empty row"
       skipped += 1
-      next
+      return Lookup::ImportStatus.skipped
     end
 
     # Create the AR object and validate
@@ -81,8 +85,7 @@ module CSVImportTable
     unless new_record.valid?
       validation_errors = new_record.errors.messages.map { |k,v| "#{k} #{v.first}" }.join(", ")
       logger.error "Row #{$.} failed - #{validation_errors}"
-      import_status = Lookup::ImportStatus.failed
-      next
+      return Lookup::ImportStatus.failed
     end
 
     # Check for an existing record

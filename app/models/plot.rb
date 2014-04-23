@@ -1,7 +1,9 @@
 class Plot < ActiveRecord::Base
-  validates :plot_code, presence: true
+  has_many :traits_trees
 
-  def plot_code=(code)
-    write_attribute(:plot_code, code.gsub(/-/, ''))
-  end
+  validates :plot_code, presence: true, uniqueness: true
+
+  #def plot_code=(code)
+  #  write_attribute(:plot_code, code.gsub(/-/, ''))
+  #end
 end
