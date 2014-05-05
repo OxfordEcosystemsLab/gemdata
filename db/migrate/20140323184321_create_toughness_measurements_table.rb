@@ -1,7 +1,8 @@
 class CreateToughnessMeasurementsTable < ActiveRecord::Migration
   def change
     create_table :toughness_measurements do |t|
-      t.belongs_to :branch, index: true, null: false
+      t.references :branch, index: true, null: false
+      t.foreign_key :branches
       t.datetime :date, null: false
       t.string :evaluator
       t.string :replica

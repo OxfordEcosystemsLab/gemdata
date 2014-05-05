@@ -2,6 +2,7 @@ class CreateArizonas < ActiveRecord::Migration
   def change
     create_table :arizonas do |t|
       t.references :leaf, index: true
+      t.foreign_key :leaves
       t.datetime :date
       t.string :evaluators
       t.float :fresh_mass
