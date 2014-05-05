@@ -2,7 +2,7 @@ class CreateBranchLightPlacements < ActiveRecord::Migration
   def change
     create_table :branch_light_placements do |t|
       t.references :branch, index: true
-      t.references :weather, index: true
+      t.references :weather_reading, index: true
       t.string :sun_shade
       t.string :pic1
       t.string :pic2

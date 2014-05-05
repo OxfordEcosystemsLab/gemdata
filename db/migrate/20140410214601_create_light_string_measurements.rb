@@ -1,7 +1,7 @@
 class CreateLightStringMeasurements < ActiveRecord::Migration
   def change
     create_table :light_string_measurements do |t|
-      t.references :light_string_hanging, index: true
+      t.references :light_hanging, index: true
       t.datetime :datetime
       t.integer :record
       t.float :m0
