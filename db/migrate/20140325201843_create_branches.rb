@@ -3,6 +3,7 @@ class CreateBranches < ActiveRecord::Migration
     create_table :branches do |t|
       t.string :code, null: false
       t.references :tree, index: true, null: false
+      t.foreign_key :trees
 
       t.timestamps
     end

@@ -2,6 +2,7 @@ class CreateWoodDensities < ActiveRecord::Migration
   def change
     create_table :wood_densities do |t|
       t.references :branch, index: true
+      t.foreign_key :branches
       t.datetime :date
       t.string :evaluator
       t.string :branch_number

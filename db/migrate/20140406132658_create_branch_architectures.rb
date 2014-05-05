@@ -2,6 +2,7 @@ class CreateBranchArchitectures < ActiveRecord::Migration
   def change
     create_table :branch_architectures do |t|
       t.references :branch, index: true
+      t.foreign_key :branches
       t.datetime :date
       t.string   :evaluator
       t.integer :section

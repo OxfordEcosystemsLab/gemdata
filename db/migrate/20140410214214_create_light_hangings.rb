@@ -2,7 +2,9 @@ class CreateLightHangings < ActiveRecord::Migration
   def change
     create_table :light_hangings do |t|
       t.references :tree, index: true
+      t.foreign_key :trees
       t.references :weather_reading, index: true
+      t.foreign_key :weather_readings
       t.integer :last_sensor
       t.float :last_sensor_height
       t.float :first_sensor_to_crown_top
