@@ -9,4 +9,5 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.irregular 'genus', 'genera'
   inflect.irregular 'leaf', 'leaves'
   inflect.irregular 'species', 'species'
+  inflect.irregular 'curve', 'curves'
 end
