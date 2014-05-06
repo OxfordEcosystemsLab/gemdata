@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140505223605) do
+ActiveRecord::Schema.define(version: 20140506203514) do
 
   create_table "arizonas", force: true do |t|
     t.integer  "leaf_id"
@@ -92,6 +92,89 @@ ActiveRecord::Schema.define(version: 20140505223605) do
 
   add_index "branches", ["code"], name: "index_branches_on_code", unique: true, using: :btree
   add_index "branches", ["tree_id"], name: "index_branches_on_tree_id", using: :btree
+
+  create_table "cn_curves", force: true do |t|
+    t.float    "c_enr_1"
+    t.float    "n_enr_1"
+    t.float    "c_percent_1"
+    t.float    "n_percent_1"
+    t.float    "cn_ratio_1"
+    t.float    "c_enr_2"
+    t.float    "n_enr_2"
+    t.float    "c_percent_2"
+    t.float    "n_percent_2"
+    t.float    "cn_ratio_2"
+    t.float    "c_enr_3"
+    t.float    "n_enr_3"
+    t.float    "c_percent_3"
+    t.float    "n_percent_3"
+    t.float    "cn_ratio_3"
+    t.float    "c_enr_4"
+    t.float    "n_enr_4"
+    t.float    "c_percent_4"
+    t.float    "n_percent_4"
+    t.float    "cn_ratio_4"
+    t.float    "c_enr_5"
+    t.float    "n_enr_5"
+    t.float    "c_percent_5"
+    t.float    "n_percent_5"
+    t.float    "cn_ratio_5"
+    t.float    "c_enr_6"
+    t.float    "n_enr_6"
+    t.float    "c_percent_6"
+    t.float    "n_percent_6"
+    t.float    "cn_ratio_6"
+    t.float    "c_enr_7"
+    t.float    "n_enr_7"
+    t.float    "c_percent_7"
+    t.float    "n_percent_7"
+    t.float    "cn_ratio_7"
+    t.float    "c_enr_8"
+    t.float    "n_enr_8"
+    t.float    "c_percent_8"
+    t.float    "n_percent_8"
+    t.float    "cn_ratio_8"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "cn_measurements", force: true do |t|
+    t.integer  "cn_curve_id"
+    t.integer  "leaf_id"
+    t.integer  "sample"
+    t.string   "row"
+    t.integer  "column"
+    t.float    "c_percent"
+    t.float    "n_percent"
+    t.float    "cn_ratio"
+    t.float    "n15_delta"
+    t.float    "c13_delta"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "cn_measurements", ["cn_curve_id"], name: "index_cn_measurements_on_cn_curve_id", using: :btree
+  add_index "cn_measurements", ["leaf_id"], name: "index_cn_measurements_on_leaf_id", using: :btree
+
+  create_table "cnp_measurements", force: true do |t|
+    t.integer  "leaf_id"
+    t.string   "row"
+    t.integer  "column"
+    t.float    "c_percent"
+    t.float    "n_percent"
+    t.float    "cn_ratio"
+    t.float    "n15_delta"
+    t.float    "n13_delta"
+    t.string   "cn_assays_file"
+    t.float    "p_corrected_avg"
+    t.float    "p_corrected_var_coef"
+    t.string   "p_assays_file"
+    t.integer  "box_number"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "cnp_measurements", ["leaf_id"], name: "index_cnp_measurements_on_leaf_id", using: :btree
 
   create_table "coarse_woody_debris_imports", force: true do |t|
     t.string   "plot_code",                null: false
@@ -563,6 +646,55 @@ ActiveRecord::Schema.define(version: 20140505223605) do
 
   add_index "people_roles", ["person_id"], name: "index_people_roles_on_person_id", using: :btree
   add_index "people_roles", ["plot_id"], name: "index_people_roles_on_plot_id", using: :btree
+
+  create_table "phosphorus_curves", force: true do |t|
+    t.float    "first_standard_0"
+    t.float    "second_standard_0"
+    t.float    "absorbance_0"
+    t.float    "concentration_0"
+    t.float    "first_standard_2"
+    t.float    "second_standard_2"
+    t.float    "absorbance_2"
+    t.float    "concentration_2"
+    t.float    "first_standard_4"
+    t.float    "second_standard_4"
+    t.float    "absorbance_4"
+    t.float    "concentration_4"
+    t.float    "first_standard_8"
+    t.float    "second_standard_8"
+    t.float    "absorbance_8"
+    t.float    "concentration_8"
+    t.float    "first_standard_12"
+    t.float    "second_standard_12"
+    t.float    "absorbance_12"
+    t.float    "concentration_12"
+    t.float    "first_standard_16"
+    t.float    "second_standard_16"
+    t.float    "absorbance_16"
+    t.float    "concentration_16"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "phosphorus_measurements", force: true do |t|
+    t.integer  "leaf_id"
+    t.integer  "phosphorus_curve_id"
+    t.string   "rack"
+    t.integer  "row"
+    t.string   "column"
+    t.integer  "sample_mass"
+    t.float    "sample_absorbance"
+    t.float    "sample_concentration"
+    t.float    "sample_volume"
+    t.float    "p_mass"
+    t.float    "p_original"
+    t.float    "corrected_std"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "phosphorus_measurements", ["leaf_id"], name: "index_phosphorus_measurements_on_leaf_id", using: :btree
+  add_index "phosphorus_measurements", ["phosphorus_curve_id"], name: "phosphorus_measurements_phosphorus_curve_id_fk", using: :btree
 
   create_table "photosynthesis_measurements", force: true do |t|
     t.integer  "leaf_id"
@@ -1688,6 +1820,11 @@ ActiveRecord::Schema.define(version: 20140505223605) do
 
   add_foreign_key "branches", "trees", name: "branches_tree_id_fk"
 
+  add_foreign_key "cn_measurements", "cn_curves", name: "cn_measurements_cn_curve_id_fk"
+  add_foreign_key "cn_measurements", "leaves", name: "cn_measurements_leaf_id_fk"
+
+  add_foreign_key "cnp_measurements", "leaves", name: "cnp_measurements_leaf_id_fk"
+
   add_foreign_key "coarse_woody_debris_values", "cwd_sub_transects", name: "coarse_woody_debris_values_cwd_sub_transect_id_fk"
 
   add_foreign_key "cwd_sub_transects", "cwd_transects", name: "cwd_sub_transects_cwd_transect_id_fk"
@@ -1721,6 +1858,9 @@ ActiveRecord::Schema.define(version: 20140505223605) do
 
   add_foreign_key "people_roles", "people", name: "people_roles_person_id_fk"
   add_foreign_key "people_roles", "plots", name: "people_roles_plot_id_fk"
+
+  add_foreign_key "phosphorus_measurements", "leaves", name: "phosphorus_measurements_leaf_id_fk"
+  add_foreign_key "phosphorus_measurements", "phosphorus_curves", name: "phosphorus_measurements_phosphorus_curve_id_fk"
 
   add_foreign_key "photosynthesis_measurements", "leaves", name: "photosynthesis_measurements_leaf_id_fk"
 
