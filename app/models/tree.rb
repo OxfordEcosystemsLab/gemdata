@@ -1,4 +1,4 @@
-class TraitsTree < ActiveRecord::Base
+class Tree < ActiveRecord::Base
   belongs_to :plot
   belongs_to :fp_species
 

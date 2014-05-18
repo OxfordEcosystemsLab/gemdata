@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe TraitsTree do
-  
+describe Tree do
+
   before :each do
-    @tree = TraitsTree.new
+    @tree = Tree.new
     @tree.code = 'abc'
     @tree.plot = Plot.create(:plot_code => 'asd')
     @tree.fp_species = FpSpecies.create(:name => 'Sapien')

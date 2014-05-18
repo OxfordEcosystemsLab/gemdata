@@ -4,7 +4,7 @@ describe ArizonaImporter do
 
   before :each do
     plot = Plot.create(:plot_code => 'WAY01')
-    tree = TraitsTree.first_or_create(:code => 'CSP28001-32', :plot => plot)
+    tree = Tree.first_or_create(:code => 'CSP28001-32', :plot => plot)
     branch = Branch.first_or_create(:code => 'SUN', :traits_tree => tree)
     @leaf = Leaf.where(:code => 'L1L', :branch => branch).create
   end
