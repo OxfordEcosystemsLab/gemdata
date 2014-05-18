@@ -16,6 +16,7 @@ module Gemdata
     config.autoload_paths += %W(
         #{config.root}/lib
         #{config.root}/app/classes/import
+        #{config.root}/app/classes/importers
         #{config.root}/app/classes/utility
         #{config.root}/app/classes/value_objects
     )
