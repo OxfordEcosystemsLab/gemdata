@@ -5,7 +5,7 @@ describe Tree do
   before :each do
     @tree = Tree.new
     @tree.tree_code = 'abc'
-    @tree.plot = Plot.create(:plot_code => 'asd')
+    @tree.sub_plot = SubPlot.create(:plot_id => 2)
     @tree.fp_species = FpSpecies.create(:name => 'Sapien')
   end
 
@@ -19,10 +19,10 @@ describe Tree do
     expect(@tree).to have(1).errors_on(:tree_code)
   end
 
-  it 'is not valid without a plot' do
-    @tree.plot = nil
+  it 'is not valid without a sub plot' do
+    @tree.sub_plot = nil
     expect(@tree).to_not be_valid
-    expect(@tree).to have(1).errors_on(:plot)
+    expect(@tree).to have(1).errors_on(:sub_plot)
   end
 
   it 'is not valid without a species' do
