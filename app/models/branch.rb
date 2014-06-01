@@ -1,6 +1,6 @@
 class Branch < ActiveRecord::Base
-  belongs_to :traits_tree
+  belongs_to :tree
 
   validates :code, presence: true
-  validates :traits_tree, presence: true
+  validates :tree, presence: true
 end

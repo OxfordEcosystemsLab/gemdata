@@ -4,10 +4,10 @@ require 'csv'
 describe ArizonaImporter do
 
   before :each do
-    plot = Plot.create(:plot_code => 'WAY01')
-    tree = Tree.first_or_create(:code => 'CSP28001-32', :plot => plot)
-    branch = Branch.first_or_create(:code => 'SUN', :traits_tree => tree)
-    @leaf = Leaf.where(:code => 'L1L', :branch => branch).create
+    sub_plot = SubPlot.new
+    tree = Tree.first_or_create(:tree_code => 'CSP28001-32', :sub_plot => sub_plot)
+    branch = Branch.first_or_create(:code => 'SUN', :tree_id => tree.id)
+    @leaf = Leaf.create! :code => 'L1L', :branch => branch
   end
 
   it 'can read CSV with leaf code L' do
