@@ -4,9 +4,11 @@ require 'csv'
 describe ArizonaImporter do
 
   before :each do
-    sub_plot = SubPlot.new
-    tree = Tree.first_or_create(:tree_code => 'CSP28001-32', :sub_plot => sub_plot)
-    branch = Branch.first_or_create(:code => 'SUN', :tree_id => tree.id)
+    plot = Plot.create!(:plot_code => 'WAY01')
+    sub_plot = SubPlot.create!(:plot_id => plot.id)
+    fp_species = FpSpecies.new
+    tree = Tree.create!(:tree_code => 'CSP28001-32', :sub_plot => sub_plot, :fp_species => fp_species)
+    branch = Branch.create(:code => 'SUN', :tree_id => tree.id)
     @leaf = Leaf.create! :code => 'L1L', :branch => branch
   end
 
@@ -30,7 +32,7 @@ describe ArizonaImporter do
   end
 
   it 'can read CSV with leaf code P' do
-    values = CSV.parse_line 'Wayqecha,26/04/2013,Naia-Colby,Hesperomeles ferruginea,WAY01-CSP28003-77-SUN-L1P,0.07,0.02,-,2.07,'
+    values = CSV.parse_line 'Wayqecha,26/04/2013,Naia-Colby,Hesperomeles ferruginea,WAY01-CSP28001-32-SUN-L1P,0.07,0.02,-,2.07,'
 
     result = ArizonaImporter.read_row(values, Array.new)
     az = result.ar_class
@@ -42,7 +44,7 @@ describe ArizonaImporter do
   end
 
   it 'also behaves nicely for leaf code T' do
-    values = CSV.parse_line 'Wayqecha,26/04/2013,Naia-Colby,Hesperomeles ferruginea,WAY01-CSP28003-77-SUN-L1T,0.07,0.02,-,2.07,'
+    values = CSV.parse_line 'Wayqecha,26/04/2013,Naia-Colby,Hesperomeles ferruginea,WAY01-CSP28001-32-SUN-L1T,0.07,0.02,-,2.07,'
 
     result = ArizonaImporter.read_row(values, Array.new)
 
@@ -51,7 +53,7 @@ describe ArizonaImporter do
   end
 
   it 'interprets 0.00, 0 and - as nil' do
-    values = CSV.parse_line 'Wayqecha,26/04/2013,Naia-Colby,Hesperomeles ferruginea,WAY01-CSP28003-77-SUN-L1T,0,0.00,-,,'
+    values = CSV.parse_line 'Wayqecha,26/04/2013,Naia-Colby,Hesperomeles ferruginea,WAY01-CSP28001-32-SUN-L1T,0,0.00,-,,'
 
     result = ArizonaImporter.read_row(values, Array.new)
     az = result.ar_class
