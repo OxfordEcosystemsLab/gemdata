@@ -1,7 +1,9 @@
 require 'spec_helper'
 require 'csv'
+require 'importer'
 
 describe ForestPlotsImporter do
+  it_behaves_like 'Importer'
 
   it 'can read CSV' do
     values = CSV.parse_line '90,TAM-04,Tambopata plot two swamp edge clay,PERU,Oliver Phillips,1983.67,1,90,Main Plot View,,54832,377,Sapotaceae,24801,Pouteria,653110,Pouteria indet,,,2,105,105,105,105,1300,a,1,5,0,,,'

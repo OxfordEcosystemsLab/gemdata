@@ -1,22 +1,4 @@
-require 'csv'
-
-class ForestPlotsImporter
-
-  def self.table_name
-    Tree.to_s.tableize
-  end
-
-  def self.table_human_name
-    'Forest Plots'
-  end
-
-  def self.count
-    Tree.count
-  end
-
-  def self.transaction(&block)
-    Tree.transaction(&block)
-  end
+class ForestPlotsImporter < BaseImporter
 
   def self.read_row(values, logger)
 

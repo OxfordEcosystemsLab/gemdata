@@ -1,7 +1,9 @@
 require 'spec_helper'
 require 'csv'
+require 'importer'
 
 describe WoodDensityImporter do
+  it_behaves_like 'Importer'
 
   before :each do
     plot = Plot.create!(:plot_code => 'ACJ01')
