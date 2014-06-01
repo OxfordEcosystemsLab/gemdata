@@ -1,22 +1,4 @@
-require 'csv'
-
-class ArizonaImporter
-
-  def self.table_name
-    Arizona.to_s.tableize
-  end
-
-  def self.count
-    Arizona.count
-  end
-
-  def self.transaction(&block)
-    Arizona.transaction(&block)
-  end
-
-  def self.table_human_name
-    'Arizona'
-  end
+class ArizonaImporter < BaseImporter
 
   def self.read_row(values, logger)
     @az = Arizona.new

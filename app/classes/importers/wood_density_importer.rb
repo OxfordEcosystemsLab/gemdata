@@ -1,10 +1,4 @@
-require 'csv'
-
-class WoodDensityImporter
-
-  def self.table_human_name
-    'Wood Density'
-  end
+class WoodDensityImporter < BaseImporter
 
   def self.read_row(values, logger)
     @wood = WoodDensity.new
