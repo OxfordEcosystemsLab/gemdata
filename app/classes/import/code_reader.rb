@@ -16,9 +16,8 @@ class CodeReader
   end
 
   def find_or_create_branch
-    plot = Plot.where(:plot_code => plot_code).first_or_create
-    sub_plot = SubPlot.where(:plot_id => plot.id).first_or_create
-    tree = Tree.where(:tree_code => tree_code, :sub_plot_id => sub_plot.id).first_or_create
-    Branch.where(:code => branch_code, :tree_id => tree.id).first_or_create
+    plot = Plot.where(:plot_code => plot_code).first!
+    tree = Tree.where(:tree_code => tree_code).includes(:sub_plot).where('sub_plots.plot_id' => plot.id).first!
+    Branch.where(:code => branch_code, :tree_id => tree.id).first_or_create!
   end
 end
