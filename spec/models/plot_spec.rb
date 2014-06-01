@@ -10,7 +10,7 @@ describe Plot do
   end
 
   it 'removes a dash' do
-    plot = Plot.create(:plot_code => 'WAY-234')
+    plot = Plot.create(:plot_code => 'WAY234')
     expect(plot.plot_code).to eq('WAY234')
   end
 end

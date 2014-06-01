@@ -2,9 +2,8 @@ require 'spec_helper'
 
 describe Leaf do
   before :each do
-    plot = Plot.new(:plot_code => 'abc')
-    tree = TraitsTree.new(:code => 'def', :plot => plot)
-    branch = Branch.new(:code => 'ghi', :traits_tree => tree)
+    tree = Tree.new(:tree_code => 'def', :sub_plot => SubPlot.new(:plot_id => 2))
+    branch = Branch.new(:code => 'ghi', :tree => tree)
     @leaf = Leaf.new(:code => 'jkl', :branch => branch)
   end
 

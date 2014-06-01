@@ -5,7 +5,7 @@ describe Branch do
   before :each do
     @branch = Branch.new
     @branch.code = '123'
-    @branch.traits_tree = TraitsTree.create(:code => 'asdf', :plot => Plot.create(:plot_code => 'abc'))
+    @branch.tree = Tree.create(:tree_code => 'asdf', :sub_plot => SubPlot.new(:plot_id => 2))
   end
 
   it 'can be valid' do
@@ -19,9 +19,9 @@ describe Branch do
   end
 
   it 'is not valid without a tree' do
-    @branch.traits_tree = nil
+    @branch.tree = nil
     expect(@branch).to_not be_valid
-    expect(@branch).to have(1).errors_on(:traits_tree)
+    expect(@branch).to have(1).errors_on(:tree)
   end
 
 end
