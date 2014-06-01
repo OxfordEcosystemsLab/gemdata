@@ -33,11 +33,13 @@ class ArizonaImporter
     @az.petiole_width = values[8] unless is_nil_value(values[8])
     @az.comments = values[9]
 
-    if @az.save!
-      return Lookup::ImportStatus.inserted
+    if @az.save
+      status = Lookup::ImportStatus.inserted
     else
-      return Lookup::ImportStatus.failed
+      status = Lookup::ImportStatus.failed
     end
+
+    return ImportResult.new(@az, status)
   end
 
   private
