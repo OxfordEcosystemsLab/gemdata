@@ -1,18 +1,19 @@
 require 'spec_helper'
+require 'csv'
 
 describe ForestPlotsImporter do
 
   it 'can read CSV' do
-    csv = '90,TAM-04,Tambopata plot two swamp edge clay,PERU,Oliver Phillips,1983.67,1,90,Main Plot View,,54832,377,Sapotaceae,24801,Pouteria,653110,Pouteria indet,,,2,105,105,105,105,1300,a,1,5,0,,,'
+    values = CSV.parse_line '90,TAM-04,Tambopata plot two swamp edge clay,PERU,Oliver Phillips,1983.67,1,90,Main Plot View,,54832,377,Sapotaceae,24801,Pouteria,653110,Pouteria indet,,,2,105,105,105,105,1300,a,1,5,0,,,'
 
-    importer = ForestPlotsImporter.new
-    importer.read_csv csv
-    tree = importer.get_object
+    result = ForestPlotsImporter.read_row(values, Array.new)
+    tree = result.ar_class
+    expect(result.status).to eq(Lookup::ImportStatus.inserted)
 
     expect(tree.fp_id).to eq(54832)
-    expect(tree.code).to eq('T2')
+    expect(tree.tree_code).to eq('T2')
 
-    plot = tree.plot
+    plot = Plot.find(tree.sub_plot.plot_id)
     expect(plot.fp_id).to eq(90)
     expect(plot.plot_code).to eq('TAM04')
 
