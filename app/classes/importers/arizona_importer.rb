@@ -2,10 +2,6 @@ require 'csv'
 
 class ArizonaImporter
 
-  def get_object
-    @az
-  end
-
   def self.table_name
     Arizona.to_s.tableize
   end
