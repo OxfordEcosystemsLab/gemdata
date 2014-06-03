@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140506203514) do
+ActiveRecord::Schema.define(version: 20140603193915) do
 
   create_table "arizonas", force: true do |t|
     t.integer  "leaf_id"
@@ -1764,7 +1764,7 @@ ActiveRecord::Schema.define(version: 20140506203514) do
     t.string   "replica"
     t.float    "thickness"
     t.float    "width"
-    t.integer  "lines"
+    t.float    "lines"
     t.float    "punch"
   end
 
