@@ -1,47 +1,57 @@
 require 'spec_helper'
+require 'date'
 
 describe BranchArchitecture do
 
   before :each do
-    @branch = CodeReader.new('SPD01-T1159-B1S').find_or_create_branch
+    plot = Plot.create!(:plot_code => 'SPD01')
+    sub_plot = SubPlot.create!(:plot_id => plot.id)
+    fp_species = FpSpecies.new
+    tree = Tree.create!(:tree_code => 'T1159', :sub_plot => sub_plot, :fp_species => fp_species)
+
+    @b = BranchArchitecture.new
+    @b.date = Date.new(2013,6,9)
+    @b.evaluator = '"Milenka, Tatiana"'
+    @b.code = 'SPD01-T1159-B1S'
+    @b.section = 1
+    @b.parent = 0
+    @b.tip = 'NO'
+    @b.diam_inf = 12.24
+    @b.diam_sup = 10.9
+    @b.longitude = 118.9
+    @b.comments = 'Test comment'
   end
-  
+
   it 'is not valid on its own' do
     expect(BranchArchitecture.new).to_not be_valid
   end
 
-  it 'can read CSV' do
-    csv = 'San Pedro I,09/06/2013,"Milenka, Tatiana",SPD01-T1159-B1S,Inga indet.,1,Base,NO,12.24,10.9,118.9,Test comment'
-    b = BranchArchitecture.new
-    b.read_csv csv
-    expect(b).to be_valid
-    expect(b.date).to eq(Date.new '2013-06-09')
-    expect(b.evaluator).to eq('"Milenka, Tatiana"')
-    expect(b.section).to eq(1)
-    expect(b.parent).to eq(0)
-    expect(b.tip).to eq('NO')
-    expect(b.diam_inf).to eq(12.24)
-    expect(b.diam_sup).to eq(10.9)
-    expect(b.longitude).to eq(118.9)
-    expect(b.comments).to eq('Test comment')
-    expect(b.branch).to eq(@branch)
+  it 'can be valid' do
+    expect(@b).to be_valid
   end
 
-  it 'can read a CSV with a node tip' do
-    csv = 'San Pedro I,09/06/2013,"Milenka, Tatiana",SPD01-T1159-B1S,Inga indet.,4,3,N,-,-,-,'
-    b = BranchArchitecture.new
-    b.read_csv csv
-    expect(b).to be_valid
-    expect(b.diam_inf).to be_nil
-    expect(b.diam_sup).to be_nil
-    expect(b.longitude).to be_nil
+  it 'it is valid with a node tip' do
+    @b.tip = 'N'
+    @b.diam_inf = nil
+    @b.diam_sup = nil
+    @b.longitude = nil
+    expect(@b).to be_valid
+  end
+
+  it 'it requires values without a node tip' do
+    @b.tip = 'C'
+    @b.diam_inf = nil
+    @b.diam_sup = nil
+    @b.longitude = nil
+    expect(@b).to_not be_valid
   end
 
   it 'validates absence of measurements on node tip' do
-    csv = 'San Pedro I,09/06/2013,"Milenka, Tatiana",SPD01-T1159-B1S,Inga indet.,1,Base,N,12.24,10.9,118.9,'
-    b = BranchArchitecture.new
-    b.read_csv csv
-    expect(b).to_not be_valid
-    expect(b.errors).to include('diam_inf', 'diam_sup', 'longitude')
+    @b.tip = 'N'
+    expect(@b).to_not be_valid
+    expect(@b).to have(1).errors_on(:diam_inf)
+    expect(@b).to have(1).errors_on(:diam_sup)
+    expect(@b).to have(1).errors_on(:longitude)
   end
+
 end
