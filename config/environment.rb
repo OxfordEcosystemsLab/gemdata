@@ -10,4 +10,5 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.irregular 'leaf', 'leaves'
   inflect.irregular 'species', 'species'
   inflect.irregular 'curve', 'curves'
+  inflect.irregular 'census', 'censuses'
 end

@@ -35,6 +35,14 @@ describe ForestPlotsImporter do
     expect(family.name).to eq('Sapotaceae')
     expect(family.apg_id).to eq(377)
 
+    census = tree.censuses.first!
+    expect(census.mean_date).to eq('1983.67')
+    expect(census.number).to eq(1)
+
+    dbh = tree.dbh_measurements.first!
+    expect(dbh.value).to eq(105)
+    expect(dbh.census).to eq(census)
+
     expect(tree).to be_valid
   end
 
@@ -55,6 +63,14 @@ describe ForestPlotsImporter do
 
     tree = ForestPlotsImporter.read_row(@values, Array.new).ar_class
     expect(tree.fp_species).to eq(fp_species)
+
+  end
+
+  it 'creates selects an existing census' do
+
+    census = Census.create!(number: 1, mean_date: '1983.67')
+    tree = ForestPlotsImporter.read_row(@values, Array.new).ar_class
+    expect(tree.censuses).to include(census)
 
   end
 

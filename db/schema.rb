@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140603193915) do
+ActiveRecord::Schema.define(version: 20140608165528) do
 
   create_table "arizonas", force: true do |t|
     t.integer  "leaf_id"
@@ -92,6 +92,13 @@ ActiveRecord::Schema.define(version: 20140603193915) do
 
   add_index "branches", ["code"], name: "index_branches_on_code", unique: true, using: :btree
   add_index "branches", ["tree_id"], name: "index_branches_on_tree_id", using: :btree
+
+  create_table "censuses", force: true do |t|
+    t.integer  "number"
+    t.string   "mean_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "cn_curves", force: true do |t|
     t.float    "c_enr_1"
@@ -249,6 +256,17 @@ ActiveRecord::Schema.define(version: 20140603193915) do
 
   add_index "cwd_transects", ["plot_id", "cwd_transect_num"], name: "index_cwd_transects_on_plot_id_and_cwd_transect_num", unique: true, using: :btree
   add_index "cwd_transects", ["plot_id"], name: "index_cwd_transects_on_plot_id", using: :btree
+
+  create_table "dbh_measurements", force: true do |t|
+    t.integer  "tree_id"
+    t.integer  "census_id"
+    t.float    "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "dbh_measurements", ["census_id"], name: "index_dbh_measurements_on_census_id", using: :btree
+  add_index "dbh_measurements", ["tree_id"], name: "index_dbh_measurements_on_tree_id", using: :btree
 
   create_table "dendrometer_imports", force: true do |t|
     t.string   "plot_code",              null: false
@@ -1830,6 +1848,9 @@ ActiveRecord::Schema.define(version: 20140603193915) do
   add_foreign_key "cwd_sub_transects", "cwd_transects", name: "cwd_sub_transects_cwd_transect_id_fk"
 
   add_foreign_key "cwd_transects", "plots", name: "cwd_transects_plot_id_fk"
+
+  add_foreign_key "dbh_measurements", "censuses", name: "dbh_measurements_census_id_fk"
+  add_foreign_key "dbh_measurements", "trees", name: "dbh_measurements_tree_id_fk"
 
   add_foreign_key "dendrometer_values", "trees", name: "dendrometer_values_tree_id_fk"
 

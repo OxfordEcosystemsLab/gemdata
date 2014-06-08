@@ -23,6 +23,9 @@ class ForestPlotsImporter < BaseImporter
 
     if @tree.save
       status = Lookup::ImportStatus.inserted
+
+      census = Census.find_or_create_by!(:mean_date => values[5], :number => values[6])
+      @tree.dbh_measurements.create!(:value => values[20], :census => census)
     else
       status = Lookup::ImportStatus.failed
     end
