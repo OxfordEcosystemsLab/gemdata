@@ -68,7 +68,8 @@ describe ForestPlotsImporter do
 
   it 'creates selects an existing census' do
 
-    census = Census.create!(number: 1, mean_date: '1983.67')
+    plot = Plot.create!(:plot_code => 'TAM04', :fp_id => 90)
+    census = Census.create!(number: 1, mean_date: '1983.67', plot: plot)
     tree = ForestPlotsImporter.read_row(@values, Array.new).ar_class
     expect(tree.censuses).to include(census)
 

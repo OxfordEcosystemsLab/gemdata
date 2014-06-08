@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140608165528) do
+ActiveRecord::Schema.define(version: 20140608194537) do
 
   create_table "arizonas", force: true do |t|
     t.integer  "leaf_id"
@@ -98,7 +98,10 @@ ActiveRecord::Schema.define(version: 20140608165528) do
     t.string   "mean_date"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "plot_id"
   end
+
+  add_index "censuses", ["plot_id"], name: "censuses_plot_id_fk", using: :btree
 
   create_table "cn_curves", force: true do |t|
     t.float    "c_enr_1"
@@ -1837,6 +1840,8 @@ ActiveRecord::Schema.define(version: 20140608165528) do
   add_foreign_key "branch_light_placements", "weather_readings", name: "branch_light_placements_weather_reading_id_fk"
 
   add_foreign_key "branches", "trees", name: "branches_tree_id_fk"
+
+  add_foreign_key "censuses", "plots", name: "censuses_plot_id_fk"
 
   add_foreign_key "cn_measurements", "cn_curves", name: "cn_measurements_cn_curve_id_fk"
   add_foreign_key "cn_measurements", "leaves", name: "cn_measurements_leaf_id_fk"
