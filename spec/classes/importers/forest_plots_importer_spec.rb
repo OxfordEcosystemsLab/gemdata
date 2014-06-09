@@ -11,10 +11,12 @@ describe ForestPlotsImporter do
   end
 
   it 'can read CSV' do
-    result = ForestPlotsImporter.read_row(@values, Array.new)
-    tree = result.ar_class
-    expect(result.status).to eq(Lookup::ImportStatus.inserted)
 
+    importer = ForestPlotsImporter.new
+    status = importer.read_row(@values, Array.new)
+    expect(status).to eq(Lookup::ImportStatus.inserted)
+
+    tree = importer.object
     expect(tree.fp_id).to eq(54832)
     expect(tree.tree_code).to eq('T2')
 
@@ -50,8 +52,9 @@ describe ForestPlotsImporter do
 
     plot = Plot.create!(:plot_code => 'TAM04', :fp_id => 90)
 
-    tree = ForestPlotsImporter.read_row(@values, Array.new).ar_class
-    expect(tree.sub_plot.plot).to eq(plot)
+    importer = ForestPlotsImporter.new
+    importer.read_row(@values, Array.new)
+    expect(importer.object.sub_plot.plot).to eq(plot)
 
   end
 
@@ -61,8 +64,9 @@ describe ForestPlotsImporter do
     fp_genus = FpGenus.create!(fp_id: 24801, name: 'Pouteria', fp_family: fp_family)
     fp_species = FpSpecies.create!(fp_id: 653110, name: 'Pouteria indet', fp_genus: fp_genus)
 
-    tree = ForestPlotsImporter.read_row(@values, Array.new).ar_class
-    expect(tree.fp_species).to eq(fp_species)
+    importer = ForestPlotsImporter.new
+    importer.read_row(@values, Array.new)
+    expect(importer.object.fp_species).to eq(fp_species)
 
   end
 
@@ -70,8 +74,10 @@ describe ForestPlotsImporter do
 
     plot = Plot.create!(:plot_code => 'TAM04', :fp_id => 90)
     census = Census.create!(number: 1, mean_date: '1983.67', plot: plot)
-    tree = ForestPlotsImporter.read_row(@values, Array.new).ar_class
-    expect(tree.censuses).to include(census)
+
+    importer = ForestPlotsImporter.new
+    importer.read_row(@values, Array.new)
+    expect(importer.object.censuses).to include(census)
 
   end
 

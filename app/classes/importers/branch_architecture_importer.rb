@@ -1,6 +1,10 @@
 class BranchArchitectureImporter < RowImporter
 
-  def self.read_row(values, logger)
+  def object
+    @ba
+  end
+
+  def read_row(values, logger)
     @ba = BranchArchitecture.new
     @ba.date = Date.strptime(values[1], "%d/%m/%Y")
     @ba.evaluator = values[2]
@@ -19,19 +23,19 @@ class BranchArchitectureImporter < RowImporter
       status = Lookup::ImportStatus.failed
     end
 
-    return ImportResult.new(@ba, status)
+    return status
   end
 
   private
-    def self.zero_if_base(value)
+    def zero_if_base(value)
       value == 'Base' ? 0 : value
     end
 
-    def self.is_nil_value(value)
+    def is_nil_value(value)
       value.nil? || value.to_f == 0 || value == '-'
     end
 
-    def self.nil_if_zero(value)
+    def nil_if_zero(value)
       return value unless is_nil_value(value)
     end
 end

@@ -14,11 +14,14 @@ describe BranchArchitectureImporter do
   end
 
   it 'can read CSV' do
-    values = CSV.parse_line 'San Pedro I,09/06/2013,"Milenka, Tatiana",SPD01-T1159-B1S,Inga indet.,1,Base,NO,12.24,10.9,118.9,Test comment'
-    result = BranchArchitectureImporter.read_row(values, Array.new)
-    expect(result.status).to eq(Lookup::ImportStatus.inserted)
 
-    b = result.ar_class
+    values = CSV.parse_line 'San Pedro I,09/06/2013,"Milenka, Tatiana",SPD01-T1159-B1S,Inga indet.,1,Base,NO,12.24,10.9,118.9,Test comment'
+
+    importer = BranchArchitectureImporter.new
+    status = importer.read_row(values, Array.new)
+    expect(status).to eq(Lookup::ImportStatus.inserted)
+
+    b = importer.object
     expect(b).to be_valid
     expect(b.date).to eq(Date.new 2013, 6, 9)
     expect(b.evaluator).to eq('Milenka, Tatiana')
@@ -33,11 +36,14 @@ describe BranchArchitectureImporter do
   end
 
   it 'can read a CSV with a node tip' do
-    values = CSV.parse_line 'San Pedro I,09/06/2013,"Milenka, Tatiana",SPD01-T1159-B1S,Inga indet.,4,3,N,-,-,-,'
-    result = BranchArchitectureImporter.read_row(values, Array.new)
-    expect(result.status).to eq(Lookup::ImportStatus.inserted)
 
-    b = result.ar_class
+    values = CSV.parse_line 'San Pedro I,09/06/2013,"Milenka, Tatiana",SPD01-T1159-B1S,Inga indet.,4,3,N,-,-,-,'
+
+    importer = BranchArchitectureImporter.new
+    status = importer.read_row(values, Array.new)
+    expect(status).to eq(Lookup::ImportStatus.inserted)
+
+    b = importer.object
     expect(b).to be_valid
     expect(b.diam_inf).to be_nil
     expect(b.diam_sup).to be_nil

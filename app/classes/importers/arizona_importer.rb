@@ -1,6 +1,10 @@
 class ArizonaImporter < RowImporter
 
-  def self.read_row(values, logger)
+  def object
+    @az
+  end
+
+  def read_row(values, logger)
     @az = Arizona.new
     @az.date = Date.strptime(values[1], "%d/%m/%Y")
     @az.evaluators = values[2]
@@ -17,16 +21,16 @@ class ArizonaImporter < RowImporter
       status = Lookup::ImportStatus.failed
     end
 
-    return ImportResult.new(@az, status)
+    return status
   end
 
   private
 
-    def self.is_nil_value(value)
+    def is_nil_value(value)
       value.nil? || value.to_f == 0 || value == '-'
     end
 
-    def self.nil_if_zero(value)
+    def nil_if_zero(value)
       return value unless is_nil_value(value)
     end
 

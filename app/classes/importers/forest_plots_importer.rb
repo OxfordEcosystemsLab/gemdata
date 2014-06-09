@@ -1,6 +1,10 @@
 class ForestPlotsImporter < RowImporter
 
-  def self.read_row(values, logger)
+  def object
+    @tree
+  end
+
+  def read_row(values, logger)
 
     @tree = Tree.new
 
@@ -30,11 +34,11 @@ class ForestPlotsImporter < RowImporter
       status = Lookup::ImportStatus.failed
     end
 
-    return ImportResult.new(@tree, status)
+    return status
   end
 
   private
-    def self.strip_dashes(value)
+    def strip_dashes(value)
       value.delete('-')
     end
 

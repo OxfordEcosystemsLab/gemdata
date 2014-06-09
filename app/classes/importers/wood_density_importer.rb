@@ -1,6 +1,10 @@
 class WoodDensityImporter < RowImporter
 
-  def self.read_row(values, logger)
+  def object
+    @wood
+  end
+
+  def read_row(values, logger)
     @wood = WoodDensity.new
     @wood.date = Date.strptime(values[1], "%d/%m/%Y")
     @wood.evaluator = values[2]
@@ -14,7 +18,7 @@ class WoodDensityImporter < RowImporter
       status = Lookup::ImportStatus.failed
     end
 
-    return ImportResult.new(@wood, status)
+    return status
   end
 
 end

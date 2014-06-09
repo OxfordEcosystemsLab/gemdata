@@ -16,10 +16,11 @@ describe ToughnessMeasurementImporter do
   it 'can read csv' do
     values = CSV.parse_line 'Wayqecha,26/04/2013,Yolvi,WAY01-CSP28003-78-S,L12,0.65,6.97,15.5,4.9,'
 
-    result = ToughnessMeasurementImporter.read_row(values, Array.new)
-    expect(result.status).to eq(Lookup::ImportStatus.inserted)
+    importer = ToughnessMeasurementImporter.new
+    status = importer.read_row(values, Array.new)
+    expect(status).to eq(Lookup::ImportStatus.inserted)
 
-    tm = result.ar_class
+    tm = importer.object
     expect(tm).to be_valid
     expect(tm.branch).to eq(@branch)
     expect(tm.date).to eq(Date.new 2013, 04, 26)

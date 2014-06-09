@@ -1,6 +1,10 @@
 class ToughnessMeasurementImporter < RowImporter
 
-  def self.read_row(values, logger)
+  def object
+    @tm
+  end
+
+  def read_row(values, logger)
     @tm = ToughnessMeasurement.new
     @tm.date = Date.strptime(values[1], "%d/%m/%Y")
     @tm.evaluator = values[2]
@@ -17,7 +21,7 @@ class ToughnessMeasurementImporter < RowImporter
       status = Lookup::ImportStatus.failed
     end
 
-    return ImportResult.new(@tm, status)
+    return status
   end
 
 end

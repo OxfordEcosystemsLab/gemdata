@@ -32,7 +32,8 @@ class CSVDataImporter
         # Loop the CSV rows
         CSV.foreach(@csv_file, headers: true) do |row|
           begin
-            status = @ar_class.read_row(row, @logger) || Lookup::ImportStatus.failed
+            importer = @ar_class.new
+            status = importer.read_row(row, @logger) || Lookup::ImportStatus.failed
             status_counts[status] += 1
           rescue => ex
             transaction_has_errors = true
