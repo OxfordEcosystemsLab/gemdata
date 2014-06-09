@@ -2,8 +2,8 @@ require 'csv'
 
 class BaseCsvHandler
 
-  def initialize(ar_class, csv_file, results)
-    @ar_class = ar_class
+  def initialize(importer_class, csv_file, results)
+    @importer_class = importer_class
     @csv_file = csv_file
     @logger = ImportLogger.new(results, time: true)
     @status_counts = Hash.new(0)
@@ -13,10 +13,10 @@ class BaseCsvHandler
   def import!
     t = Thread.new do
 
-      @logger.notice "Table '#{@ar_class.table_name}' initial row count: #{@ar_class.count}"
-      @logger.notice "Importing #{@ar_class.table_human_name}..."
+      @logger.notice "Table '#{@importer_class.table_name}' initial row count: #{@importer_class.count}"
+      @logger.notice "Importing #{@importer_class.table_human_name}..."
 
-      @ar_class.transaction do
+      @importer_class.transaction do
         if !handle_csv
           raise 'transaction_has_errors'
         end
@@ -24,7 +24,7 @@ class BaseCsvHandler
 
       @logger.notice "Import complete."
       @logger.notice generate_summary_message
-      @logger.notice "Table '#{@ar_class.table_name}' new row count: #{@ar_class.count}"
+      @logger.notice "Table '#{@importer_class.table_name}' new row count: #{@importer_class.count}"
       ActiveRecord::Base.connection.close
     end
     at_exit { t.join }
@@ -40,7 +40,7 @@ class BaseCsvHandler
 
       CSV.foreach(@csv_file, headers: true) do |row|
         begin
-          importer = @ar_class.new
+          importer = @importer_class.new
           prepare_importer(importer)
           status = importer.read_row(row, @logger) || Lookup::ImportStatus.failed
           @status_counts[status] += 1
