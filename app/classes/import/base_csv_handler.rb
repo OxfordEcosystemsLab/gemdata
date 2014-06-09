@@ -12,17 +12,8 @@ class BaseCsvHandler
   # Import in another thread
   def import!
     t = Thread.new do
-      import_data
-      ActiveRecord::Base.connection.close
-    end
-    at_exit { t.join }
-  end
 
-  private
-
-    def import_data
       @logger.notice "Table '#{@ar_class.table_name}' initial row count: #{@ar_class.count}"
-
       @logger.notice "Importing #{@ar_class.table_human_name}..."
 
       @ar_class.transaction do
@@ -34,7 +25,12 @@ class BaseCsvHandler
       @logger.notice "Import complete."
       @logger.notice generate_summary_message
       @logger.notice "Table '#{@ar_class.table_name}' new row count: #{@ar_class.count}"
+      ActiveRecord::Base.connection.close
     end
+    at_exit { t.join }
+  end
+
+  private
 
     def handle_csv
 
