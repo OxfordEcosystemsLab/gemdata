@@ -14,7 +14,7 @@ class BaseCsvHandler
     t = Thread.new do
 
       @logger.notice "Table '#{@importer_class.table_name}' initial row count: #{@importer_class.count}"
-      @logger.notice "Importing #{@importer_class.table_human_name}..."
+      @logger.notice "Importing #{@importer_class.table_name}..."
 
       @importer_class.transaction do
         if !handle_csv
