@@ -1,6 +1,6 @@
 require 'csv'
 
-class CSVDataImporter
+class BaseCsvHandler
 
   def initialize(ar_class, csv_file, results)
     @ar_class = ar_class
