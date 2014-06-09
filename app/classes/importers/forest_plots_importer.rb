@@ -1,4 +1,4 @@
-class ForestPlotsImporter < BaseImporter
+class ForestPlotsImporter < RowImporter
 
   def self.read_row(values, logger)
 

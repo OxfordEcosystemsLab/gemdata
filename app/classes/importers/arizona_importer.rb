@@ -1,4 +1,4 @@
-class ArizonaImporter < BaseImporter
+class ArizonaImporter < RowImporter
 
   def self.read_row(values, logger)
     @az = Arizona.new

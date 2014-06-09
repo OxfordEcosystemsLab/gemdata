@@ -1,4 +1,4 @@
-class WoodDensityImporter < BaseImporter
+class WoodDensityImporter < RowImporter
 
   def self.read_row(values, logger)
     @wood = WoodDensity.new

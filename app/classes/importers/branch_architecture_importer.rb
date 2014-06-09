@@ -1,4 +1,4 @@
-class BranchArchitectureImporter < BaseImporter
+class BranchArchitectureImporter < RowImporter
 
   def self.read_row(values, logger)
     @ba = BranchArchitecture.new

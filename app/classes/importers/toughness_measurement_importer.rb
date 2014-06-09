@@ -1,4 +1,4 @@
-class ToughnessMeasurementImporter < BaseImporter
+class ToughnessMeasurementImporter < RowImporter
 
   def self.read_row(values, logger)
     @tm = ToughnessMeasurement.new

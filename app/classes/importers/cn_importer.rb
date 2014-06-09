@@ -1,4 +1,4 @@
-class CnImporter < BaseImporter
+class CnImporter < RowImporter
 
   attr_writer :cn_curve
 

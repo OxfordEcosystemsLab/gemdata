@@ -1,4 +1,4 @@
-class BaseImporter
+class RowImporter
 
   def self.table_name
     @ar_class.to_s.tableize
