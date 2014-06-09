@@ -15,5 +15,15 @@ class BaseImporter
   def self.table_human_name
     self.table_name
   end
+
+  # expect these to be overwritten
+  def object
+    raise NoMethodError
+  end
+
+  def read_row
+    raise NoMethodError
+  end
+
 end
 
