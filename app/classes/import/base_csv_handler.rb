@@ -40,9 +40,12 @@ class BaseCsvHandler
 
       transaction_is_ok = true
 
+      prepare_pre_import
+
       CSV.foreach(@csv_file, headers: true) do |row|
         begin
           importer = @ar_class.new
+          prepare_importer(importer)
           status = importer.read_row(row, @logger) || Lookup::ImportStatus.failed
           @status_counts[status] += 1
         rescue => ex
@@ -65,6 +68,13 @@ class BaseCsvHandler
       result << "#{@status_counts['skipped']} skipped"
       result << "#{@status_counts['failed']} failed"
       result.join(", ")
+    end
+
+    # The following two methods are hooks to be overriden in child classes
+    def prepare_pre_import
+    end
+
+    def prepare_importer(importer)
     end
 
 end
