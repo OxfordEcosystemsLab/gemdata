@@ -31,6 +31,8 @@ class CnCsvHandler < BaseCsvHandler
       importer.cn_curve = @cn_curve
     end
 
+    def skip_row?(n, values)
+      false if Float(values[0]) rescue true
     end
 
 end

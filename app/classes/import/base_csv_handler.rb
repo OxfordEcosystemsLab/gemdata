@@ -39,6 +39,11 @@ class BaseCsvHandler
       prepare_pre_import
 
       CSV.foreach(@csv_file, headers: true) do |row|
+
+        if skip_row?($., row)
+          next
+        end
+
         begin
           importer = @importer_class.new
           prepare_importer(importer)
@@ -66,11 +71,15 @@ class BaseCsvHandler
       result.join(", ")
     end
 
-    # The following two methods are hooks to be overriden in child classes
+    # The following methods are hooks to be overriden in child classes
     def prepare_pre_import
     end
 
     def prepare_importer(importer)
+    end
+
+    def skip_row?(n, values)
+      false
     end
 
 end
