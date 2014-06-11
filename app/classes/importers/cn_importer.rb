@@ -2,6 +2,10 @@ class CnImporter < RowImporter
 
   attr_writer :cn_curve
 
+  def self.handler_class
+    CnCsvHandler
+  end
+
   def object
     @cn
   end

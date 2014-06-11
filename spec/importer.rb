@@ -3,6 +3,7 @@ shared_examples_for "Importer" do
     expect(described_class).to respond_to :count
     expect(described_class).to respond_to :table_name
     expect(described_class).to respond_to :transaction
+    expect(described_class).to respond_to :handler_class
   end
 
   it {should respond_to(:object)}

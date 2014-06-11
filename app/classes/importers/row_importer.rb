@@ -14,6 +14,10 @@ class RowImporter
 
   # expect these to be overwritten
 
+  def self.handler_class
+    BaseCsvHandler
+  end
+
   def object
     raise NoMethodError
   end

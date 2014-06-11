@@ -19,10 +19,13 @@ class CsvUploadsController < ApplicationController
   end
 
   def traits
-    @import_classes = [
+    @importer_classes = [
       ArizonaImporter,
+      BranchArchitectureImporter,
+      ForestPlotsImporter,
+      CnImporter,
+      ToughnessMeasurementImporter,
       WoodDensityImporter,
-      ForestPlotsImporter
     ]
   end
 
@@ -31,8 +34,8 @@ class CsvUploadsController < ApplicationController
       if valid_mime_type?(params[:file].content_type)
         import_id = SecureRandom.hex
         import_log = ImportLog.new(import_id)
-        ar_class = params[:csv_class].constantize
-        csv_importer = CSVDataImporter.new(ar_class, params[:file].tempfile, import_log)
+        importer_class = params[:csv_class].constantize
+        csv_importer = importer_class.handler_class.new(importer_class, params[:file].tempfile, import_log)
         csv_importer.import! # In background
         redirect_to csv_upload_path(id: import_id)
       else
