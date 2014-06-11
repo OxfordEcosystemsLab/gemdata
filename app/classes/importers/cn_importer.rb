@@ -28,4 +28,10 @@ class CnImporter < RowImporter
     return status
   end
 
+  private
+
+    def self.ar_class
+      CnMeasurement
+    end
+
 end

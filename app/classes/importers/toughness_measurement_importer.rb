@@ -24,4 +24,10 @@ class ToughnessMeasurementImporter < RowImporter
     return status
   end
 
+  private
+
+    def self.ar_class
+      ToughnessMeasurement
+    end
+
 end

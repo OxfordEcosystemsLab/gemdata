@@ -38,8 +38,13 @@ class ForestPlotsImporter < RowImporter
   end
 
   private
+
     def strip_dashes(value)
       value.delete('-')
+    end
+
+    def self.ar_class
+      Tree
     end
 
 end

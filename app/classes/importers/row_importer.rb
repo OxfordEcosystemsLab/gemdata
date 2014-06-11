@@ -1,18 +1,19 @@
 class RowImporter
 
   def self.table_name
-    @ar_class.to_s.tableize
+    ar_class.to_s.tableize
   end
 
   def self.count
-    @ar_class.count
+    ar_class.count
   end
 
   def self.transaction(&block)
-    @ar_class.transaction(&block)
+    ar_class.transaction(&block)
   end
 
   # expect these to be overwritten
+
   def object
     raise NoMethodError
   end
@@ -20,6 +21,12 @@ class RowImporter
   def read_row
     raise NoMethodError
   end
+
+  private
+
+    def self.ar_class
+      raise NoMethodError
+    end
 
 end
 

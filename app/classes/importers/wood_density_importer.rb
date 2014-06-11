@@ -21,4 +21,10 @@ class WoodDensityImporter < RowImporter
     return status
   end
 
+  private
+
+    def self.ar_class
+      WoodDensity
+    end
+
 end

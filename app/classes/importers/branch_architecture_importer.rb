@@ -27,6 +27,7 @@ class BranchArchitectureImporter < RowImporter
   end
 
   private
+
     def zero_if_base(value)
       value == 'Base' ? 0 : value
     end
@@ -38,4 +39,9 @@ class BranchArchitectureImporter < RowImporter
     def nil_if_zero(value)
       return value unless is_nil_value(value)
     end
+
+    def self.ar_class
+      BranchArchitecture
+    end
+
 end
