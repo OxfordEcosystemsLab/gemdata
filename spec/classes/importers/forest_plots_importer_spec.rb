@@ -73,6 +73,9 @@ describe ForestPlotsImporter do
   it 'creates selects an existing census' do
 
     plot = Plot.create!(:plot_code => 'TAM04', :fp_id => 90)
+    sub_plot = SubPlot.create!(:plot_id => plot.id)
+    fp_species = FpSpecies.new
+    tree = Tree.create!(:tree_code => 'T2', :sub_plot => sub_plot, :fp_species => fp_species, :fp_id => 54832)
     census = Census.create!(number: 1, mean_date: '1983.67', plot: plot)
 
     importer = ForestPlotsImporter.new
@@ -80,5 +83,7 @@ describe ForestPlotsImporter do
     expect(importer.object.censuses).to include(census)
 
   end
+
+  it 'should trim imports damn it!'
 
 end
