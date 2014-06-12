@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>C enr 1:</strong>
+  <%= @cn_curve.c_enr_1 %>
+</p>
+
+<p>
+  <strong>N enr 1:</strong>
+  <%= @cn_curve.n_enr_1 %>
+</p>
+
+<p>
+  <strong>C percent 1:</strong>
+  <%= @cn_curve.c_percent_1 %>
+</p>
+
+<p>
+  <strong>N percent 1:</strong>
+  <%= @cn_curve.n_percent_1 %>
+</p>
+
+<p>
+  <strong>Cn ratio 1:</strong>
+  <%= @cn_curve.cn_ratio_1 %>
+</p>
+
+<p>
+  <pre>
+    <%= @cn_curve.inspect %>
+  </pre>
+</p>
+
+<%= link_to 'Edit', edit_cn_curve_path(@cn_curve) %> |
+<%= link_to 'Back', cn_curves_path %>

@@ -19,6 +19,18 @@
       <%= submit_tag "Import", class: "button radius" %>
     </div>  
 
+    <h4>Tables as they currently exist in the database</h4>
+    <ul>
+      <li><%= link_to "Plots", plots_path %></li>
+      <li><%= link_to "Trees", trees_path %></li>
+      <li><%= link_to "DBH Measurements", dbh_measurements_path %></li>
+      <li><%= link_to "Branches", branches_path %></li>
+      <li><%= link_to "Leaves", leaves_path %></li>
+      <li><%= link_to "Branch architectures", branch_architectures_path %></li>
+      <li><%= link_to "CN Curves", cn_curves_path %></li>
+      <li><%= link_to "CN Measurements", cn_measurements_path %></li>
+    </ul>
+
   </div>
 </div>
 <% end %>

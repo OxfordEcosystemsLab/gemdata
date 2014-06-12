@@ -1,0 +1,29 @@
+<h1>Listing dbh_measurements</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Tree</th>
+      <th>Value</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @dbh_measurements.each do |dbh_measurement| %>
+      <tr>
+        <td><%= link_to "Tree #{dbh_measurement.tree.tree_code}", tree_path(dbh_measurement.tree.id)%></td>
+        <td><%= dbh_measurement.value %></td>
+        <td><%= link_to 'Show', dbh_measurement %></td>
+        <td><%= link_to 'Edit', edit_dbh_measurement_path(dbh_measurement) %></td>
+        <td><%= link_to 'Destroy', dbh_measurement, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Dbh measurement', new_dbh_measurement_path %>

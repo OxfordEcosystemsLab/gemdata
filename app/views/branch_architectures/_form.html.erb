@@ -1,0 +1,57 @@
+<%= form_for(@branch_architecture) do |f| %>
+  <% if @branch_architecture.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@branch_architecture.errors.count, "error") %> prohibited this branch_architecture from being saved:</h2>
+
+      <ul>
+      <% @branch_architecture.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :branch_id %><br>
+    <%= f.number_field :branch_id %>
+  </div>
+  <div class="field">
+    <%= f.label :date %><br>
+    <%= f.datetime_select :date %>
+  </div>
+  <div class="field">
+    <%= f.label :evaluator %><br>
+    <%= f.text_field :evaluator %>
+  </div>
+  <div class="field">
+    <%= f.label :section %><br>
+    <%= f.number_field :section %>
+  </div>
+  <div class="field">
+    <%= f.label :parent %><br>
+    <%= f.number_field :parent %>
+  </div>
+  <div class="field">
+    <%= f.label :tip %><br>
+    <%= f.text_field :tip %>
+  </div>
+  <div class="field">
+    <%= f.label :diam_inf %><br>
+    <%= f.text_field :diam_inf %>
+  </div>
+  <div class="field">
+    <%= f.label :diam_sup %><br>
+    <%= f.text_field :diam_sup %>
+  </div>
+  <div class="field">
+    <%= f.label :longitude %><br>
+    <%= f.text_field :longitude %>
+  </div>
+  <div class="field">
+    <%= f.label :comments %><br>
+    <%= f.text_field :comments %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

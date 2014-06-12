@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Tree:</strong>
+  <%= @dbh_measurement.tree %>
+</p>
+
+<p>
+  <strong>Value:</strong>
+  <%= @dbh_measurement.value %>
+</p>
+
+<%= link_to 'Edit', edit_dbh_measurement_path(@dbh_measurement) %> |
+<%= link_to 'Back', dbh_measurements_path %>

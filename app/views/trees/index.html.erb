@@ -1,0 +1,31 @@
+<h1>Listing trees</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Tree code</th>
+      <th>Fp</th>
+      <th>Fp species</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @trees.each do |tree| %>
+      <tr>
+        <td><%= tree.tree_code %></td>
+        <td><%= tree.fp_id %></td>
+        <td><%= tree.fp_species_id %></td>
+        <td><%= link_to 'Show', tree %></td>
+        <td><%= link_to 'Edit', edit_tree_path(tree) %></td>
+        <td><%= link_to 'Destroy', tree, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Tree', new_tree_path %>

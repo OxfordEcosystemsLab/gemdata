@@ -1,0 +1,45 @@
+<h1>Listing cn_measurements</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Leaf</th>
+      <th>Cn curve</th>
+      <th>Row</th>
+      <th>Column</th>
+      <th>C percent</th>
+      <th>N percent</th>
+      <th>Cn ratio</th>
+      <th>N15 delta</th>
+      <th>C13 delta</th>
+      <th>Tree DBH measurements</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @cn_measurements.each do |cn_measurement| %>
+      <tr>
+        <td><%= cn_measurement.leaf_id %></td>
+        <td><%= link_to cn_measurement.cn_curve_id, cn_curve_path(cn_measurement.cn_curve) %></td>
+        <td><%= cn_measurement.row %></td>
+        <td><%= cn_measurement.column %></td>
+        <td><%= cn_measurement.c_percent %></td>
+        <td><%= cn_measurement.n_percent %></td>
+        <td><%= cn_measurement.cn_ratio %></td>
+        <td><%= cn_measurement.n15_delta %></td>
+        <td><%= cn_measurement.c13_delta %></td>
+        <td><%= cn_measurement.leaf.branch.tree.dbh_measurements.map{|d| d.value}.join(', ') %></td>
+        <td><%= link_to 'Show', cn_measurement %></td>
+        <td><%= link_to 'Edit', edit_cn_measurement_path(cn_measurement) %></td>
+        <td><%= link_to 'Destroy', cn_measurement, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Cn measurement', new_cn_measurement_path %>

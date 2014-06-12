@@ -1,0 +1,45 @@
+<h1>Listing branch_architectures</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Branch</th>
+      <th>Date</th>
+      <th>Evaluator</th>
+      <th>Section</th>
+      <th>Parent</th>
+      <th>Tip</th>
+      <th>Diam inf</th>
+      <th>Diam sup</th>
+      <th>Longitude</th>
+      <th>Comments</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @branch_architectures.each do |branch_architecture| %>
+      <tr>
+        <td><%= branch_architecture.branch_id %></td>
+        <td><%= branch_architecture.date %></td>
+        <td><%= branch_architecture.evaluator %></td>
+        <td><%= branch_architecture.section %></td>
+        <td><%= branch_architecture.parent %></td>
+        <td><%= branch_architecture.tip %></td>
+        <td><%= branch_architecture.diam_inf %></td>
+        <td><%= branch_architecture.diam_sup %></td>
+        <td><%= branch_architecture.longitude %></td>
+        <td><%= branch_architecture.comments %></td>
+        <td><%= link_to 'Show', branch_architecture %></td>
+        <td><%= link_to 'Edit', edit_branch_architecture_path(branch_architecture) %></td>
+        <td><%= link_to 'Destroy', branch_architecture, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Branch architecture', new_branch_architecture_path %>

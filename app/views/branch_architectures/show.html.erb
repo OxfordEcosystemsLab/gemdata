@@ -1,0 +1,54 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Branch:</strong>
+  <%= @branch_architecture.branch_id %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @branch_architecture.date %>
+</p>
+
+<p>
+  <strong>Evaluator:</strong>
+  <%= @branch_architecture.evaluator %>
+</p>
+
+<p>
+  <strong>Section:</strong>
+  <%= @branch_architecture.section %>
+</p>
+
+<p>
+  <strong>Parent:</strong>
+  <%= @branch_architecture.parent %>
+</p>
+
+<p>
+  <strong>Tip:</strong>
+  <%= @branch_architecture.tip %>
+</p>
+
+<p>
+  <strong>Diam inf:</strong>
+  <%= @branch_architecture.diam_inf %>
+</p>
+
+<p>
+  <strong>Diam sup:</strong>
+  <%= @branch_architecture.diam_sup %>
+</p>
+
+<p>
+  <strong>Longitude:</strong>
+  <%= @branch_architecture.longitude %>
+</p>
+
+<p>
+  <strong>Comments:</strong>
+  <%= @branch_architecture.comments %>
+</p>
+
+<%= link_to 'Edit', edit_branch_architecture_path(@branch_architecture) %> |
+<%= link_to 'Back', branch_architectures_path %>

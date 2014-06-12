@@ -1,0 +1,35 @@
+<h1>Listing cn_curves</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>C enr 1</th>
+      <th>N enr 1</th>
+      <th>C percent 1</th>
+      <th>N percent 1</th>
+      <th>Cn ratio 1</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @cn_curves.each do |cn_curve| %>
+      <tr>
+        <td><%= cn_curve.c_enr_1 %></td>
+        <td><%= cn_curve.n_enr_1 %></td>
+        <td><%= cn_curve.c_percent_1 %></td>
+        <td><%= cn_curve.n_percent_1 %></td>
+        <td><%= cn_curve.cn_ratio_1 %></td>
+        <td><%= link_to 'Show', cn_curve %></td>
+        <td><%= link_to 'Edit', edit_cn_curve_path(cn_curve) %></td>
+        <td><%= link_to 'Destroy', cn_curve, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Cn curve', new_cn_curve_path %>

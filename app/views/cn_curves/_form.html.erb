@@ -1,0 +1,37 @@
+<%= form_for(@cn_curve) do |f| %>
+  <% if @cn_curve.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@cn_curve.errors.count, "error") %> prohibited this cn_curve from being saved:</h2>
+
+      <ul>
+      <% @cn_curve.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :c_enr_1 %><br>
+    <%= f.text_field :c_enr_1 %>
+  </div>
+  <div class="field">
+    <%= f.label :n_enr_1 %><br>
+    <%= f.text_field :n_enr_1 %>
+  </div>
+  <div class="field">
+    <%= f.label :c_percent_1 %><br>
+    <%= f.text_field :c_percent_1 %>
+  </div>
+  <div class="field">
+    <%= f.label :n_percent_1 %><br>
+    <%= f.text_field :n_percent_1 %>
+  </div>
+  <div class="field">
+    <%= f.label :cn_ratio_1 %><br>
+    <%= f.text_field :cn_ratio_1 %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

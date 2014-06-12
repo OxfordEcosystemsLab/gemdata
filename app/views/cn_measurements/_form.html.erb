@@ -1,0 +1,53 @@
+<%= form_for(@cn_measurement) do |f| %>
+  <% if @cn_measurement.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@cn_measurement.errors.count, "error") %> prohibited this cn_measurement from being saved:</h2>
+
+      <ul>
+      <% @cn_measurement.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :leaf_id %><br>
+    <%= f.number_field :leaf_id %>
+  </div>
+  <div class="field">
+    <%= f.label :cn_curve_id %><br>
+    <%= f.number_field :cn_curve_id %>
+  </div>
+  <div class="field">
+    <%= f.label :row %><br>
+    <%= f.text_field :row %>
+  </div>
+  <div class="field">
+    <%= f.label :column %><br>
+    <%= f.number_field :column %>
+  </div>
+  <div class="field">
+    <%= f.label :c_percent %><br>
+    <%= f.text_field :c_percent %>
+  </div>
+  <div class="field">
+    <%= f.label :n_percent %><br>
+    <%= f.text_field :n_percent %>
+  </div>
+  <div class="field">
+    <%= f.label :cn_ration %><br>
+    <%= f.text_field :cn_ration %>
+  </div>
+  <div class="field">
+    <%= f.label :n15_delta %><br>
+    <%= f.text_field :n15_delta %>
+  </div>
+  <div class="field">
+    <%= f.label :c13_delta %><br>
+    <%= f.text_field :c13_delta %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

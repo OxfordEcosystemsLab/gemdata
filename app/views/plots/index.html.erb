@@ -1,0 +1,29 @@
+<h1>Listing plots</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Plot code</th>
+      <th>Fp</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @plots.each do |plot| %>
+      <tr>
+        <td><%= plot.plot_code %></td>
+        <td><%= plot.fp_id %></td>
+        <td><%= link_to 'Show', plot %></td>
+        <td><%= link_to 'Edit', edit_plot_path(plot) %></td>
+        <td><%= link_to 'Destroy', plot, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Plot', new_plot_path %>

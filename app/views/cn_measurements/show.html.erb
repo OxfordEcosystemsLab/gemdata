@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Leaf:</strong>
+  <%= @cn_measurement.leaf_id %>
+</p>
+
+<p>
+  <strong>Cn curve:</strong>
+  <%= @cn_measurement.cn_curve_id %>
+</p>
+
+<p>
+  <strong>Row:</strong>
+  <%= @cn_measurement.row %>
+</p>
+
+<p>
+  <strong>Column:</strong>
+  <%= @cn_measurement.column %>
+</p>
+
+<p>
+  <strong>C percent:</strong>
+  <%= @cn_measurement.c_percent %>
+</p>
+
+<p>
+  <strong>N percent:</strong>
+  <%= @cn_measurement.n_percent %>
+</p>
+
+<p>
+  <strong>Cn ratio:</strong>
+  <%= @cn_measurement.cn_ratio %>
+</p>
+
+<p>
+  <strong>N15 delta:</strong>
+  <%= @cn_measurement.n15_delta %>
+</p>
+
+<p>
+  <strong>C13 delta:</strong>
+  <%= @cn_measurement.c13_delta %>
+</p>
+
+<%= link_to 'Edit', edit_cn_measurement_path(@cn_measurement) %> |
+<%= link_to 'Back', cn_measurements_path %>

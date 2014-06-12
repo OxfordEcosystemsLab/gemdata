@@ -1,0 +1,29 @@
+<h1>Listing leaves</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Branch</th>
+      <th>Code</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @leaves.each do |leaf| %>
+      <tr>
+        <td><%= leaf.branch_id %></td>
+        <td><%= leaf.code %></td>
+        <td><%= link_to 'Show', leaf %></td>
+        <td><%= link_to 'Edit', edit_leaf_path(leaf) %></td>
+        <td><%= link_to 'Destroy', leaf, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Leaf', new_leaf_path %>

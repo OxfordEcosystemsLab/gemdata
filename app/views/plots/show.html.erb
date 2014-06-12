@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Plot code:</strong>
+  <%= @plot.plot_code %>
+</p>
+
+<p>
+  <strong>Fp:</strong>
+  <%= @plot.fp_id %>
+</p>
+
+<%= link_to 'Edit', edit_plot_path(@plot) %> |
+<%= link_to 'Back', plots_path %>

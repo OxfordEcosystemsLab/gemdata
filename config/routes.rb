@@ -8,8 +8,17 @@ Gemdata::Application.routes.draw do
     end
   end
 
+  resources :plots
+  resources :trees
+  resources :dbh_measurements
+  resources :branches
+  resources :leaves
+  resources :branch_architectures
+  resources :cn_curves
+  resources :cn_measurements
+
   # root 'pages#show'
-  root 'csv_uploads#new'
+  root 'csv_uploads#traits'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

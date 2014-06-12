@@ -1,0 +1,25 @@
+<%= form_for(@plot) do |f| %>
+  <% if @plot.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@plot.errors.count, "error") %> prohibited this plot from being saved:</h2>
+
+      <ul>
+      <% @plot.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :plot_code %><br>
+    <%= f.text_field :plot_code %>
+  </div>
+  <div class="field">
+    <%= f.label :fp_id %><br>
+    <%= f.number_field :fp_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
