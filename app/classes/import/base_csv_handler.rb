@@ -18,6 +18,7 @@ class BaseCsvHandler
 
       @importer_class.transaction do
         if !handle_csv
+          @logger.error "Processing did not go smoothly, changes are being rolled back."
           raise 'transaction_has_errors'
         end
       end
@@ -40,7 +41,9 @@ class BaseCsvHandler
 
       CSV.foreach(@csv_file, headers: true) do |row|
 
-        if skip_row?($., row)
+        row_number = $.
+
+        if skip_row?(row_number, row)
           next
         end
 
@@ -51,7 +54,8 @@ class BaseCsvHandler
           @status_counts[status] += 1
         rescue => ex
           transaction_is_ok = false
-          @logger.error "Import aborted processing line #{$.}! - #{ex.message}"
+          @status_counts[Lookup::ImportStatus.failed] += 1
+          @logger.error "Import aborted processing line #{row_number} - #{ex.message}"
         end
       end
 

@@ -16,8 +16,19 @@ class CodeReader
   end
 
   def find_or_create_branch
-    plot = Plot.where(:plot_code => plot_code).first!
-    tree = Tree.where(:tree_code => tree_code).includes(:sub_plot).where('sub_plots.plot_id' => plot.id).first!
+
+    plot = Plot.where(:plot_code => plot_code).first
+
+    if plot.nil?
+      raise "Plot with code '#{plot_code}' does not exist"
+    end
+
+    tree = Tree.where(:tree_code => tree_code).includes(:sub_plot).where('sub_plots.plot_id' => plot.id).first
+
+    if tree.nil?
+      raise "Tree with code '#{tree_code}' does not exist in plot #{plot_code}"
+    end
+
     Branch.where(:code => branch_code, :tree_id => tree.id).first_or_create!
   end
 end
