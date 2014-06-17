@@ -14,3 +14,13 @@
 # ActiveSupport::Inflector.inflections(:en) do |inflect|
 #   inflect.acronym 'RESTful'
 # end
+
+# require 'latin'
+ActiveSupport::Inflector.inflections do |inflect|
+  inflect.irregular 'genus', 'genera'
+  inflect.irregular 'leaf', 'leaves'
+  inflect.irregular 'species', 'species'
+  inflect.irregular 'curve', 'curves'
+  inflect.irregular 'census', 'censuses'
+end
+
