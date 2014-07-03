@@ -4,6 +4,10 @@ class RowImporter
     ar_class.to_s.tableize
   end
 
+  def self.table_human_name
+    ar_class.to_s.underscore.gsub('_',' ').capitalize
+  end
+
   def self.count
     ar_class.count
   end

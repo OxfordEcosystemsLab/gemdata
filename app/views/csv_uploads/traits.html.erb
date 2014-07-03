@@ -6,7 +6,7 @@
 <div class="row">
   <div class="small-10 medium-6 columns">
 
-    <%= select_tag "csv_class", options_from_collection_for_select(@importer_classes, "to_s", "table_name") %>
+    <%= select_tag "csv_class", options_from_collection_for_select(@importer_classes, "to_s", "table_human_name") %>
 
     <%= file_field_tag :file %>
     <% if notice %>
