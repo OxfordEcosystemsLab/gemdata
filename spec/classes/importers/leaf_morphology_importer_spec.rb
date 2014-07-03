@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'csv'
 require 'importer'
 
-describe ArizonaImporter do
+describe LeafMorphologyImporter do
   it_behaves_like 'Importer'
 
   before :each do
@@ -17,7 +17,7 @@ describe ArizonaImporter do
   it 'can read CSV with leaf code L' do
     values = CSV.parse_line 'Wayqecha,26/04/2013,Naia-Colby,Clusia alata,WAY01-CSP28001-32-SUN-L1L,4.41,1.07,0.820,-,comments'
 
-    importer = ArizonaImporter.new
+    importer = LeafMorphologyImporter.new
     importer.read_row(values, Array.new)
     status = importer.read_row(values, Array.new)
     expect(status).to eq(Lookup::ImportStatus.inserted)
@@ -38,7 +38,7 @@ describe ArizonaImporter do
   it 'can read CSV with leaf code P' do
     values = CSV.parse_line 'Wayqecha,26/04/2013,Naia-Colby,Hesperomeles ferruginea,WAY01-CSP28001-32-SUN-L1P,0.07,0.02,-,2.07,'
 
-    importer = ArizonaImporter.new
+    importer = LeafMorphologyImporter.new
     status = importer.read_row(values, Array.new)
     expect(status).to eq(Lookup::ImportStatus.inserted)
 
@@ -51,7 +51,7 @@ describe ArizonaImporter do
   it 'also behaves nicely for leaf code T' do
     values = CSV.parse_line 'Wayqecha,26/04/2013,Naia-Colby,Hesperomeles ferruginea,WAY01-CSP28001-32-SUN-L1T,0.07,0.02,-,2.07,'
 
-    importer = ArizonaImporter.new
+    importer = LeafMorphologyImporter.new
     status = importer.read_row(values, Array.new)
     expect(status).to eq(Lookup::ImportStatus.inserted)
     expect(importer.object).to be_valid
@@ -61,7 +61,7 @@ describe ArizonaImporter do
   it 'interprets 0.00, 0 and - as nil' do
     values = CSV.parse_line 'Wayqecha,26/04/2013,Naia-Colby,Hesperomeles ferruginea,WAY01-CSP28001-32-SUN-L1T,0,0.00,-,,'
 
-    importer = ArizonaImporter.new
+    importer = LeafMorphologyImporter.new
     status = importer.read_row(values, Array.new)
     expect(status).to eq(Lookup::ImportStatus.failed)
 

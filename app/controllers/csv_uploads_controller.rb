@@ -20,7 +20,7 @@ class CsvUploadsController < ApplicationController
 
   def traits
     @importer_classes = [
-      ArizonaImporter,
+      LeafMorphologyImporter,
       BranchArchitectureImporter,
       ForestPlotsImporter,
       CnImporter,

@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe Arizona do
+describe LeafMorphology do
 
   before :each do
-    @az = Arizona.new
+    @az = LeafMorphology.new
     @az.leaf = Leaf.create(:code => 'L1L')
     @az.date = Date.new(2014,4,5)
     @az.evaluators = 'Me-Myself-Irene'
@@ -13,7 +13,7 @@ describe Arizona do
   end
 
   it 'is not valid on its own' do
-    expect(Arizona.new).to_not be_valid
+    expect(LeafMorphology.new).to_not be_valid
   end
 
   it 'can be valid' do

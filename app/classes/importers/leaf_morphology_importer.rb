@@ -1,11 +1,11 @@
-class ArizonaImporter < RowImporter
+class LeafMorphologyImporter < RowImporter
 
   def object
     @az
   end
 
   def read_row(values, logger)
-    @az = Arizona.new
+    @az = LeafMorphology.new
     @az.date = Date.strptime(values[1], "%d/%m/%Y")
     @az.evaluators = values[2]
     @az.code = values[4]
@@ -35,7 +35,7 @@ class ArizonaImporter < RowImporter
     end
 
     def self.ar_class
-      Arizona
+      LeafMorphology
     end
 
 end

@@ -11,22 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140608194537) do
-
-  create_table "arizonas", force: true do |t|
-    t.integer  "leaf_id"
-    t.datetime "date"
-    t.string   "evaluators"
-    t.float    "fresh_mass"
-    t.float    "dry_mass"
-    t.float    "thickness"
-    t.float    "petiole_width"
-    t.string   "comments"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "arizonas", ["leaf_id"], name: "index_arizonas_on_leaf_id", using: :btree
+ActiveRecord::Schema.define(version: 20140703192408) do
 
   create_table "branch_architectures", force: true do |t|
     t.integer  "branch_id"
@@ -486,6 +471,21 @@ ActiveRecord::Schema.define(version: 20140608194537) do
   end
 
   add_index "leaf_area_index_values", ["plot_id"], name: "index_leaf_area_index_values_on_plot_id", using: :btree
+
+  create_table "leaf_morphologies", force: true do |t|
+    t.integer  "leaf_id"
+    t.datetime "date"
+    t.string   "evaluators"
+    t.float    "fresh_mass"
+    t.float    "dry_mass"
+    t.float    "thickness"
+    t.float    "petiole_width"
+    t.string   "comments"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "leaf_morphologies", ["leaf_id"], name: "index_leaf_morphologies_on_leaf_id", using: :btree
 
   create_table "leaf_respiration_imports", force: true do |t|
     t.string   "plot_code",    null: false
@@ -1830,8 +1830,6 @@ ActiveRecord::Schema.define(version: 20140608194537) do
 
   add_index "wood_densities", ["branch_id"], name: "index_wood_densities_on_branch_id", using: :btree
 
-  add_foreign_key "arizonas", "leaves", name: "arizonas_leaf_id_fk"
-
   add_foreign_key "branch_architectures", "branches", name: "branch_architectures_branch_id_fk"
 
   add_foreign_key "branch_light_measurements", "branch_light_placements", name: "branch_light_measurements_branch_light_placement_id_fk"
@@ -1870,6 +1868,8 @@ ActiveRecord::Schema.define(version: 20140608194537) do
   add_foreign_key "ingrowth_cores", "plots", name: "ingrowth_cores_plot_id_fk"
 
   add_foreign_key "leaf_area_index_values", "plots", name: "leaf_area_index_values_plot_id_fk"
+
+  add_foreign_key "leaf_morphologies", "leaves", name: "leaf_morphologies_leaf_id_fk"
 
   add_foreign_key "leaf_respiration_values", "trees", name: "leaf_respiration_values_tree_id_fk"
 

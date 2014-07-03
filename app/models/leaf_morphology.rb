@@ -1,4 +1,4 @@
-class Arizona < ActiveRecord::Base
+class LeafMorphology < ActiveRecord::Base
   belongs_to :leaf
 
   validates :leaf,       presence: true
