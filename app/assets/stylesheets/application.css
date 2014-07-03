@@ -10,6 +10,7 @@
  *
  *= require normalize-css/normalize
  *= require main
+ *= require pages
  *
  * NOT= require_self
  * NOT= require_tree .

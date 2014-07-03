@@ -1,0 +1,12 @@
+.home {
+  text-align: center;
+  margin: 6em;
+}
+
+.home h1 {
+  margin: 1em;
+}
+
+.home .button {
+  margin: 1em;
+}

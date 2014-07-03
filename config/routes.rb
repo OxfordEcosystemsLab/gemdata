@@ -17,8 +17,8 @@ Gemdata::Application.routes.draw do
   resources :cn_curves
   resources :cn_measurements
 
-  # root 'pages#show'
-  root 'csv_uploads#traits'
+  root 'pages#show'
+  # root 'csv_uploads#traits'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
