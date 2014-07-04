@@ -4,6 +4,10 @@ class ForestPlotsImporter < RowImporter
     @tree
   end
 
+  def self.table_human_name
+    "Forest plots"
+  end
+
   def read_row(values, logger)
 
     plot_code = strip_dashes(values[1])
@@ -38,7 +42,7 @@ class ForestPlotsImporter < RowImporter
   private
 
     def strip_dashes(value)
-      value.delete('-')
+      value.delete('-') unless value.nil?
     end
 
     def self.ar_class
