@@ -2,16 +2,20 @@
 
   <h2>GEM Data: Import CSV</h2>
 
-  <p><%= link_to "Import again...", '/' %></p>
-
   <p><%= link_to "Refresh page", nil %> to view results.</p>
 
   <%= text_area_tag 'results', @results.join("\n").html_safe,
         class: "results",
         data: { field: "upload_results" } %>
 
+  <p>
   <%= link_to "Jump to bottom", "#",
         class: "smaller",
         data: { hook: "jump_bottom" } %>
+  </p>
 
+  <p>
+    <a class="button" href="traits">Import traits</a>
+    <a class="button" href="new">Import GEM</a>
+  </p>
 </div>
