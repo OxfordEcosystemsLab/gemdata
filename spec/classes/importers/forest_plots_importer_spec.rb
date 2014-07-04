@@ -51,10 +51,12 @@ describe ForestPlotsImporter do
   it 'selects existing plots and subplots' do
 
     plot = Plot.create!(:plot_code => 'TAM04', :fp_id => 90)
+    subplot = SubPlot.create!(:plot => plot)
 
     importer = ForestPlotsImporter.new
     importer.read_row(@values, Array.new)
     expect(importer.object.sub_plot.plot).to eq(plot)
+    expect(importer.object.sub_plot).to eq(subplot)
 
   end
 
@@ -82,6 +84,19 @@ describe ForestPlotsImporter do
     importer.read_row(@values, Array.new)
     expect(importer.object.censuses).to include(census)
 
+  end
+
+  it 'should not incorrectly flag duplicates' do
+
+    first_importer = ForestPlotsImporter.new
+    first_status   = first_importer.read_row(@values, Array.new)
+
+    second_values   = CSV.parse_line '90,TAM-04,Tambopata plot two swamp edge clay,PERU,Oliver Phillips,1990.755,3,90,Main Plot View,,54832,377,Sapotaceae,24801,Pouteria,653110,Pouteria indet,,,2,121,121,121,121,1300,a,1,5,0,,,'
+    second_importer = ForestPlotsImporter.new
+    second_status   = second_importer.read_row(second_values, Array.new)
+    expect(second_status).to eq(Lookup::ImportStatus.inserted)
+    expect(second_importer.object).to be_valid
+    expect(second_importer.object).to eq(first_importer.object)
   end
 
   it 'should trim imports damn it!'
