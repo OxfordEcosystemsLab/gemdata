@@ -1,4 +1,5 @@
 require "spec_helper"
+require 'exceptions'
 
 describe CodeReader do
 
@@ -31,7 +32,7 @@ describe CodeReader do
 
   it 'raises exceptions when records are not available' do
     reader = CodeReader.new "WAY01-T1031-B1S"
-    expect{reader.find_or_create_branch}.to raise_error(ActiveRecord::RecordNotFound)
+    expect{reader.find_or_create_branch}.to raise_error(Gemdata::PlotNotFound)
     create_test_tree('WAY01', 'T1031')
     expect{reader.find_or_create_branch}.to_not raise_error
   end

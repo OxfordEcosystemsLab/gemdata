@@ -23,7 +23,6 @@ class ImportLogger
     def put_message(text)
       text = "[#{timestamp}] #{text}" if @options[:time]
       @log << text
-      puts(text)
     end
 
     def timestamp

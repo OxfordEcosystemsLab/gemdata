@@ -1,3 +1,5 @@
+require 'exceptions'
+
 class CodeReader
 
   attr_reader :plot_code, :tree_code, :branch_code, :suffix
@@ -20,13 +22,13 @@ class CodeReader
     plot = Plot.where(:plot_code => plot_code).first
 
     if plot.nil?
-      raise "Plot with code '#{plot_code}' does not exist"
+      raise Gemdata::PlotNotFound, "Plot with code '#{plot_code}' does not exist"
     end
 
     tree = Tree.where(:tree_code => tree_code).includes(:sub_plot).where('sub_plots.plot_id' => plot.id).first
 
     if tree.nil?
-      raise "Tree with code '#{tree_code}' does not exist in plot #{plot_code}"
+      raise Gemdata::TreeNotFound, "Tree with code '#{tree_code}' does not exist in plot #{plot_code}"
     end
 
     Branch.where(:code => branch_code, :tree_id => tree.id).first_or_create!

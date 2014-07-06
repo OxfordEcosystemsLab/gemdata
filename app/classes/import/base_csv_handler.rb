@@ -1,4 +1,5 @@
 require 'csv'
+require 'exceptions'
 
 class BaseCsvHandler
 
@@ -16,20 +17,25 @@ class BaseCsvHandler
       @logger.notice "Table '#{@importer_class.table_name}' initial row count: #{@importer_class.count}"
       @logger.notice "Importing #{@importer_class.table_name}..."
 
-      @importer_class.transaction do
-        if !handle_csv
-          @logger.error "Processing did not go smoothly, changes are being rolled back."
-          raise 'transaction_has_errors'
+      begin
+        @importer_class.transaction do
+          if !handle_csv
+            raise Gemdata::TransactionHasErrors
+          end
         end
+      rescue Gemdata::TransactionHasErrors => e
+        @logger.error "Processing did not go smoothly, changes are being rolled back."
+      else
+        @logger.notice "Import complete."
+        @logger.notice generate_summary_message
+        @logger.notice "Table '#{@importer_class.table_name}' new row count: #{@importer_class.count}"
       end
-
-      @logger.notice "Import complete."
-      @logger.notice generate_summary_message
-      @logger.notice "Table '#{@importer_class.table_name}' new row count: #{@importer_class.count}"
       ActiveRecord::Base.connection.close
     end
     at_exit { t.join }
+    t
   end
+
 
   private
 

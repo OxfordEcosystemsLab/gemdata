@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'exceptions'
 
 describe CnCsvHandler do
 
@@ -10,7 +11,12 @@ describe CnCsvHandler do
     tree = Tree.create!(:tree_code => 'T541', :sub_plot => sub_plot, :fp_species => fp_species)
 
     handler = CnCsvHandler.new(CnImporter, "#{Rails.root}/spec/fixtures/cn.csv", Array.new)
-    handler.import!
+    begin
+      thread = handler.import!
+      thread.join
+    rescue Gemdata::TransactionHasErrors => e
+      # that's ok by me
+    end
 
     cn_curve = handler.cn_curve
 

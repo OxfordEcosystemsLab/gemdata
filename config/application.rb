@@ -15,6 +15,7 @@ module Gemdata
     # Custom directories with classes and modules you want to be autoloadable.
     config.autoload_paths += %W(
         #{config.root}/lib
+        #{config.root}/errors
         #{config.root}/app/classes/import
         #{config.root}/app/classes/importers
         #{config.root}/app/classes/utility
