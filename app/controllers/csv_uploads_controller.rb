@@ -26,6 +26,7 @@ class CsvUploadsController < ApplicationController
       CnImporter,
       ToughnessMeasurementImporter,
       WoodDensityImporter,
+      SpectraMeasurementImporter,
     ]
   end
 

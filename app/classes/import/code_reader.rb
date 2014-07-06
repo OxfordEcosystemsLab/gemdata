@@ -8,7 +8,7 @@ class CodeReader
     format = /^(\w+\d+)-((?:CSP\d+-\d+|\w\d+))[-\s](\w+\d*\w*)-?(.*)$/
     match = code.match(format) 
     if (match)
-      @plot_code   = match[1]
+      @plot_code   = match[1].upcase
       @tree_code   = match[2]
       @branch_code = match[3]
       @suffix      = match[4]
