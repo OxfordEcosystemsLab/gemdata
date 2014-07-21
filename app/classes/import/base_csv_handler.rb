@@ -45,24 +45,29 @@ class BaseCsvHandler
 
       prepare_pre_import
 
-      CSV.foreach(@csv_file, headers: true) do |row|
+      begin
+        CSV.foreach(@csv_file, headers: true) do |row|
 
-        row_number = $.
+          row_number = $.
 
-        if skip_row?(row_number, row)
-          next
+          if skip_row?(row_number, row)
+            next
+          end
+
+          begin
+            importer = @importer_class.new
+            prepare_importer(importer)
+            status = importer.read_row(row, @logger) || Lookup::ImportStatus.failed
+            @status_counts[status] += 1
+          rescue => ex
+            transaction_is_ok = false
+            @status_counts[Lookup::ImportStatus.failed] += 1
+            @logger.error "Import aborted processing line #{row_number} - #{ex.message}"
+          end
         end
-
-        begin
-          importer = @importer_class.new
-          prepare_importer(importer)
-          status = importer.read_row(row, @logger) || Lookup::ImportStatus.failed
-          @status_counts[status] += 1
-        rescue => ex
-          transaction_is_ok = false
-          @status_counts[Lookup::ImportStatus.failed] += 1
-          @logger.error "Import aborted processing line #{row_number} - #{ex.message}"
-        end
+      rescue => ex
+        @logger.error "Error reading CSV - #{ex.message}"
+        transaction_is_ok = false
       end
 
       transaction_is_ok
