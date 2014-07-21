@@ -46,9 +46,12 @@ class BaseCsvHandler
       prepare_pre_import
 
       begin
-        CSV.foreach(@csv_file, headers: true) do |row|
 
-          row_number = $.
+        row_number = 0
+
+        read_csv(@csv_file).each do |row|
+
+          row_number += 1
 
           if skip_row?(row_number, row)
             next
@@ -73,6 +76,14 @@ class BaseCsvHandler
       transaction_is_ok
     end
 
+    def read_csv(file)
+      begin
+        CSV.read(file)
+      rescue ArgumentError => ex
+        CSV.read(file, :encoding => 'ISO-8859-1')
+      end
+    end
+
     def generate_summary_message
       # Completion feedback
       total_rows = @status_counts.length
@@ -94,7 +105,7 @@ class BaseCsvHandler
     end
 
     def skip_row?(n, values)
-      false
+      n == 1
     end
 
 end
