@@ -26,7 +26,7 @@ class RowImporter
     raise NoMethodError
   end
 
-  def read_row
+  def read_row(values, logger)
     raise NoMethodError
   end
 
