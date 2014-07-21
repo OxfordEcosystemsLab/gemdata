@@ -9,7 +9,7 @@ class CreateSpectraMeasurements < ActiveRecord::Migration
       t.string :order
       t.string :type
       (350..1100).each do |wavelength|
-        t.float "measurement-#{wavelength.to_s}"
+        t.float "measurement_#{wavelength.to_s}"
       end
 
       t.timestamps
