@@ -78,9 +78,9 @@ class BaseCsvHandler
 
     def read_csv(file)
       begin
-        CSV.read(file)
+        CSV.read(file, :quote_char => "\'")
       rescue ArgumentError => ex
-        CSV.read(file, :encoding => 'ISO-8859-1')
+        CSV.read(file, :encoding => 'ISO-8859-1', :quote_char => "\'")
       end
     end
 
