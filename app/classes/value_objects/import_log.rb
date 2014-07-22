@@ -1,6 +1,8 @@
 # Wrapper around the memory cache to keep track of import progress
 class ImportLog
 
+  attr_reader :import_id
+
   def initialize(import_id)
     @import_id = import_id
   end

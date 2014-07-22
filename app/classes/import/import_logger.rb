@@ -6,6 +6,10 @@ class ImportLogger
     @options = options
   end
 
+  def address
+    @log.import_id if @log.respond_to? :import_id
+  end
+
   def notice(text)
     put_message text
   end

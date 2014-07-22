@@ -8,11 +8,15 @@ class BaseCsvHandler
     @csv_file = csv_file
     @logger = ImportLogger.new(results, time: true)
     @status_counts = Hash.new(0)
+    @batch = Batch.new :started => Time.new, :import_address => @logger.address
+    @batch.started = Time.new
   end
 
   # Import in another thread
   def import!
     t = Thread.new do
+
+      transaction_completed = true
 
       @logger.notice "Table '#{@importer_class.table_name}' initial row count: #{@importer_class.count}"
       @logger.notice "Importing #{@importer_class.table_name}..."
@@ -25,11 +29,17 @@ class BaseCsvHandler
         end
       rescue Gemdata::TransactionHasErrors => e
         @logger.error "Processing did not go smoothly, changes are being rolled back."
+        transaction_completed = false
       else
         @logger.notice "Import complete."
         @logger.notice generate_summary_message
         @logger.notice "Table '#{@importer_class.table_name}' new row count: #{@importer_class.count}"
       end
+
+      @batch.transaction_passed = transaction_completed
+      @batch.finished = Time.new
+      @batch.save!
+
       ActiveRecord::Base.connection.close
     end
     at_exit { t.join }
