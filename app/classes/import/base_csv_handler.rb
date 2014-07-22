@@ -47,7 +47,7 @@ class BaseCsvHandler
 
       begin
 
-        row_number = 0
+        row_number = 1
 
         read_csv(@csv_file).each do |row|
 
