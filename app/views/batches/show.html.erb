@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Import address:</strong>
+  <%= @batch.import_address %>
+</p>
+
+<p>
+  <strong>Started:</strong>
+  <%= @batch.started %>
+</p>
+
+<p>
+  <strong>Finished:</strong>
+  <%= @batch.finished %>
+</p>
+
+<p>
+  <strong>Transaction passed:</strong>
+  <%= @batch.transaction_passed %>
+</p>
+
+<%= link_to 'Edit', edit_batch_path(@batch) %> |
+<%= link_to 'Back', batches_path %>
