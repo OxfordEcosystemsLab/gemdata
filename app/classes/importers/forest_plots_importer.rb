@@ -1,5 +1,11 @@
 class ForestPlotsImporter < RowImporter
 
+  @import_count = 0
+  @batch_count = 0
+  @trees = []
+
+  BATCH_SIZE = 1000
+
   def object
     @tree
   end
@@ -27,13 +33,29 @@ class ForestPlotsImporter < RowImporter
     genus  = FpGenus.find_or_create_by!(:fp_id => values[13], :name => values[14], :fp_family => family)
     @tree.fp_species = FpSpecies.find_or_create_by!(:fp_id => values[15], :name => values[16], :fp_genus => genus)
 
-    if @tree.save!
+    if @tree.valid?
       status = Lookup::ImportStatus.inserted
 
       census = Census.find_or_create_by!(:mean_date => values[5], :number => values[6], :plot => plot)
       @tree.dbh_measurements.create!(:value => values[20], :census => census)
+
+      @trees << @tree
     else
       status = Lookup::ImportStatus.failed
+    end
+
+    @import_count += 1
+
+    if @import_count % 1000
+      logger.notice("Processed #{@import_count} forest plots entries")
+    end
+
+    @batch_count += 1
+
+    if @batch_count >= BATCH_SIZE
+      Tree.import @trees, :validate => false
+      @batch_count = 0
+      @trees = []
     end
 
     return status

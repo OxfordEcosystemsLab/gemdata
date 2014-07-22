@@ -15,6 +15,7 @@ end
 gem 'pg'
 gem 'foreigner'
 
+gem 'activerecord-import', '~> 0.5.0'
 # Assets
 gem 'sass-rails', '>= 4.0.0.rc1'
 gem 'uglifier', '>= 1.3.0'

@@ -47,6 +47,8 @@ class BaseCsvHandler
 
       begin
 
+        importer = @importer_class.new
+        prepare_importer(importer)
         row_number = 0
 
         read_csv(@csv_file).each do |row|
@@ -58,8 +60,6 @@ class BaseCsvHandler
           end
 
           begin
-            importer = @importer_class.new
-            prepare_importer(importer)
             status = importer.read_row(row, @logger) || Lookup::ImportStatus.failed
             @status_counts[status] += 1
           rescue => ex
