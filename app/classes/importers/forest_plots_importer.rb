@@ -1,5 +1,8 @@
 class ForestPlotsImporter < RowImporter
 
+  attr_writer :batch_id
+  attr_writer :overwrite_batch_id
+
   def initialize
     super
     @plots_cache = Hash.new
@@ -40,14 +43,28 @@ class ForestPlotsImporter < RowImporter
 
     tree_code = 'T' + values[19]
 
-    @tree = Tree.find_or_initialize_by(fp_id: values[10], tree_code: tree_code, sub_plot: sub_plot)
+    @tree = Tree.find_or_initialize_by(fp_id: values[10], tree_code: tree_code, sub_plot: sub_plot, batch_id: @overwrite_batch_id)
+
+    if @tree.batch.nil?
+      @tree.batch = @batch_id
+    end
 
     family = FpFamily.find_or_create_by!(:apg_id => values[11], :name => values[12])
     genus  = FpGenus.find_or_create_by!(:fp_id => values[13], :name => values[14], :fp_family => family)
     @tree.fp_species = FpSpecies.find_or_create_by!(:fp_id => values[15], :name => values[16], :fp_genus => genus)
 
+    new_record = @tree.new_record?
+    changed    = @tree.changed?
+
     if @tree.save!
-      status = Lookup::ImportStatus.inserted
+      status = new_record ? Lookup::ImportStatus.inserted : Lookup::ImportStatus.updated
+      if new_record
+        status = Lookup::ImportStatus.inserted
+      elsif changed
+        return Lookup::ImportStatus.updated
+      else
+        return Lookup::ImportStatus.skipped
+      end
 
       census = Census.find_or_create_by!(:mean_date => values[5], :number => values[6], :plot => plot)
       @tree.dbh_measurements.create!(:value => values[20], :census => census)

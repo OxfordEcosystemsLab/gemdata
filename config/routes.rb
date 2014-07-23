@@ -8,6 +8,8 @@ Gemdata::Application.routes.draw do
     end
   end
 
+  resources :batches
+
   resources :plots
   resources :trees
   resources :dbh_measurements

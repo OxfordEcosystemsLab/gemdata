@@ -1,0 +1,33 @@
+<h1>Listing batches</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Import address</th>
+      <th>Started</th>
+      <th>Finished</th>
+      <th>Transaction passed</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @batches.each do |batch| %>
+      <tr>
+        <td><%= batch.import_address %></td>
+        <td><%= batch.started %></td>
+        <td><%= batch.finished %></td>
+        <td><%= batch.transaction_passed %></td>
+        <td><%= link_to 'Show', batch %></td>
+        <td><%= link_to 'Edit', edit_batch_path(batch) %></td>
+        <td><%= link_to 'Destroy', batch, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Batch', new_batch_path %>
