@@ -2,6 +2,7 @@ class Tree < ActiveRecord::Base
 
   belongs_to :sub_plot
   belongs_to :fp_species
+  belongs_to :batch
 
   has_many :dbh_measurements
   has_many :censuses, :through => :dbh_measurements

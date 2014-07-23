@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140722083024) do
+ActiveRecord::Schema.define(version: 20140723002425) do
 
   create_table "batches", force: true do |t|
     t.string   "import_address"
@@ -1808,8 +1808,10 @@ ActiveRecord::Schema.define(version: 20140722083024) do
     t.datetime "updated_at"
     t.integer  "fp_species_id"
     t.integer  "fp_id"
+    t.integer  "batch_id"
   end
 
+  add_index "trees", ["batch_id"], name: "index_trees_on_batch_id", using: :btree
   add_index "trees", ["fp_species_id"], name: "index_trees_on_fp_species_id", using: :btree
   add_index "trees", ["sub_plot_id"], name: "index_trees_on_sub_plot_id", using: :btree
 
