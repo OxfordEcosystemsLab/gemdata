@@ -1,5 +1,11 @@
 class ForestPlotsImporter < RowImporter
 
+  def initialize
+    super
+    @plots_cache = Hash.new
+    @sub_plots_cache = Hash.new
+  end
+
   def object
     @tree
   end
@@ -11,14 +17,27 @@ class ForestPlotsImporter < RowImporter
   def read_row(values, logger)
 
     plot_code = strip_dashes(values[1])
-    plot = Plot.find_or_initialize_by(
-      :fp_id => values[0],
-      :plot_code => plot_code,
-    )
-    plot.plot_desc = values[2]
-    plot.save!
 
-    sub_plot = SubPlot.find_or_create_by!(:plot_id => plot.id)
+    plot = @plots_cache[plot_code]
+
+    if plot.nil?
+      plot = Plot.find_or_initialize_by(
+        :fp_id => values[0],
+        :plot_code => plot_code,
+      )
+      plot.plot_desc = values[2]
+      plot.save!
+
+      @plots_cache[plot_code] = plot
+    end
+
+    sub_plot = @sub_plots_cache[plot.id]
+
+    if sub_plot.nil?
+      sub_plot = SubPlot.find_or_create_by!(:plot_id => plot.id)
+      @sub_plots_cache[plot.id] = sub_plot
+    end
+
     tree_code = 'T' + values[19]
 
     @tree = Tree.find_or_initialize_by(fp_id: values[10], tree_code: tree_code, sub_plot: sub_plot)
