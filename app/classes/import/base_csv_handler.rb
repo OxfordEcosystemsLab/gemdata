@@ -11,6 +11,7 @@ class BaseCsvHandler
     @overwrite_batch_id = overwrite_batch_id
     @batch = Batch.new :started => Time.new, :import_address => @logger.address
     @batch.started = Time.new
+    @batch.save!
   end
 
   # Import in another thread
@@ -70,6 +71,11 @@ class BaseCsvHandler
 
           begin
             importer = @importer_class.new
+
+            if importer.respond_to? :batch_id=
+              importer.batch_id = @batch.id
+            end
+
             if importer.respond_to? :overwrite_batch_id=
               importer.overwrite_batch_id = @overwrite_batch_id
             end
