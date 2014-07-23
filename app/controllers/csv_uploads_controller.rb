@@ -36,7 +36,8 @@ class CsvUploadsController < ApplicationController
         import_id = SecureRandom.hex
         import_log = ImportLog.new(import_id)
         importer_class = params[:csv_class].constantize
-        csv_importer = importer_class.handler_class.new(importer_class, params[:file].tempfile, import_log)
+        overwrite_batch_id = params[:overwrite_batch_id]
+        csv_importer = importer_class.handler_class.new(importer_class, params[:file].tempfile, import_log, overwrite_batch_id)
         csv_importer.import! # In background
         redirect_to csv_upload_path(id: import_id)
       else
