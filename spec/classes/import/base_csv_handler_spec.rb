@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'exceptions'
+require 'rspec/expectations'
 
 class FakeImporter < RowImporter
 
@@ -16,47 +17,45 @@ class FakeImporter < RowImporter
   end
 end
 
+RSpec::Matchers.define :have_a_success_message do
+  match do |actual|
+    actual.select{|x| x.include? 'Import complete'}.length == 1
+  end
+  failure_message_for_should do |actual|
+    "expected \n\n #{actual} \n\n to have a line that started with 'Import complete'"
+  end
+end
+
 describe BaseCsvHandler do
 
-  before :each do
-    @output = Array.new
-  end
-
-  it 'can filter' do
-    filtered = ['aaa', 'bbb'].select{|x| x.include? 'a' }
-    expect(filtered.size).to eq(1)
-  end
+  let(:logger) { Array.new }
 
   it 'can do a UTF-8 import' do
-    handler = handler_for_file('utf-8.csv')
-    thread = handler.import!
-    thread.join
-    expect(has_success_message).to be_true
+    import_file('utf-8.csv', logger)
+    expect(logger).to have_a_success_message
   end
  
   it 'can do an ISO western import' do
-    handler = handler_for_file('iso-western.csv')
-    thread = handler.import!
-    thread.join
-    expect(has_success_message).to be_true
+    import_file('iso-western.csv', logger)
+    expect(logger).to have_a_success_message
   end
 
   it 'does not trip up on dodgy characters' do
-    handler = handler_for_file('dodgy.csv')
-    thread = handler.import!
-    thread.join
-    expect(has_success_message).to be_true
+    import_file('dodgy.csv', logger)
+    expect(logger).to have_a_success_message
+  end
   end
 
   private
-    def handler_for_file(filename)
-      BaseCsvHandler.new(FakeImporter, "#{Rails.root}/spec/fixtures/#{filename}", @output)
+
+    def import_file(filename, logger)
+      handler = BaseCsvHandler.new(FakeImporter, "#{Rails.root}/spec/fixtures/#{filename}", logger, nil)
+      thread = handler.import!
+      thread.join
     end
 
-    def has_success_message
-      yes = @output.select{|x| x.include? 'Import complete'}.length == 1
-      puts @output unless yes
-      yes
+    def success_messages
+      @output.select{|x| x.include? 'Import complete'}
     end
 
 end
