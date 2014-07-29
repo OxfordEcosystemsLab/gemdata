@@ -44,6 +44,10 @@ describe BaseCsvHandler do
     import_file('dodgy.csv', logger)
     expect(logger).to have_a_success_message
   end
+
+  it 'does not care about new lines outside of quotes' do
+    import_file('new_lines.csv', logger)
+    expect(logger).to have_a_success_message
   end
 
   private

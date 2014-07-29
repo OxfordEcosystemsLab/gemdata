@@ -18,6 +18,7 @@ class BaseCsvHandler
         @batch = Batch.new :started => Time.new, :import_address => @logger.address
         @batch.started = Time.new
         @batch.save!
+
       transaction_completed = true
 
       @logger.notice "Table '#{@importer_class.table_name}' initial row count: #{@importer_class.count}"
@@ -61,7 +62,9 @@ class BaseCsvHandler
 
         row_number = 1
 
-        read_csv(@csv_file).each do |row|
+        open_file(@csv_file).each do |line|
+
+          row = CSV.parse_line(line, :quote_char => "\x00")
 
           row_number += 1
 
@@ -97,11 +100,11 @@ class BaseCsvHandler
       transaction_is_ok
     end
 
-    def read_csv(file)
+    def open_file(file)
       begin
-        CSV.read(file, :quote_char => "¬")
+        File.open(file, 'rb')
       rescue ArgumentError => ex
-        CSV.read(file, :encoding => 'ISO-8859-1', :quote_char => "¬")
+        File.open(file, 'rb:ISO-8859-1:UTF-8')
       end
     end
 
