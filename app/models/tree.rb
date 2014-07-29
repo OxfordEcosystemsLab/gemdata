@@ -7,7 +7,7 @@ class Tree < ActiveRecord::Base
   has_many :dbh_measurements
   has_many :censuses, :through => :dbh_measurements
 
-  validates :tree_code, presence: true, uniqueness: true
+  validates :tree_code, presence: true
   validates :sub_plot, presence: true
   validates :fp_species, presence: true
 
