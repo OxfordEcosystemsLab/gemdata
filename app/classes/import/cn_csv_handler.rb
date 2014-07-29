@@ -29,9 +29,14 @@ class CnCsvHandler < BaseCsvHandler
 
     def prepare_importer(importer)
       importer.cn_curve = @cn_curve
+      super
     end
 
     def skip_row?(n, values)
+      is_not_a_float or super
+    end
+
+    def is_not_a_float
       false if Float(values[0]) rescue true
     end
 

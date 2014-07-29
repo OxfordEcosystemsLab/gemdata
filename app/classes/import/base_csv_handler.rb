@@ -15,9 +15,9 @@ class BaseCsvHandler
   def import!
     t = Thread.new do
 
-        @batch = Batch.new :started => Time.new, :import_address => @logger.address
-        @batch.started = Time.new
-        @batch.save!
+      @batch = Batch.new :started => Time.new, :import_address => @logger.address
+      @batch.started = Time.new
+      @batch.save!
 
       transaction_completed = true
 
@@ -58,6 +58,8 @@ class BaseCsvHandler
 
       prepare_pre_import
 
+      importer = prepare_importer(@importer_class.new)
+
       begin
 
         row_number = 1
@@ -73,17 +75,6 @@ class BaseCsvHandler
           end
 
           begin
-            importer = @importer_class.new
-
-            if importer.respond_to? :batch_id=
-              importer.batch_id = @batch.id
-            end
-
-            if importer.respond_to? :overwrite_batch_id=
-              importer.overwrite_batch_id = @overwrite_batch_id
-            end
-
-            prepare_importer(importer)
             status = importer.read_row(row, @logger) || Lookup::ImportStatus.failed
             @status_counts[status] += 1
           rescue => ex
@@ -126,6 +117,17 @@ class BaseCsvHandler
     end
 
     def prepare_importer(importer)
+
+      if importer.respond_to? :batch_id=
+        importer.batch_id = @batch.id
+      end
+
+      if importer.respond_to? :overwrite_batch_id=
+        importer.overwrite_batch_id = @overwrite_batch_id
+      end
+
+      importer
+
     end
 
     def skip_row?(n, values)
