@@ -10,7 +10,7 @@ describe CnCsvHandler do
     fp_species = FpSpecies.new
     tree = Tree.create!(:tree_code => 'T541', :sub_plot => sub_plot, :fp_species => fp_species)
 
-    handler = CnCsvHandler.new(CnImporter, "#{Rails.root}/spec/fixtures/cn.csv", Array.new)
+    handler = CnCsvHandler.new(CnImporter, "#{Rails.root}/spec/fixtures/cn.csv", Array.new, nil)
     begin
       thread = handler.import!
       thread.join
