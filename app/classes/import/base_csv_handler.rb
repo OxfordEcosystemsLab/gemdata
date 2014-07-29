@@ -9,15 +9,15 @@ class BaseCsvHandler
     @logger = ImportLogger.new(results, time: true)
     @status_counts = Hash.new(0)
     @overwrite_batch_id = overwrite_batch_id
-    @batch = Batch.new :started => Time.new, :import_address => @logger.address
-    @batch.started = Time.new
-    @batch.save!
   end
 
   # Import in another thread
   def import!
     t = Thread.new do
 
+        @batch = Batch.new :started => Time.new, :import_address => @logger.address
+        @batch.started = Time.new
+        @batch.save!
       transaction_completed = true
 
       @logger.notice "Table '#{@importer_class.table_name}' initial row count: #{@importer_class.count}"
