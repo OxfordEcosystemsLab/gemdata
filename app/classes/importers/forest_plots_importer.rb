@@ -46,7 +46,7 @@ class ForestPlotsImporter < RowImporter
     @tree = Tree.find_or_initialize_by(fp_id: values[10], tree_code: tree_code, sub_plot: sub_plot, batch_id: @overwrite_batch_id)
 
     if @tree.batch.nil?
-      @tree.batch = @batch_id
+      @tree.batch_id = @batch_id
     end
 
     family = FpFamily.find_or_create_by!(:apg_id => values[11], :name => values[12])
@@ -59,7 +59,12 @@ class ForestPlotsImporter < RowImporter
     begin
       saved = @tree.save!
     rescue ActiveRecord::RecordNotUnique => e
+      existing_tree = Tree.where(tree_code: tree_code, sub_plot: sub_plot).first
       @tree.tree_code = @tree.tree_code.gsub('T', 'DUP')
+      error_message = %[Trying to import a duplicate tree code for #{tree_code} in plot #{plot_code}
+New fp id is #{@tree.fp_id} vs existing fp id #{existing_tree.fp_id}"
+Saving with tree code #{@tree.tree_code}]
+      logger.error error_message
       saved = @tree.save!
     end
 
