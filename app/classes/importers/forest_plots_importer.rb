@@ -56,23 +56,19 @@ class ForestPlotsImporter < RowImporter
     new_record = @tree.new_record?
     changed    = @tree.changed?
 
-    if @tree.save!
-      status = new_record ? Lookup::ImportStatus.inserted : Lookup::ImportStatus.updated
-      if new_record
-        status = Lookup::ImportStatus.inserted
-      elsif changed
-        return Lookup::ImportStatus.updated
-      else
-        return Lookup::ImportStatus.skipped
-      end
-
-      census = Census.find_or_create_by!(:mean_date => values[5], :number => values[6], :plot => plot)
-      @tree.dbh_measurements.create!(:value => values[20], :census => census)
-    else
-      status = Lookup::ImportStatus.failed
+    begin
+      saved = @tree.save!
+    rescue ActiveRecord::RecordNotUnique => e
+      @tree.tree_code = @tree.tree_code.gsub('T', 'DUP')
+      saved = @tree.save!
     end
 
-    return status
+    if saved
+      census = Census.find_or_create_by!(:mean_date => values[5], :number => values[6], :plot => plot)
+      @tree.dbh_measurements.create!(:value => values[20], :census => census)
+    end
+
+    return work_out_status(saved, new_record, changed)
   end
 
   private
@@ -83,6 +79,18 @@ class ForestPlotsImporter < RowImporter
 
     def self.ar_class
       Tree
+    end
+
+    def work_out_status(saved, new, changed)
+      if new
+        Lookup::ImportStatus.inserted
+      elsif changed
+        Lookup::ImportStatus.updated
+      elsif not saved
+        Lookup::ImportStatus.failed
+      else
+        Lookup::ImportStatus.skipped
+      end
     end
 
 end

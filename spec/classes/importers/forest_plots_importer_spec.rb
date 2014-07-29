@@ -94,9 +94,22 @@ describe ForestPlotsImporter do
     second_values   = CSV.parse_line '90,TAM-04,Tambopata plot two swamp edge clay,PERU,Oliver Phillips,1990.755,3,90,Main Plot View,,54832,377,Sapotaceae,24801,Pouteria,653110,Pouteria indet,,,2,121,121,121,121,1300,a,1,5,0,,,'
     second_importer = ForestPlotsImporter.new
     second_status   = second_importer.read_row(second_values, Array.new)
-    expect(second_status).to eq(Lookup::ImportStatus.inserted)
+    expect(second_status).to eq(Lookup::ImportStatus.skipped)
     expect(second_importer.object).to be_valid
     expect(second_importer.object).to eq(first_importer.object)
+  end
+
+  it 'should not set a duplicate tag for collisions' do
+    first_importer = ForestPlotsImporter.new
+    first_status   = first_importer.read_row(@values, Array.new)
+
+    second_values   = CSV.parse_line '90,TAM-04,Tambopata plot two swamp edge clay,PERU,Oliver Phillips,1983.67,1,90,Main Plot View,,12345,377,Sapotaceae,24801,Pouteria,653110,Pouteria indet,,,2,105,105,105,105,1300,a,1,5,0,,,'
+    second_importer = ForestPlotsImporter.new
+    second_status   = second_importer.read_row(second_values, Array.new)
+    expect(second_status).to eq(Lookup::ImportStatus.inserted)
+    expect(second_importer.object).to be_valid
+    expect(second_importer.object.tree_code).to eq('DUP2')
+    expect(second_importer.object).to_not eq(first_importer.object)
   end
 
   it 'should trim imports damn it!'
