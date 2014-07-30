@@ -2,7 +2,7 @@
 
 <p>
   <strong>Import address:</strong>
-  <%= @batch.import_address %>
+  <%= link_to @batch.import_address, csv_upload_path(@batch.import_address) %>
 </p>
 
 <p>
@@ -20,5 +20,4 @@
   <%= @batch.transaction_passed %>
 </p>
 
-<%= link_to 'Edit', edit_batch_path(@batch) %> |
 <%= link_to 'Back', batches_path %>

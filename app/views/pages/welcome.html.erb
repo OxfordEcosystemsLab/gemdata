@@ -1,5 +1,6 @@
 <div class="home">
   <h1>GEM data upload</h1>
-  <a class="button large" href="data/csv_uploads/traits">GEM Traits</a>
-  <a class="button large" href="data/csv_uploads/new">GEM Carbon</a>
+  <%= link_to 'GEM Traits', traits_csv_uploads_path, class: 'button large' %>
+  <%= link_to 'GEM Carbon', new_csv_upload_path, class: 'button large' %>
+  <%= link_to 'Batches', batches_path, class: 'button large' %>
 </div>
