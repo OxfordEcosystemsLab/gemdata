@@ -62,9 +62,21 @@ class BaseCsvHandler
 
       begin
 
-        row_number = 1
+        row_number = 0
 
-        open_file(@csv_file).each do |line|
+        open_file(@csv_file).each_line do |line|
+
+          if @carry_over
+            line = @carry_over + line
+            @carry_over = nil
+          end
+
+          if /\r+\r\n/.match line
+            @carry_over = line.strip + ' '
+            next
+          end
+
+          line.strip!
 
           row = CSV.parse_line(line, :quote_char => "\x00")
 

@@ -13,6 +13,7 @@ class FakeImporter < RowImporter
   end
 
   def read_row(values, logger)
+    Float values[0]
     Lookup::ImportStatus.inserted
   end
 end
