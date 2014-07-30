@@ -6,6 +6,8 @@ describe ForestPlotsImporter do
 
   it_behaves_like 'Importer'
 
+  let(:logger) {ImportLogger.new(Array.new)}
+
   before :each do
     @values = CSV.parse_line '90,TAM-04,Tambopata plot two swamp edge clay,PERU,Oliver Phillips,1983.67,1,90,Main Plot View,,54832,377,Sapotaceae,24801,Pouteria,653110,Pouteria indet,,,2,105,105,105,105,1300,a,1,5,0,,,'
   end
@@ -13,7 +15,7 @@ describe ForestPlotsImporter do
   it 'can read CSV' do
 
     importer = ForestPlotsImporter.new
-    status = importer.read_row(@values, Array.new)
+    status = importer.read_row(@values, logger)
     expect(status).to eq(Lookup::ImportStatus.inserted)
 
     tree = importer.object
@@ -54,7 +56,7 @@ describe ForestPlotsImporter do
     subplot = SubPlot.create!(:plot => plot)
 
     importer = ForestPlotsImporter.new
-    importer.read_row(@values, Array.new)
+    importer.read_row(@values, logger)
     expect(importer.object.sub_plot.plot).to eq(plot)
     expect(importer.object.sub_plot).to eq(subplot)
 
@@ -67,7 +69,7 @@ describe ForestPlotsImporter do
     fp_species = FpSpecies.create!(fp_id: 653110, name: 'Pouteria indet', fp_genus: fp_genus)
 
     importer = ForestPlotsImporter.new
-    importer.read_row(@values, Array.new)
+    importer.read_row(@values, logger)
     expect(importer.object.fp_species).to eq(fp_species)
 
   end
@@ -81,7 +83,7 @@ describe ForestPlotsImporter do
     census = Census.create!(number: 1, mean_date: '1983.67', plot: plot)
 
     importer = ForestPlotsImporter.new
-    importer.read_row(@values, Array.new)
+    importer.read_row(@values, logger)
     expect(importer.object.censuses).to include(census)
 
   end
@@ -89,11 +91,11 @@ describe ForestPlotsImporter do
   it 'should not incorrectly flag duplicates' do
 
     first_importer = ForestPlotsImporter.new
-    first_status   = first_importer.read_row(@values, Array.new)
+    first_status   = first_importer.read_row(@values, logger)
 
     second_values   = CSV.parse_line '90,TAM-04,Tambopata plot two swamp edge clay,PERU,Oliver Phillips,1990.755,3,90,Main Plot View,,54832,377,Sapotaceae,24801,Pouteria,653110,Pouteria indet,,,2,121,121,121,121,1300,a,1,5,0,,,'
     second_importer = ForestPlotsImporter.new
-    second_status   = second_importer.read_row(second_values, Array.new)
+    second_status   = second_importer.read_row(second_values, logger)
     expect(second_status).to eq(Lookup::ImportStatus.skipped)
     expect(second_importer.object).to be_valid
     expect(second_importer.object).to eq(first_importer.object)
@@ -101,11 +103,11 @@ describe ForestPlotsImporter do
 
   it 'should not set a duplicate tag for collisions' do
     first_importer = ForestPlotsImporter.new
-    first_status   = first_importer.read_row(@values, Array.new)
+    first_status   = first_importer.read_row(@values, logger)
 
     second_values   = CSV.parse_line '90,TAM-04,Tambopata plot two swamp edge clay,PERU,Oliver Phillips,1983.67,1,90,Main Plot View,,12345,377,Sapotaceae,24801,Pouteria,653110,Pouteria indet,,,2,105,105,105,105,1300,a,1,5,0,,,'
     second_importer = ForestPlotsImporter.new
-    second_status   = second_importer.read_row(second_values, Array.new)
+    second_status   = second_importer.read_row(second_values, logger)
     expect(second_status).to eq(Lookup::ImportStatus.inserted)
     expect(second_importer.object).to be_valid
     expect(second_importer.object.tree_code).to eq('DUP2')
