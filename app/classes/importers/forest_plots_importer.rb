@@ -42,8 +42,9 @@ class ForestPlotsImporter < RowImporter
     end
 
     tree_code = 'T' + values[19]
+    fp_id     = values[10]
 
-    @tree = Tree.find_or_initialize_by(fp_id: values[10], tree_code: tree_code, sub_plot: sub_plot, batch_id: @overwrite_batch_id)
+    @tree = first_or_new_tree(fp_id, tree_code, sub_plot, @overwrite_batch_id)
 
     if @tree.batch.nil?
       @tree.batch_id = @batch_id
@@ -62,9 +63,15 @@ class ForestPlotsImporter < RowImporter
       existing_tree = Tree.where(tree_code: tree_code, sub_plot: sub_plot).first
       @tree.tree_code = @tree.tree_code.gsub('T', 'DUP')
       error_message = %[Trying to import a duplicate tree code for #{tree_code} in plot #{plot_code}
-New fp id is #{@tree.fp_id} vs existing fp id #{existing_tree.fp_id}"
+New fp id is #{@tree.fp_id} vs existing fp id #{existing_tree.fp_id}
 Saving with tree code #{@tree.tree_code}]
       logger.error error_message
+
+      dup_tree = first_or_new_tree(fp_id, @tree.tree_code, sub_plot, @overwrite_batch_id)
+      dup_tree.batch_id   = @tree.batch_id
+      dup_tree.fp_species = @tree.fp_species
+      @tree = dup_tree
+
       saved = @tree.save!
     end
 
@@ -95,6 +102,14 @@ Saving with tree code #{@tree.tree_code}]
         Lookup::ImportStatus.failed
       else
         Lookup::ImportStatus.skipped
+      end
+    end
+
+    def first_or_new_tree(fp_id, tree_code, sub_plot, overwrite_batch_id)
+      if overwrite_batch_id
+        Tree.find_or_initialize_by(fp_id: fp_id, tree_code: tree_code, sub_plot: sub_plot, batch_id: overwrite_batch_id)
+      else
+        Tree.find_or_initialize_by(fp_id: fp_id, tree_code: tree_code, sub_plot: sub_plot)
       end
     end
 
