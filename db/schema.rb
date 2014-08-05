@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20140729134728) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "batches", force: true do |t|
     t.string   "import_address"
     t.datetime "started"
@@ -94,8 +97,6 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.datetime "updated_at"
     t.integer  "plot_id"
   end
-
-  add_index "censuses", ["plot_id"], name: "censuses_plot_id_fk", using: :btree
 
   create_table "cn_curves", force: true do |t|
     t.float    "c_enr_1"
@@ -230,6 +231,14 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "crown_perimeters", force: true do |t|
+    t.integer  "tree_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "crown_perimeters", ["tree_id"], name: "index_crown_perimeters_on_tree_id", using: :btree
 
   create_table "cwd_sub_transects", force: true do |t|
     t.string   "cwd_sub_transects_num",    null: false
@@ -398,6 +407,30 @@ ActiveRecord::Schema.define(version: 20140729134728) do
 
   add_index "global_regions", ["global_region_code"], name: "index_global_regions_on_global_region_code", unique: true, using: :btree
 
+  create_table "hemi_photo_files", force: true do |t|
+    t.integer  "hemi_photo_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "hemi_photo_files", ["hemi_photo_id"], name: "index_hemi_photo_files_on_hemi_photo_id", using: :btree
+
+  create_table "hemi_photos", force: true do |t|
+    t.integer  "tree_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "hemi_photos", ["tree_id"], name: "index_hemi_photos_on_tree_id", using: :btree
+
+  create_table "herbivories", force: true do |t|
+    t.integer  "branch_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "herbivories", ["branch_id"], name: "index_herbivories_on_branch_id", using: :btree
+
   create_table "ingrowth_core_imports", force: true do |t|
     t.string   "plot_code",                  null: false
     t.integer  "year",                       null: false
@@ -450,6 +483,14 @@ ActiveRecord::Schema.define(version: 20140729134728) do
   add_index "ingrowth_cores", ["plot_id", "ingrowth_core_num"], name: "index_ingrowth_cores_on_plot_id_and_ingrowth_core_num", unique: true, using: :btree
   add_index "ingrowth_cores", ["plot_id"], name: "index_ingrowth_cores_on_plot_id", using: :btree
 
+  create_table "leaf_anatomies", force: true do |t|
+    t.integer  "leaf_part_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "leaf_anatomies", ["leaf_part_id"], name: "index_leaf_anatomies_on_leaf_part_id", using: :btree
+
   create_table "leaf_area_index_imports", force: true do |t|
     t.string   "plot_code",                      null: false
     t.integer  "year",                           null: false
@@ -481,6 +522,14 @@ ActiveRecord::Schema.define(version: 20140729134728) do
 
   add_index "leaf_area_index_values", ["plot_id"], name: "index_leaf_area_index_values_on_plot_id", using: :btree
 
+  create_table "leaf_areas", force: true do |t|
+    t.integer  "leaf_part_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "leaf_areas", ["leaf_part_id"], name: "index_leaf_areas_on_leaf_part_id", using: :btree
+
   create_table "leaf_morphologies", force: true do |t|
     t.integer  "leaf_id"
     t.datetime "date"
@@ -495,6 +544,22 @@ ActiveRecord::Schema.define(version: 20140729134728) do
   end
 
   add_index "leaf_morphologies", ["leaf_id"], name: "index_leaf_morphologies_on_leaf_id", using: :btree
+
+  create_table "leaf_parts", force: true do |t|
+    t.integer  "leaf_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "leaf_parts", ["leaf_id"], name: "index_leaf_parts_on_leaf_id", using: :btree
+
+  create_table "leaf_repellencies", force: true do |t|
+    t.integer  "branch_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "leaf_repellencies", ["branch_id"], name: "index_leaf_repellencies_on_branch_id", using: :btree
 
   create_table "leaf_respiration_imports", force: true do |t|
     t.string   "plot_code",    null: false
@@ -529,6 +594,14 @@ ActiveRecord::Schema.define(version: 20140729134728) do
   end
 
   add_index "leaf_respiration_values", ["tree_id"], name: "index_leaf_respiration_values_on_tree_id", using: :btree
+
+  create_table "leaf_venations", force: true do |t|
+    t.integer  "leaf_part_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "leaf_venations", ["leaf_part_id"], name: "index_leaf_venations_on_leaf_part_id", using: :btree
 
   create_table "leaves", force: true do |t|
     t.integer  "branch_id"
@@ -565,6 +638,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.float    "photons"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "plot_id"
   end
 
   create_table "light_string_measurements", force: true do |t|
@@ -658,6 +732,27 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.datetime "updated_at"
   end
 
+  create_table "osmometries", force: true do |t|
+    t.datetime "date"
+    t.float    "temperature"
+    t.float    "humidity"
+    t.string   "disk_orientation"
+    t.integer  "branch_id"
+    t.float    "m1"
+    t.float    "m2"
+    t.float    "m3"
+    t.float    "m4"
+    t.float    "m5"
+    t.float    "m6"
+    t.float    "m7"
+    t.float    "m8"
+    t.float    "m9"
+    t.float    "m10"
+    t.string   "observations"
+  end
+
+  add_index "osmometries", ["branch_id"], name: "index_osmometries_on_branch_id", using: :btree
+
   create_table "people", force: true do |t|
     t.string   "person_name",  null: false
     t.string   "person_email"
@@ -724,7 +819,6 @@ ActiveRecord::Schema.define(version: 20140729134728) do
   end
 
   add_index "phosphorus_measurements", ["leaf_id"], name: "index_phosphorus_measurements_on_leaf_id", using: :btree
-  add_index "phosphorus_measurements", ["phosphorus_curve_id"], name: "phosphorus_measurements_phosphorus_curve_id_fk", using: :btree
 
   create_table "photosynthesis_measurements", force: true do |t|
     t.integer  "leaf_id"
@@ -973,6 +1067,14 @@ ActiveRecord::Schema.define(version: 20140729134728) do
   end
 
   add_index "soil_respiration_values", ["soil_respiration_tube_id"], name: "index_soil_respiration_values_on_soil_respiration_tube_id", using: :btree
+
+  create_table "specific_leaf_areas", force: true do |t|
+    t.integer  "leaf_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "specific_leaf_areas", ["leaf_id"], name: "index_specific_leaf_areas_on_leaf_id", using: :btree
 
   create_table "spectra_measurements", force: true do |t|
     t.integer  "leaf_id"
@@ -1788,17 +1890,26 @@ ActiveRecord::Schema.define(version: 20140729134728) do
   add_index "sub_plots", ["plot_id"], name: "index_sub_plots_on_plot_id", using: :btree
 
   create_table "toughness_measurements", force: true do |t|
-    t.integer  "branch_id", null: false
-    t.datetime "date",      null: false
+    t.integer  "branch_id",        null: false
+    t.datetime "date",             null: false
     t.string   "evaluator"
     t.string   "replica"
     t.float    "thickness"
     t.float    "width"
     t.float    "lines"
     t.float    "punch"
+    t.float    "tensile_strength"
   end
 
   add_index "toughness_measurements", ["branch_id"], name: "index_toughness_measurements_on_branch_id", using: :btree
+
+  create_table "traits_campaigns", force: true do |t|
+    t.integer  "plot_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "traits_campaigns", ["plot_id"], name: "index_traits_campaigns_on_plot_id", using: :btree
 
   create_table "trees", force: true do |t|
     t.integer  "sub_plot_id"
@@ -1830,6 +1941,14 @@ ActiveRecord::Schema.define(version: 20140729134728) do
 
   add_index "weather_readings", ["plot_id"], name: "index_weather_readings_on_plot_id", using: :btree
 
+  create_table "wood_anatomies", force: true do |t|
+    t.integer  "branch_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "wood_anatomies", ["branch_id"], name: "index_wood_anatomies_on_branch_id", using: :btree
+
   create_table "wood_densities", force: true do |t|
     t.integer  "branch_id"
     t.datetime "date"
@@ -1860,6 +1979,8 @@ ActiveRecord::Schema.define(version: 20140729134728) do
 
   add_foreign_key "coarse_woody_debris_values", "cwd_sub_transects", name: "coarse_woody_debris_values_cwd_sub_transect_id_fk"
 
+  add_foreign_key "crown_perimeters", "trees", name: "crown_perimeters_tree_id_fk"
+
   add_foreign_key "cwd_sub_transects", "cwd_transects", name: "cwd_sub_transects_cwd_transect_id_fk"
 
   add_foreign_key "cwd_transects", "plots", name: "cwd_transects_plot_id_fk"
@@ -1875,24 +1996,44 @@ ActiveRecord::Schema.define(version: 20140729134728) do
 
   add_foreign_key "fp_species", "fp_genera", name: "fp_species_fp_genus_id_fk"
 
+  add_foreign_key "hemi_photo_files", "hemi_photos", name: "hemi_photo_files_hemi_photo_id_fk"
+
+  add_foreign_key "hemi_photos", "trees", name: "hemi_photos_tree_id_fk"
+
+  add_foreign_key "herbivories", "branches", name: "herbivories_branch_id_fk"
+
   add_foreign_key "ingrowth_core_values", "ingrowth_cores", name: "ingrowth_core_values_ingrowth_core_id_fk"
 
   add_foreign_key "ingrowth_cores", "plots", name: "ingrowth_cores_plot_id_fk"
 
+  add_foreign_key "leaf_anatomies", "leaf_parts", name: "leaf_anatomies_leaf_part_id_fk"
+
   add_foreign_key "leaf_area_index_values", "plots", name: "leaf_area_index_values_plot_id_fk"
+
+  add_foreign_key "leaf_areas", "leaf_parts", name: "leaf_areas_leaf_part_id_fk"
 
   add_foreign_key "leaf_morphologies", "leaves", name: "leaf_morphologies_leaf_id_fk"
 
+  add_foreign_key "leaf_parts", "leaves", name: "leaf_parts_leaf_id_fk"
+
+  add_foreign_key "leaf_repellencies", "branches", name: "leaf_repellencies_branch_id_fk"
+
   add_foreign_key "leaf_respiration_values", "trees", name: "leaf_respiration_values_tree_id_fk"
+
+  add_foreign_key "leaf_venations", "leaf_parts", name: "leaf_venations_leaf_part_id_fk"
 
   add_foreign_key "leaves", "branches", name: "leaves_branch_id_fk"
 
   add_foreign_key "light_hangings", "trees", name: "light_hangings_tree_id_fk"
   add_foreign_key "light_hangings", "weather_readings", name: "light_hangings_weather_reading_id_fk"
 
+  add_foreign_key "light_references", "plots", name: "light_references_plot_id_fk"
+
   add_foreign_key "light_string_measurements", "light_hangings", name: "light_string_measurements_light_hanging_id_fk"
 
   add_foreign_key "litterfall_traps", "plots", name: "litterfall_traps_plot_id_fk"
+
+  add_foreign_key "osmometries", "branches", name: "osmometries_branch_id_fk"
 
   add_foreign_key "people_roles", "people", name: "people_roles_person_id_fk"
   add_foreign_key "people_roles", "plots", name: "people_roles_plot_id_fk"
@@ -1917,6 +2058,8 @@ ActiveRecord::Schema.define(version: 20140729134728) do
 
   add_foreign_key "soil_respiration_values", "soil_respiration_tubes", name: "soil_respiration_values_soil_respiration_tube_id_fk"
 
+  add_foreign_key "specific_leaf_areas", "leaves", name: "specific_leaf_areas_leaf_id_fk"
+
   add_foreign_key "spectra_measurements", "leaves", name: "spectra_measurements_leaf_id_fk"
 
   add_foreign_key "stem_respiration_values", "trees", name: "stem_respiration_values_tree_id_fk"
@@ -1925,10 +2068,14 @@ ActiveRecord::Schema.define(version: 20140729134728) do
 
   add_foreign_key "toughness_measurements", "branches", name: "toughness_measurements_branch_id_fk"
 
+  add_foreign_key "traits_campaigns", "plots", name: "traits_campaigns_plot_id_fk"
+
   add_foreign_key "trees", "fp_species", name: "trees_fp_species_id_fk"
   add_foreign_key "trees", "sub_plots", name: "trees_sub_plot_id_fk"
 
   add_foreign_key "weather_readings", "plots", name: "weather_readings_plot_id_fk"
+
+  add_foreign_key "wood_anatomies", "branches", name: "wood_anatomies_branch_id_fk"
 
   add_foreign_key "wood_densities", "branches", name: "wood_densities_branch_id_fk"
 
