@@ -58,7 +58,11 @@ class ForestPlotsImporter < RowImporter
     changed    = @tree.changed?
 
     begin
-      saved = @tree.save!
+      @saved = nil
+      # Stop postgres from deciding that the world has ended
+      Tree.transaction(requires_new: true) do
+        @saved = @tree.save!
+      end
     rescue ActiveRecord::RecordNotUnique => e
       existing_tree = Tree.where(tree_code: tree_code, sub_plot: sub_plot).first
       @tree.tree_code = @tree.tree_code.gsub('T', 'DUP')
@@ -72,15 +76,15 @@ Saving with tree code #{@tree.tree_code}]
       dup_tree.fp_species = @tree.fp_species
       @tree = dup_tree
 
-      saved = @tree.save!
+      @saved = @tree.save!
     end
 
-    if saved
+    if @saved
       census = Census.find_or_create_by!(:mean_date => values[5], :number => values[6], :plot => plot)
       @tree.dbh_measurements.create!(:value => values[20], :census => census)
     end
 
-    return work_out_status(saved, new_record, changed)
+    return work_out_status(@saved, new_record, changed)
   end
 
   private
