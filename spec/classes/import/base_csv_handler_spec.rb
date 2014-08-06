@@ -31,11 +31,10 @@ describe BaseCsvHandler do
 
   let(:logger) { Array.new }
 
-  it 'can do a UTF-8 import'
-# The UTF-8 file is broken at the moment, tabs
-#    import_file('utf-8.csv', logger)
-#    expect(logger).to have_a_success_message
-#  end
+  it 'can do a UTF-8 import' do
+    import_file('utf-8.csv', logger)
+    expect(logger).to have_a_success_message
+  end
 
   it 'can do an ISO western import' do
     import_file('iso-western.csv', logger)
