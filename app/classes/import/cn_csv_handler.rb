@@ -15,6 +15,9 @@ class CnCsvHandler < BaseCsvHandler
         date: CsvUtility.read_cell(csv, 'M', 4),
         label: CsvUtility.read_cell(csv, 'J', 7)
       })
+      unless @cn_curve.can_overwrite @batch.id, @overwrite_batch_id
+        raise Gemdata::NoPermissionToOverwrite, "No permission to override CnCurve from a different batch: #{@cn_curve.to_json}"
+      end
 
       (1..8).each do |n|
         row = n + 10

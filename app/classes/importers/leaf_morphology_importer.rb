@@ -10,6 +10,8 @@ class LeafMorphologyImporter < RowImporter
       :leaf => find_or_create_leaf(values[4]),
       :date => Date.strptime(values[1], "%d/%m/%Y")
     })
+    attempt_to_overwrite!(@az)
+
     @az.evaluators = values[2]
     @az.fresh_mass = nil_if_zero(values[5])
     @az.dry_mass = nil_if_zero(values[6])

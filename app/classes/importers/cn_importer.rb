@@ -18,6 +18,8 @@ class CnImporter < RowImporter
       row:      values[3],
       column:   values[4]
     })
+    attempt_to_overwrite!(@cn)
+
     @cn.c_percent = values[5]
     @cn.n_percent = values[6]
     @cn.cn_ratio  = values[7]

@@ -65,6 +65,11 @@ class RowImporter
       ar_class.batch_find_or_create_by!(@batch_id, unique_identifiers)
     end
 
+    def attempt_to_overwrite!(object)
+      unless object.can_overwrite(@batch_id, @overwrite_batch_id)
+        raise Gemdata::NoPermissionToOverwrite, "No permission to override #{object.class.name} from a different batch: #{object.to_json}"
+      end
+    end
 
     def is_nil_value(value)
       value.nil? || value.to_f == 0 || value == '-'

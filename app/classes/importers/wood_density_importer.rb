@@ -10,6 +10,7 @@ class WoodDensityImporter < RowImporter
       date:   Date.strptime(values[1], "%d/%m/%Y"),
       branch: find_or_create_branch(values[3])
     })
+    attempt_to_overwrite!(@wood)
 
     @wood.evaluator = values[2]
     @wood.branch_number = values[4]

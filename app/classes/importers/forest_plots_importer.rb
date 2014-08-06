@@ -22,6 +22,7 @@ class ForestPlotsImporter < RowImporter
 
     if plot.nil?
       plot = find_or_create(Plot, :fp_id => values[0], :plot_code => plot_code)
+      attempt_to_overwrite!(plot)
       plot.plot_desc = values[2]
       plot.save!
 
@@ -40,6 +41,7 @@ class ForestPlotsImporter < RowImporter
       :tree_code => 'T' + values[19],
       sub_plot: sub_plot
     })
+    attempt_to_overwrite!(@tree)
 
     family  = find_or_create(FpFamily,  :apg_id => values[11], :name => values[12])
     genus   = find_or_create(FpGenus,   :fp_id  => values[13], :name => values[14], :fp_family => family)

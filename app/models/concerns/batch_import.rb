@@ -6,8 +6,8 @@ module BatchImport
     validates  :batch, :presence => true
   end
 
-  def can_overwrite(overwrite_id)
-    new_record? or batch_id.nil? or batch_id == overwrite_id
+  def can_overwrite(current_batch_id, overwrite_batch_id)
+    new_record? or batch_id.nil? or batch_id == current_batch_id or batch_id == overwrite_batch_id
   end
 
   module ClassMethods

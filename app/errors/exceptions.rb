@@ -9,6 +9,9 @@ module Exceptions
   class Gemdata::TransactionHasErrors < StandardError
   end
 
+  class Gemdata::NoPermissionToOverwrite < StandardError
+  end
+
   class Gemdata::CodeUnreadable < StandardError
   end
 

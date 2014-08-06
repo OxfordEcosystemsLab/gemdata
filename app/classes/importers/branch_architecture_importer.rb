@@ -10,6 +10,8 @@ class BranchArchitectureImporter < RowImporter
       :branch => find_or_create_branch(values[3]),
       :date   => Date.strptime(values[1], "%d/%m/%Y")
     })
+    attempt_to_overwrite!(@ba)
+
     @ba.evaluator = values[2]
     @ba.section = values[5]
     @ba.parent = zero_if_base(values[6])

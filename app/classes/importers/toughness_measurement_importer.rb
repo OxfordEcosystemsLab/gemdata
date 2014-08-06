@@ -10,6 +10,7 @@ class ToughnessMeasurementImporter < RowImporter
       :branch => find_or_create_branch(values[3]),
       :date   => Date.strptime(values[1], "%d/%m/%Y")
     })
+    attempt_to_overwrite!(@tm)
 
     @tm.evaluator = values[2]
     @tm.replica = values[4]

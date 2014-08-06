@@ -10,6 +10,8 @@ class SpectraMeasurementImporter < RowImporter
       leaf:  find_or_create_leaf(values[1] + '-L' + values[4]),
       order: values[4]
     })
+    attempt_to_overwrite!(@sm)
+
     @sm.comments = values[2]
     @sm.branch   = values[3]
     @sm.type     = values[5]

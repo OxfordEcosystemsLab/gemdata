@@ -90,6 +90,9 @@ class BaseCsvHandler
           begin
             status = importer.read_row(row, @logger) || Lookup::ImportStatus.failed
             @status_counts[status] += 1
+          rescue Gemdata::NoPermissionToOverwrite => ex
+            @logger.warn "Skipping item which already exists on line #{row_number} - #{ex.message}"
+            @status_counts[Lookup::ImportStatus.skipped] += 1
           rescue => ex
             transaction_is_ok = false
             @status_counts[Lookup::ImportStatus.failed] += 1
