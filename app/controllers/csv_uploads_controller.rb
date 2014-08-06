@@ -24,6 +24,7 @@ class CsvUploadsController < ApplicationController
       BranchArchitectureImporter,
       ForestPlotsImporter,
       CnImporter,
+      CnpMeasurementImporter,
       ToughnessMeasurementImporter,
       WoodDensityImporter,
       SpectraMeasurementImporter,
