@@ -34,6 +34,22 @@ class RowImporter
 
   protected
 
+    def save_with_status!
+      new     = object.new_record?
+      changed = object.changed?
+      saved   = object.save!
+
+      if new
+        Lookup::ImportStatus.inserted
+      elsif changed
+        Lookup::ImportStatus.updated
+      elsif not saved
+        Lookup::ImportStatus.failed
+      else
+        Lookup::ImportStatus.skipped
+      end
+    end
+
 
     def is_nil_value(value)
       value.nil? || value.to_f == 0 || value == '-'

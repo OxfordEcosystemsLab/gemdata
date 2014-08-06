@@ -15,13 +15,7 @@ class LeafMorphologyImporter < RowImporter
     @az.petiole_width = nil_if_zero(values[8])
     @az.comments = values[9]
 
-    if @az.save
-      status = Lookup::ImportStatus.inserted
-    else
-      status = Lookup::ImportStatus.failed
-    end
-
-    return status
+    save_with_status!
   end
 
   private

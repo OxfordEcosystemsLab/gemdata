@@ -12,13 +12,7 @@ class WoodDensityImporter < RowImporter
     @wood.branch_number = values[4]
     @wood.volume = values[5].to_f unless values[5].nil?
 
-    if @wood.save
-      status = Lookup::ImportStatus.inserted
-    else
-      status = Lookup::ImportStatus.failed
-    end
-
-    return status
+    save_with_status!
   end
 
   private

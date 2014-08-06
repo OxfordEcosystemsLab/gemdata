@@ -23,13 +23,7 @@ class CnImporter < RowImporter
     @cn.n15_delta = values[9]
     @cn.c13_delta = values[10]
 
-    if @cn.save!
-      status = Lookup::ImportStatus.inserted
-    else
-      status = Lookup::ImportStatus.failed
-    end
-
-    return status
+    save_with_status!
   end
 
   private

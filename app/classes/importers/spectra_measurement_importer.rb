@@ -17,13 +17,7 @@ class SpectraMeasurementImporter < RowImporter
       @sm.send("measurement_#{n}=", values[n - 350 + 6])
     end
 
-    if @sm.save
-      status = Lookup::ImportStatus.inserted
-    else
-      status = Lookup::ImportStatus.failed
-    end
-
-    return status
+    save_with_status!
   end
 
   private

@@ -17,13 +17,7 @@ class BranchArchitectureImporter < RowImporter
     @ba.longitude = nil_if_zero(values[10])
     @ba.comments = values[11]
 
-    if @ba.save
-      status = Lookup::ImportStatus.inserted
-    else
-      status = Lookup::ImportStatus.failed
-    end
-
-    return status
+    save_with_status!
   end
 
   private

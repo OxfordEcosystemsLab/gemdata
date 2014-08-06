@@ -58,10 +58,10 @@ class ForestPlotsImporter < RowImporter
     changed    = @tree.changed?
 
     begin
-      @saved = nil
+      @status = nil
       # Stop postgres from deciding that the world has ended
       Tree.transaction(requires_new: true) do
-        @saved = @tree.save!
+        @status = save_with_status!
       end
     rescue ActiveRecord::RecordNotUnique => e
       existing_tree = Tree.where(tree_code: tree_code, sub_plot: sub_plot).first
@@ -76,15 +76,15 @@ Saving with tree code #{@tree.tree_code}]
       dup_tree.fp_species = @tree.fp_species
       @tree = dup_tree
 
-      @saved = @tree.save!
+      @status = save_with_status!
     end
 
-    if @saved
+    if @status != Lookup::ImportStatus.failed
       census = Census.find_or_create_by!(:mean_date => values[5], :number => values[6], :plot => plot)
       @tree.dbh_measurements.create!(:value => values[20], :census => census)
     end
 
-    return work_out_status(@saved, new_record, changed)
+    @status
   end
 
   private
@@ -95,26 +95,6 @@ Saving with tree code #{@tree.tree_code}]
 
     def self.ar_class
       Tree
-    end
-
-    def work_out_status(saved, new, changed)
-      if new
-        Lookup::ImportStatus.inserted
-      elsif changed
-        Lookup::ImportStatus.updated
-      elsif not saved
-        Lookup::ImportStatus.failed
-      else
-        Lookup::ImportStatus.skipped
-      end
-    end
-
-    def first_or_new_tree(fp_id, tree_code, sub_plot, overwrite_batch_id)
-      if overwrite_batch_id
-        Tree.find_or_initialize_by(fp_id: fp_id, tree_code: tree_code, sub_plot: sub_plot, batch_id: overwrite_batch_id)
-      else
-        Tree.find_or_initialize_by(fp_id: fp_id, tree_code: tree_code, sub_plot: sub_plot)
-      end
     end
 
 end

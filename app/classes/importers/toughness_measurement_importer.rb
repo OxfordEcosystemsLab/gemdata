@@ -15,13 +15,7 @@ class ToughnessMeasurementImporter < RowImporter
     @tm.lines = values[7]
     @tm.punch = values[8]
 
-    if @tm.save
-      status = Lookup::ImportStatus.inserted
-    else
-      status = Lookup::ImportStatus.failed
-    end
-
-    return status
+    save_with_status!
   end
 
   private
