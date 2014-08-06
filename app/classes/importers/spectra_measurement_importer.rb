@@ -5,12 +5,13 @@ class SpectraMeasurementImporter < RowImporter
   end
 
   def read_row(values, logger)
-    @sm = SpectraMeasurement.new
 
-    @sm.code     = values[1] + '-L' + values[4]
+    @sm = find_or_new({
+      leaf:  find_or_create_leaf(values[1] + '-L' + values[4]),
+      order: values[4]
+    })
     @sm.comments = values[2]
     @sm.branch   = values[3]
-    @sm.order    = values[4]
     @sm.type     = values[5]
 
     (350..1100).each do |n|
@@ -20,11 +21,9 @@ class SpectraMeasurementImporter < RowImporter
     save_with_status!
   end
 
-  private
-
-    def self.ar_class
-      SpectraMeasurement
-    end
+  def self.ar_class
+    SpectraMeasurement
+  end
 
 end
 

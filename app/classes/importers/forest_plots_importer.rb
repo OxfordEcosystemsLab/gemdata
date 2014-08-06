@@ -1,10 +1,7 @@
 class ForestPlotsImporter < RowImporter
 
-  attr_writer :batch_id
-  attr_writer :overwrite_batch_id
-
-  def initialize
-    super
+  def initialize(batch_id, overwrite_batch_id)
+    super(batch_id, overwrite_batch_id)
     @plots_cache = Hash.new
     @sub_plots_cache = Hash.new
   end
@@ -24,10 +21,7 @@ class ForestPlotsImporter < RowImporter
     plot = @plots_cache[plot_code]
 
     if plot.nil?
-      plot = Plot.find_or_initialize_by(
-        :fp_id => values[0],
-        :plot_code => plot_code,
-      )
+      plot = find_or_create(Plot, :fp_id => values[0], :plot_code => plot_code)
       plot.plot_desc = values[2]
       plot.save!
 
@@ -37,25 +31,20 @@ class ForestPlotsImporter < RowImporter
     sub_plot = @sub_plots_cache[plot.id]
 
     if sub_plot.nil?
-      sub_plot = SubPlot.find_or_create_by!(:plot_id => plot.id)
+      sub_plot = find_or_create(SubPlot, :plot_id => plot.id)
       @sub_plots_cache[plot.id] = sub_plot
     end
 
-    tree_code = 'T' + values[19]
-    fp_id     = values[10]
+    @tree = find_or_new({
+      :fp_id => values[10],
+      :tree_code => 'T' + values[19],
+      sub_plot: sub_plot
+    })
 
-    @tree = first_or_new_tree(fp_id, tree_code, sub_plot, @overwrite_batch_id)
-
-    if @tree.batch.nil?
-      @tree.batch_id = @batch_id
-    end
-
-    family = FpFamily.find_or_create_by!(:apg_id => values[11], :name => values[12])
-    genus  = FpGenus.find_or_create_by!(:fp_id => values[13], :name => values[14], :fp_family => family)
-    @tree.fp_species = FpSpecies.find_or_create_by!(:fp_id => values[15], :name => values[16], :fp_genus => genus)
-
-    new_record = @tree.new_record?
-    changed    = @tree.changed?
+    family  = find_or_create(FpFamily,  :apg_id => values[11], :name => values[12])
+    genus   = find_or_create(FpGenus,   :fp_id  => values[13], :name => values[14], :fp_family => family)
+    species = find_or_create(FpSpecies, :fp_id  => values[15], :name => values[16], :fp_genus => genus)
+    @tree.fp_species = species
 
     begin
       @status = nil
@@ -64,15 +53,14 @@ class ForestPlotsImporter < RowImporter
         @status = save_with_status!
       end
     rescue ActiveRecord::RecordNotUnique => e
-      existing_tree = Tree.where(tree_code: tree_code, sub_plot: sub_plot).first
+      existing_tree = Tree.where(tree_code: @tree.tree_code, sub_plot: sub_plot).first
       @tree.tree_code = @tree.tree_code.gsub('T', 'DUP')
-      error_message = %[Trying to import a duplicate tree code for #{tree_code} in plot #{plot_code}
+      error_message = %[Trying to import a duplicate tree code for #{@tree.tree_code} in plot #{plot_code}
 New fp id is #{@tree.fp_id} vs existing fp id #{existing_tree.fp_id}
 Saving with tree code #{@tree.tree_code}]
       logger.error error_message
 
-      dup_tree = first_or_new_tree(fp_id, @tree.tree_code, sub_plot, @overwrite_batch_id)
-      dup_tree.batch_id   = @tree.batch_id
+      dup_tree = find_or_new(fp_id: @tree.fp_id, tree_code: @tree.tree_code, sub_plot: sub_plot)
       dup_tree.fp_species = @tree.fp_species
       @tree = dup_tree
 
@@ -80,8 +68,8 @@ Saving with tree code #{@tree.tree_code}]
     end
 
     if @status != Lookup::ImportStatus.failed
-      census = Census.find_or_create_by!(:mean_date => values[5], :number => values[6], :plot => plot)
-      @tree.dbh_measurements.create!(:value => values[20], :census => census)
+      census = find_or_create(Census, :mean_date => values[5], :number => values[6], :plot => plot)
+      dbh    = find_or_create(DbhMeasurement, :tree => @tree, :value => values[20], :census => census)
     end
 
     @status

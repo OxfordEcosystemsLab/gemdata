@@ -5,10 +5,12 @@ class BranchArchitectureImporter < RowImporter
   end
 
   def read_row(values, logger)
-    @ba = BranchArchitecture.new
-    @ba.date = Date.strptime(values[1], "%d/%m/%Y")
+
+    @ba = find_or_new({
+      :branch => find_or_create_branch(values[3]),
+      :date   => Date.strptime(values[1], "%d/%m/%Y")
+    })
     @ba.evaluator = values[2]
-    @ba.code = values[3]
     @ba.section = values[5]
     @ba.parent = zero_if_base(values[6])
     @ba.tip = values[7]

@@ -5,10 +5,12 @@ class LeafMorphologyImporter < RowImporter
   end
 
   def read_row(values, logger)
-    @az = LeafMorphology.new
-    @az.date = Date.strptime(values[1], "%d/%m/%Y")
+
+    @az = find_or_new({
+      :leaf => find_or_create_leaf(values[4]),
+      :date => Date.strptime(values[1], "%d/%m/%Y")
+    })
     @az.evaluators = values[2]
-    @az.code = values[4]
     @az.fresh_mass = nil_if_zero(values[5])
     @az.dry_mass = nil_if_zero(values[6])
     @az.thickness = nil_if_zero(values[7])

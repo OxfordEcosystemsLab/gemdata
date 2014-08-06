@@ -58,7 +58,8 @@ class BaseCsvHandler
 
       prepare_pre_import
 
-      importer = prepare_importer(@importer_class.new)
+      importer = @importer_class.new(@batch.id, @overwrite_batch_id)
+      importer = prepare_importer(importer)
 
       begin
 

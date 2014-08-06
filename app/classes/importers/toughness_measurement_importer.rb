@@ -5,10 +5,13 @@ class ToughnessMeasurementImporter < RowImporter
   end
 
   def read_row(values, logger)
-    @tm = ToughnessMeasurement.new
-    @tm.date = Date.strptime(values[1], "%d/%m/%Y")
+
+    @tm = find_or_new({
+      :branch => find_or_create_branch(values[3]),
+      :date   => Date.strptime(values[1], "%d/%m/%Y")
+    })
+
     @tm.evaluator = values[2]
-    @tm.code = values[3]
     @tm.replica = values[4]
     @tm.thickness = values[5]
     @tm.width = values[6]

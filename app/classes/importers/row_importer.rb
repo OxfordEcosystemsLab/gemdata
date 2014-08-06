@@ -2,6 +2,11 @@ require 'exceptions'
 
 class RowImporter
 
+  def initialize(batch_id, overwrite_batch_id)
+    @batch_id = batch_id
+    @overwrite_batch_id = overwrite_batch_id
+  end
+
   def self.table_name
     ar_class.to_s.tableize
   end
@@ -48,6 +53,16 @@ class RowImporter
       else
         Lookup::ImportStatus.skipped
       end
+    end
+
+    def find_or_new(ar_class = nil, unique_identifiers)
+      ar_class ||= self.class.ar_class
+      ar_class.batch_find_or_initialize_by(@batch_id, unique_identifiers)
+    end
+
+    def find_or_create(ar_class = nil, unique_identifiers)
+      ar_class ||= self.class.ar_class
+      ar_class.batch_find_or_create_by!(@batch_id, unique_identifiers)
     end
 
 
