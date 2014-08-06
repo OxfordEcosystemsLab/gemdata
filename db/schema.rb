@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140729134728) do
+ActiveRecord::Schema.define(version: 20140806002608) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.string   "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "branch_architectures", ["branch_id"], name: "index_branch_architectures_on_branch_id", using: :btree
@@ -50,6 +51,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.float    "photons"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "branch_light_measurements", ["branch_light_placement_id"], name: "index_branch_light_measurements_on_branch_light_placement_id", using: :btree
@@ -75,6 +77,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.datetime "end"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "branch_light_placements", ["branch_id"], name: "index_branch_light_placements_on_branch_id", using: :btree
@@ -85,6 +88,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.integer  "tree_id",    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "branches", ["code"], name: "index_branches_on_code", unique: true, using: :btree
@@ -96,6 +100,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "plot_id"
+    t.integer  "batch_id"
   end
 
   create_table "cn_curves", force: true do |t|
@@ -141,6 +146,9 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.float    "cn_ratio_8"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
+    t.string   "date"
+    t.string   "label"
   end
 
   create_table "cn_measurements", force: true do |t|
@@ -156,6 +164,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.float    "c13_delta"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "cn_measurements", ["cn_curve_id"], name: "index_cn_measurements_on_cn_curve_id", using: :btree
@@ -177,6 +186,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.integer  "box_number"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "cnp_measurements", ["leaf_id"], name: "index_cnp_measurements_on_leaf_id", using: :btree
@@ -236,6 +246,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.integer  "tree_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "crown_perimeters", ["tree_id"], name: "index_crown_perimeters_on_tree_id", using: :btree
@@ -269,6 +280,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.float    "value"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "dbh_measurements", ["census_id"], name: "index_dbh_measurements_on_census_id", using: :btree
@@ -361,6 +373,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   create_table "fp_genera", force: true do |t|
@@ -369,6 +382,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "fp_genera", ["fp_family_id"], name: "index_fp_genera_on_fp_family_id", using: :btree
@@ -379,6 +393,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "fp_species", ["fp_genus_id"], name: "index_fp_species_on_fp_genus_id", using: :btree
@@ -411,6 +426,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.integer  "hemi_photo_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "hemi_photo_files", ["hemi_photo_id"], name: "index_hemi_photo_files_on_hemi_photo_id", using: :btree
@@ -419,6 +435,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.integer  "tree_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "hemi_photos", ["tree_id"], name: "index_hemi_photos_on_tree_id", using: :btree
@@ -427,6 +444,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.integer  "branch_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "herbivories", ["branch_id"], name: "index_herbivories_on_branch_id", using: :btree
@@ -487,6 +505,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.integer  "leaf_part_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "leaf_anatomies", ["leaf_part_id"], name: "index_leaf_anatomies_on_leaf_part_id", using: :btree
@@ -526,6 +545,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.integer  "leaf_part_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "leaf_areas", ["leaf_part_id"], name: "index_leaf_areas_on_leaf_part_id", using: :btree
@@ -541,6 +561,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.string   "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "leaf_morphologies", ["leaf_id"], name: "index_leaf_morphologies_on_leaf_id", using: :btree
@@ -549,6 +570,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.integer  "leaf_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "leaf_parts", ["leaf_id"], name: "index_leaf_parts_on_leaf_id", using: :btree
@@ -557,6 +579,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.integer  "branch_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "leaf_repellencies", ["branch_id"], name: "index_leaf_repellencies_on_branch_id", using: :btree
@@ -599,6 +622,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.integer  "leaf_part_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "leaf_venations", ["leaf_part_id"], name: "index_leaf_venations_on_leaf_part_id", using: :btree
@@ -608,6 +632,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.string   "code"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "leaves", ["branch_id"], name: "index_leaves_on_branch_id", using: :btree
@@ -626,6 +651,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.datetime "end"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "light_hangings", ["tree_id"], name: "index_light_hangings_on_tree_id", using: :btree
@@ -639,6 +665,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "plot_id"
+    t.integer  "batch_id"
   end
 
   create_table "light_string_measurements", force: true do |t|
@@ -678,6 +705,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.float    "m26"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "light_string_measurements", ["light_hanging_id"], name: "index_light_string_measurements_on_light_hanging_id", using: :btree
@@ -749,6 +777,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.float    "m9"
     t.float    "m10"
     t.string   "observations"
+    t.integer  "batch_id"
   end
 
   add_index "osmometries", ["branch_id"], name: "index_osmometries_on_branch_id", using: :btree
@@ -799,6 +828,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.float    "concentration_16"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   create_table "phosphorus_measurements", force: true do |t|
@@ -816,6 +846,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.float    "corrected_std"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "phosphorus_measurements", ["leaf_id"], name: "index_phosphorus_measurements_on_leaf_id", using: :btree
@@ -848,6 +879,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.float    "pressure"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "photosynthesis_measurements", ["leaf_id"], name: "index_photosynthesis_measurements_on_leaf_id", using: :btree
@@ -919,9 +951,10 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "fp_id"
+    t.integer  "batch_id"
   end
 
-  add_index "plots", ["plot_code"], name: "index_plots_on_plot_code", unique: true, using: :btree
+  add_index "plots", ["plot_code", "fp_id"], name: "index_plots_on_plot_code_and_fp_id", unique: true, using: :btree
   add_index "plots", ["site_id"], name: "index_plots_on_site_id", using: :btree
 
   create_table "region_countries", force: true do |t|
@@ -1072,6 +1105,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.integer  "leaf_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "specific_leaf_areas", ["leaf_id"], name: "index_specific_leaf_areas_on_leaf_id", using: :btree
@@ -1836,6 +1870,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.float    "measurement_1100"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "spectra_measurements", ["leaf_id"], name: "index_spectra_measurements_on_leaf_id", using: :btree
@@ -1884,6 +1919,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.float    "sub_plot_area_m2"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "sub_plots", ["plot_id", "sub_plot_code"], name: "index_sub_plots_on_plot_id_and_sub_plot_code", unique: true, using: :btree
@@ -1899,6 +1935,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.float    "lines"
     t.float    "punch"
     t.float    "tensile_strength"
+    t.integer  "batch_id"
   end
 
   add_index "toughness_measurements", ["branch_id"], name: "index_toughness_measurements_on_branch_id", using: :btree
@@ -1937,6 +1974,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.string   "second_note"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "weather_readings", ["plot_id"], name: "index_weather_readings_on_plot_id", using: :btree
@@ -1945,6 +1983,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.integer  "branch_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "wood_anatomies", ["branch_id"], name: "index_wood_anatomies_on_branch_id", using: :btree
@@ -1957,6 +1996,7 @@ ActiveRecord::Schema.define(version: 20140729134728) do
     t.float    "volume"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "wood_densities", ["branch_id"], name: "index_wood_densities_on_branch_id", using: :btree
