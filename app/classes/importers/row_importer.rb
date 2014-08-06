@@ -35,6 +35,14 @@ class RowImporter
   protected
 
 
+    def is_nil_value(value)
+      value.nil? || value.to_f == 0 || value == '-'
+    end
+
+    def nil_if_zero(value)
+      return value unless is_nil_value(value)
+    end
+
     def find_or_create_branch(code, reader = nil)
 
       if reader.nil?
