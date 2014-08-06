@@ -11,10 +11,10 @@ class CnCsvHandler < BaseCsvHandler
 
       csv = CSV.read(File.open(@csv_file))
 
-      @cn_curve = CnCurve.new
-
-      date = CsvUtility.read_cell(csv, 'M', 4)
-      label = CsvUtility.read_cell(csv, 'J', 7)
+      @cn_curve = CnCurve.batch_find_or_initialize_by(@batch.id, {
+        date: CsvUtility.read_cell(csv, 'M', 4),
+        label: CsvUtility.read_cell(csv, 'J', 7)
+      })
 
       (1..8).each do |n|
         row = n + 10
@@ -24,6 +24,8 @@ class CnCsvHandler < BaseCsvHandler
         @cn_curve.send("n_percent_#{n}=", CsvUtility.read_cell(csv, 'Q', row))
         @cn_curve.send("cn_ratio_#{n}=",  CsvUtility.read_cell(csv, 'R', row))
       end
+
+      @cn_curve.save!
 
     end
 
