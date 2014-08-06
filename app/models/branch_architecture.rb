@@ -1,6 +1,8 @@
 require 'csv'
 
 class BranchArchitecture < ActiveRecord::Base
+  include BatchImport
+
   belongs_to :branch
 
   validates :branch,    presence: true

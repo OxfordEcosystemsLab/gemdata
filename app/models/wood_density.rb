@@ -1,6 +1,8 @@
 require 'csv'
 
 class WoodDensity < ActiveRecord::Base
+  include BatchImport
+
   belongs_to :branch
 
   validates :branch, presence: true

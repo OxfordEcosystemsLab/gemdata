@@ -1,4 +1,6 @@
 class StemRespirationImports < ActiveRecord::Base
+  include BatchImport
+
 
   include CSVImportTable
 

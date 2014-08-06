@@ -1,4 +1,5 @@
 class Tree < ActiveRecord::Base
+  include BatchImport
 
   belongs_to :sub_plot
   belongs_to :fp_species

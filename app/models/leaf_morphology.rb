@@ -1,4 +1,6 @@
 class LeafMorphology < ActiveRecord::Base
+  include BatchImport
+
   belongs_to :leaf
 
   validates :leaf,       presence: true

@@ -1,4 +1,6 @@
 class CnMeasurement < ActiveRecord::Base
+  include BatchImport
+
   belongs_to :cn_curve
   belongs_to :leaf
 

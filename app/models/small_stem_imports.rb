@@ -1,4 +1,6 @@
 class SmallStemImports < ActiveRecord::Base
+  include BatchImport
+
 
   include CSVImportTable
 

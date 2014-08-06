@@ -1,4 +1,6 @@
 class SpectraMeasurement < ActiveRecord::Base
+  include BatchImport
+
   belongs_to :leaf
 
   validates :leaf, :branch, :order, :measurement_350, :presence => true

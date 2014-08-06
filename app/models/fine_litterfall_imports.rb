@@ -1,4 +1,6 @@
 class FineLitterfallImports < ActiveRecord::Base
+  include BatchImport
+
 
   include CSVImportTable
 

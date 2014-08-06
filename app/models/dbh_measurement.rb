@@ -1,4 +1,6 @@
 class DbhMeasurement < ActiveRecord::Base
+  include BatchImport
+
   belongs_to :tree
   belongs_to :census
 
