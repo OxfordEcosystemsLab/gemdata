@@ -6,7 +6,8 @@ describe FpGenus do
     @genus = FpGenus.new
     @genus.name = 'Homo'
     @genus.fp_id = 123
-    @genus.fp_family = FpFamily.create!(apg_id: 15, name: 'Hominidae')
+    @genus.fp_family = FpFamily.create!(apg_id: 15, name: 'Hominidae', batch: Batch.create!)
+    @genus.batch = Batch.new
   end
 
   it 'can be valid' do

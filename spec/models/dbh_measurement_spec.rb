@@ -6,6 +6,7 @@ describe DbhMeasurement do
     @dbh = DbhMeasurement.new
     @dbh.tree = Tree.new
     @dbh.census = Census.new
+    @dbh.batch = Batch.new
   end
 
   it 'can be valid' do

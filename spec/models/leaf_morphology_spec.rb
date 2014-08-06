@@ -4,12 +4,13 @@ describe LeafMorphology do
 
   before :each do
     @az = LeafMorphology.new
-    @az.leaf = Leaf.create(:code => 'L1L')
+    @az.leaf = Leaf.create(:code => 'L1L', batch: Batch.create!)
     @az.date = Date.new(2014,4,5)
     @az.evaluators = 'Me-Myself-Irene'
     @az.fresh_mass = 2.31
     @az.dry_mass   = 2.21
     @az.thickness  = 5.32
+    @az.batch      = Batch.new
   end
 
   it 'is not valid on its own' do

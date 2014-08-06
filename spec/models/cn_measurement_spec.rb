@@ -13,6 +13,7 @@ describe CnMeasurement do
     @cn.n15_delta = -3.3
     @cn.c13_delta = -27.7
     @cn.cn_curve = CnCurve.new
+    @cn.batch = Batch.new
   end
 
   it 'can be valid' do

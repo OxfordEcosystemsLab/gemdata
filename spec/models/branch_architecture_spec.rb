@@ -4,15 +4,12 @@ require 'date'
 describe BranchArchitecture do
 
   before :each do
-    plot = Plot.create!(:plot_code => 'SPD01')
-    sub_plot = SubPlot.create!(:plot_id => plot.id)
-    fp_species = FpSpecies.new
-    tree = Tree.create!(:tree_code => 'T1159', :sub_plot => sub_plot, :fp_species => fp_species)
+    branch = set_up_branch('SPD01', 'T1159', 'B1S')
 
     @b = BranchArchitecture.new
     @b.date = Date.new(2013,6,9)
     @b.evaluator = '"Milenka, Tatiana"'
-    @b.code = 'SPD01-T1159-B1S'
+    @b.branch = branch
     @b.section = 1
     @b.parent = 0
     @b.tip = 'NO'
@@ -20,6 +17,7 @@ describe BranchArchitecture do
     @b.diam_sup = 10.9
     @b.longitude = 118.9
     @b.comments = 'Test comment'
+    @b.batch_id = 1
   end
 
   it 'is not valid on its own' do

@@ -7,6 +7,7 @@ describe Tree do
     @tree.tree_code = 'abc'
     @tree.sub_plot = SubPlot.create(:plot_id => 2)
     @tree.fp_species = FpSpecies.create(:name => 'Sapien')
+    @tree.batch = Batch.new
   end
 
   it 'can be valid' do

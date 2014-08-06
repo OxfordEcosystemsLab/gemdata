@@ -6,7 +6,8 @@ describe Census do
     @census = Census.new
     @census.mean_date = '2014.05'
     @census.number = 2
-    @census.plot = Plot.create!(plot_code:'ABC4')
+    @census.plot = set_up_plot('ABC4')
+    @census.batch_id = 1
   end
 
   it 'can be valid' do

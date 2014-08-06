@@ -11,6 +11,7 @@ describe SpectraMeasurement do
     @sm.order    = '4'
     @sm.type     = 'top_ref'
     @sm.measurement_350 = 0.535356
+    @sm.batch    = Batch.new
   end
 
   it 'is not valid on its own' do

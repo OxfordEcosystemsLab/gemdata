@@ -6,18 +6,14 @@ describe BranchArchitectureImporter do
   it_behaves_like 'Importer'
 
   before :each do
-    plot = Plot.create!(:plot_code => 'SPD01')
-    sub_plot = SubPlot.create!(:plot_id => plot.id)
-    fp_species = FpSpecies.new
-    tree = Tree.create!(:tree_code => 'T1159', :sub_plot => sub_plot, :fp_species => fp_species)
-    @branch = Branch.create(:code => 'B1S', :tree_id => tree.id)
+    @branch = set_up_branch('SPD01', 'T1159', 'B1S', 1)
   end
 
   it 'can read CSV' do
 
     values = CSV.parse_line 'San Pedro I,09/06/2013,"Milenka, Tatiana",SPD01-T1159-B1S,Inga indet.,1,Base,NO,12.24,10.9,118.9,Test comment'
 
-    importer = BranchArchitectureImporter.new
+    importer = BranchArchitectureImporter.new(1, 2)
     status = importer.read_row(values, Array.new)
     expect(status).to eq(Lookup::ImportStatus.inserted)
 
@@ -39,7 +35,7 @@ describe BranchArchitectureImporter do
 
     values = CSV.parse_line 'San Pedro I,09/06/2013,"Milenka, Tatiana",SPD01-T1159-B1S,Inga indet.,4,3,N,-,-,-,'
 
-    importer = BranchArchitectureImporter.new
+    importer = BranchArchitectureImporter.new(1, 2)
     status = importer.read_row(values, Array.new)
     expect(status).to eq(Lookup::ImportStatus.inserted)
 

@@ -6,17 +6,13 @@ describe WoodDensityImporter do
   it_behaves_like 'Importer'
 
   before :each do
-    plot = Plot.create!(:plot_code => 'ACJ01')
-    sub_plot = SubPlot.create!(:plot_id => plot.id)
-    fp_species = FpSpecies.new
-    tree = Tree.create!(:tree_code => 'T802', :sub_plot_id => sub_plot.id, :fp_species => fp_species)
-    @branch = CodeReader.new('ACJ01-T802-B1S,CC1,6.24').find_or_create_branch
+    @branch = set_up_branch('ACJ01', 'T802', 'B1S')
   end
 
   it 'can read CSV' do
 
     values = CSV.parse_line 'Acjnaco,20/05/2013,Omayra,ACJ01-T802-B1S,CC1,6.24'
-    importer = WoodDensityImporter.new
+    importer = WoodDensityImporter.new(1, 2)
     status = importer.read_row(values, Array.new)
     expect(status).to eq(Lookup::ImportStatus.inserted)
 
@@ -32,9 +28,9 @@ describe WoodDensityImporter do
   it 'performs validation' do
 
     values = CSV.parse_line 'Acjnaco,20/05/2013,Omayra,ACJ01-T802-B1S,EC9,,'
-    importer = WoodDensityImporter.new
-    status = importer.read_row(values, Array.new)
-    expect(status).to eq(Lookup::ImportStatus.failed)
+    importer = WoodDensityImporter.new(1, 2)
+
+    expect{importer.read_row(values, Array.new)}.to raise_error
 
     wood = importer.object
     expect(wood).to_not be_valid

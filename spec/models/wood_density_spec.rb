@@ -4,11 +4,12 @@ describe WoodDensity do
 
   before :each do
     @wood = WoodDensity.new
-    @wood.branch = Branch.create(:code => 'B1S')
+    @wood.branch = Branch.create(:code => 'B1S', :batch_id => 1)
     @wood.date = Date.new(2014,4,1)
     @wood.evaluator = 'Ben Holmes'
     @wood.branch_number = 'CC1'
     @wood.volume = 123.41
+    @wood.batch = Batch.create!
   end
 
   it 'is not valid on its own' do

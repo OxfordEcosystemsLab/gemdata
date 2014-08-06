@@ -2,9 +2,7 @@ require 'spec_helper'
 
 describe Leaf do
   before :each do
-    tree = Tree.new(:tree_code => 'def', :sub_plot => SubPlot.new(:plot_id => 2))
-    branch = Branch.new(:code => 'ghi', :tree => tree)
-    @leaf = Leaf.new(:code => 'jkl', :branch => branch)
+    @leaf = set_up_leaf('def', 'ghi', 'jkl', 1)
   end
 
   it 'can be valid' do

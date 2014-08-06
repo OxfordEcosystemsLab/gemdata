@@ -6,6 +6,7 @@ describe FpFamily do
     @family = FpFamily.new
     @family.name = 'Hominidae'
     @family.apg_id = 123
+    @family.batch = Batch.new
   end
 
   it 'can be valid' do

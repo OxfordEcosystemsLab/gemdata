@@ -12,6 +12,7 @@ describe ToughnessMeasurement do
     @tm.width = 2.4
     @tm.lines = 23.2
     @tm.punch = 45.9
+    @tm.batch = Batch.new
   end
 
   it 'is not valid on its own' do

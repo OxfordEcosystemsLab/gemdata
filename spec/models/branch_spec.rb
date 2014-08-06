@@ -5,7 +5,8 @@ describe Branch do
   before :each do
     @branch = Branch.new
     @branch.code = '123'
-    @branch.tree = Tree.create(:tree_code => 'asdf', :sub_plot => SubPlot.new(:plot_id => 2))
+    @branch.tree = set_up_tree('fdsa', 'asdf')
+    @branch.batch_id = 1
   end
 
   it 'can be valid' do

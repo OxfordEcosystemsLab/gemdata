@@ -6,17 +6,13 @@ describe ToughnessMeasurementImporter do
   it_behaves_like 'Importer'
 
   before :each do
-    plot = Plot.create!(:plot_code => 'WAY01')
-    sub_plot = SubPlot.create!(:plot_id => plot.id)
-    fp_species = FpSpecies.new
-    tree = Tree.create!(:tree_code => 'CSP28003-78', :sub_plot => sub_plot, :fp_species => fp_species)
-    @branch = Branch.create(:code => 'S', :tree_id => tree.id)
+    @branch = set_up_branch('WAY01', 'CSP28003-78', 'S')
   end
 
   it 'can read csv' do
     values = CSV.parse_line 'Wayqecha,26/04/2013,Yolvi,WAY01-CSP28003-78-S,L12,0.65,6.97,15.5,4.9,'
 
-    importer = ToughnessMeasurementImporter.new
+    importer = ToughnessMeasurementImporter.new(1, 2)
     status = importer.read_row(values, Array.new)
     expect(status).to eq(Lookup::ImportStatus.inserted)
 

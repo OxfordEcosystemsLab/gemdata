@@ -9,12 +9,13 @@ describe ForestPlotsImporter do
   let(:logger) {ImportLogger.new(Array.new)}
 
   before :each do
+    Batch.find_or_create_by!(id:1)
     @values = CSV.parse_line '90,TAM-04,Tambopata plot two swamp edge clay,PERU,Oliver Phillips,1983.67,1,90,Main Plot View,,54832,377,Sapotaceae,24801,Pouteria,653110,Pouteria indet,,,2,105,105,105,105,1300,a,1,5,0,,,'
   end
 
   it 'can read CSV' do
 
-    importer = ForestPlotsImporter.new
+    importer = ForestPlotsImporter.new(1, 2)
     status = importer.read_row(@values, logger)
     expect(status).to eq(Lookup::ImportStatus.inserted)
 
@@ -52,10 +53,10 @@ describe ForestPlotsImporter do
 
   it 'selects existing plots and subplots' do
 
-    plot = Plot.create!(:plot_code => 'TAM04', :fp_id => 90)
-    subplot = SubPlot.create!(:plot => plot)
+    plot = Plot.create!(:plot_code => 'TAM04', :fp_id => 90, batch_id: 1)
+    subplot = SubPlot.create!(:plot => plot, batch_id: 1)
 
-    importer = ForestPlotsImporter.new
+    importer = ForestPlotsImporter.new(1, 1)
     importer.read_row(@values, logger)
     expect(importer.object.sub_plot.plot).to eq(plot)
     expect(importer.object.sub_plot).to eq(subplot)
@@ -64,11 +65,11 @@ describe ForestPlotsImporter do
 
   it 'selects existing species complex' do
 
-    fp_family = FpFamily.create!(apg_id: 377, name: 'Sapotaceae')
-    fp_genus = FpGenus.create!(fp_id: 24801, name: 'Pouteria', fp_family: fp_family)
-    fp_species = FpSpecies.create!(fp_id: 653110, name: 'Pouteria indet', fp_genus: fp_genus)
+    fp_family = FpFamily.create!(apg_id: 377, name: 'Sapotaceae', batch: Batch.new)
+    fp_genus = FpGenus.create!(fp_id: 24801, name: 'Pouteria', fp_family: fp_family, batch: Batch.new)
+    fp_species = FpSpecies.create!(fp_id: 653110, name: 'Pouteria indet', fp_genus: fp_genus, batch: Batch.new)
 
-    importer = ForestPlotsImporter.new
+    importer = ForestPlotsImporter.new(1, 2)
     importer.read_row(@values, logger)
     expect(importer.object.fp_species).to eq(fp_species)
 
@@ -76,13 +77,13 @@ describe ForestPlotsImporter do
 
   it 'creates selects an existing census' do
 
-    plot = Plot.create!(:plot_code => 'TAM04', :fp_id => 90)
-    sub_plot = SubPlot.create!(:plot_id => plot.id)
+    plot = Plot.create!(:plot_code => 'TAM04', :fp_id => 90, batch_id: 1)
+    sub_plot = SubPlot.create!(:plot_id => plot.id, batch_id: 1)
     fp_species = FpSpecies.new
-    tree = Tree.create!(:tree_code => 'T2', :sub_plot => sub_plot, :fp_species => fp_species, :fp_id => 54832)
-    census = Census.create!(number: 1, mean_date: '1983.67', plot: plot)
+    tree = Tree.create!(:tree_code => 'T2', :sub_plot => sub_plot, :fp_species => fp_species, :fp_id => 54832, batch_id: 1)
+    census = Census.create!(number: 1, mean_date: '1983.67', plot: plot, batch_id: 1)
 
-    importer = ForestPlotsImporter.new
+    importer = ForestPlotsImporter.new(1, 1)
     importer.read_row(@values, logger)
     expect(importer.object.censuses).to include(census)
 
@@ -90,11 +91,11 @@ describe ForestPlotsImporter do
 
   it 'should not incorrectly flag duplicates' do
 
-    first_importer = ForestPlotsImporter.new
+    first_importer = ForestPlotsImporter.new(1, 2)
     first_status   = first_importer.read_row(@values, logger)
 
     second_values   = CSV.parse_line '90,TAM-04,Tambopata plot two swamp edge clay,PERU,Oliver Phillips,1990.755,3,90,Main Plot View,,54832,377,Sapotaceae,24801,Pouteria,653110,Pouteria indet,,,2,121,121,121,121,1300,a,1,5,0,,,'
-    second_importer = ForestPlotsImporter.new
+    second_importer = ForestPlotsImporter.new(1, 1)
     second_status   = second_importer.read_row(second_values, logger)
     expect(second_status).to eq(Lookup::ImportStatus.skipped)
     expect(second_importer.object).to be_valid
@@ -102,11 +103,11 @@ describe ForestPlotsImporter do
   end
 
   it 'should not set a duplicate tag for collisions' do
-    first_importer = ForestPlotsImporter.new
+    first_importer = ForestPlotsImporter.new(1, 2)
     first_status   = first_importer.read_row(@values, logger)
 
     second_values   = CSV.parse_line '90,TAM-04,Tambopata plot two swamp edge clay,PERU,Oliver Phillips,1983.67,1,90,Main Plot View,,12345,377,Sapotaceae,24801,Pouteria,653110,Pouteria indet,,,2,105,105,105,105,1300,a,1,5,0,,,'
-    second_importer = ForestPlotsImporter.new
+    second_importer = ForestPlotsImporter.new(1, 2)
     second_status   = second_importer.read_row(second_values, logger)
     expect(second_status).to eq(Lookup::ImportStatus.inserted)
     expect(second_importer.object).to be_valid

@@ -5,10 +5,7 @@ describe CnCsvHandler do
 
   it 'can do an import with a cn_curve' do
 
-    plot = Plot.create!(:plot_code => 'SPD01')
-    sub_plot = SubPlot.create!(:plot_id => plot.id)
-    fp_species = FpSpecies.new
-    tree = Tree.create!(:tree_code => 'T541', :sub_plot => sub_plot, :fp_species => fp_species)
+    tree = set_up_tree('SPD01', 'T541')
 
     handler = CnCsvHandler.new(CnImporter, "#{Rails.root}/spec/fixtures/cn.csv", Array.new, nil)
     begin

@@ -6,14 +6,7 @@ describe CnImporter do
   it_behaves_like 'Importer'
 
   before :each do
-    plot = Plot.create!(:plot_code => 'SPD01')
-    sub_plot = SubPlot.create!(:plot_id => plot.id)
-
-    fp_species = FpSpecies.new
-
-    tree = Tree.create!(:tree_code => 'T541', :sub_plot => sub_plot, :fp_species => fp_species)
-    branch = Branch.create(:code => 'B1S', :tree_id => tree.id)
-    @leaf = Leaf.create! :code => 'L5', :branch => branch
+    @leaf = set_up_leaf('SPD01', 'T541', 'B1S', 'L5', 1)
 
     @cn_curve = CnCurve.new
   end
@@ -22,7 +15,7 @@ describe CnImporter do
 
     values = CSV.parse_line '1,SPD01-T541-B1S-L5,PERU,A,1,49.4,1.4,36.3,,-3.3,-27.7,,,-29.35 ,-2.16 ,71.11,10.37,6.85'
 
-    importer = CnImporter.new
+    importer = CnImporter.new(1, 2)
     importer.cn_curve = @cn_curve
     status = importer.read_row(values, Array.new)
     expect(status).to eq(Lookup::ImportStatus.inserted)
@@ -42,5 +35,7 @@ describe CnImporter do
 
   end
 
-  it {should respond_to(:cn_curve=)}
+  it 'can assign a cn_curve' do
+    expect(described_class.new(1, 2)).to respond_to(:cn_curve=)
+  end
 end
