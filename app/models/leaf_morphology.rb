@@ -28,9 +28,4 @@ class LeafMorphology < ActiveRecord::Base
     leaf.code.match /[PT]$/ unless leaf.nil?
   end
 
-  def code=(code)
-    reader = CodeReader.new(code)
-    branch = reader.find_or_create_branch
-    self.leaf = Leaf.where(:code => reader.suffix, :branch => branch).first_or_create
-  end
 end

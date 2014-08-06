@@ -12,8 +12,4 @@ class WoodDensity < ActiveRecord::Base
     with: /[SC]C[123]/, message: 'Should be SC or CC followed by 1, 2 or 3'
   }
 
-  def code=(code)
-    self.branch = CodeReader.new(code).find_or_create_branch
-  end
-
 end

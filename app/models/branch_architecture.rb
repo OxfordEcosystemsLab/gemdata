@@ -18,9 +18,4 @@ class BranchArchitecture < ActiveRecord::Base
     end
   end
 
-  def code=(code)
-    reader = CodeReader.new(code)
-    self.branch = reader.find_or_create_branch
-  end
-
 end

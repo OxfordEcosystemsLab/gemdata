@@ -17,9 +17,4 @@ class ToughnessMeasurement < ActiveRecord::Base
   validates :lines, numericality: { :greater_than => 0 }
   validates :punch, numericality: { :greater_than => 0 }
 
-  def code=(code)
-    reader = CodeReader.new(code)
-    self.branch = reader.find_or_create_branch
-  end
-
 end

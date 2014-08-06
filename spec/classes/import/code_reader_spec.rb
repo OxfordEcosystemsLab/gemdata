@@ -23,27 +23,22 @@ describe CodeReader do
     expect_to_not_read "What's all this? What's all this?"
   end
 
-  it 'should be consistent' do
-    create_test_tree("WAY01", "T1031")
-    reader = CodeReader.new "WAY01-T1031-B1S"
-    branch = reader.find_or_create_branch
-    expect(reader.find_or_create_branch).to eq(branch)
-  end
+# These methods have been moved to row_importer
+#
+#  it 'should be consistent' do
+#    set_up_tree("WAY01", "T1031")
+#    reader = CodeReader.new "WAY01-T1031-B1S"
+#    branch = reader.find_or_create_branch
+#    expect(reader.find_or_create_branch).to eq(branch)
+#  end
+#
+#  it 'raises exceptions when records are not available' do
+#    reader = CodeReader.new "WAY01-T1031-B1S"
+#    expect{reader.find_or_create_branch}.to raise_error(Gemdata::PlotNotFound)
+#    set_up_tree('WAY01', 'T1031')
+#    expect{reader.find_or_create_branch}.to_not raise_error
+#  end
+#
+#  it 'knows which sub plot to use'
 
-  it 'raises exceptions when records are not available' do
-    reader = CodeReader.new "WAY01-T1031-B1S"
-    expect{reader.find_or_create_branch}.to raise_error(Gemdata::PlotNotFound)
-    create_test_tree('WAY01', 'T1031')
-    expect{reader.find_or_create_branch}.to_not raise_error
-  end
-
-  it 'knows which sub plot to use'
-
-  private
-    def create_test_tree(plot_code, tree_code)
-      plot = Plot.create!(:plot_code => plot_code)
-      sub_plot = SubPlot.create!(:plot_id => plot.id)
-      fp_species = FpSpecies.new
-      tree = Tree.create!(:tree_code => tree_code, :sub_plot_id => sub_plot.id, :fp_species => fp_species)
-    end
 end
