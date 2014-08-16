@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140806002608) do
+ActiveRecord::Schema.define(version: 20140816203651) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -648,7 +648,7 @@ ActiveRecord::Schema.define(version: 20140806002608) do
     t.float    "hd"
     t.string   "note"
     t.datetime "start"
-    t.datetime "end"
+    t.datetime "finish"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "batch_id"
@@ -706,6 +706,7 @@ ActiveRecord::Schema.define(version: 20140806002608) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "batch_id"
+    t.float    "m20"
   end
 
   add_index "light_string_measurements", ["light_hanging_id"], name: "index_light_string_measurements_on_light_hanging_id", using: :btree
@@ -954,7 +955,7 @@ ActiveRecord::Schema.define(version: 20140806002608) do
     t.integer  "batch_id"
   end
 
-  add_index "plots", ["plot_code", "fp_id"], name: "index_plots_on_plot_code_and_fp_id", unique: true, using: :btree
+  add_index "plots", ["plot_code"], name: "index_plots_on_plot_code", unique: true, using: :btree
   add_index "plots", ["site_id"], name: "index_plots_on_site_id", using: :btree
 
   create_table "region_countries", force: true do |t|
