@@ -5,7 +5,7 @@ class CodeReader
   attr_reader :plot_code, :tree_code, :branch_code, :suffix
 
   def initialize(code)
-    format = /^(\w+\d+)-((?:CSP\d+-\d+|\w\d+))[-\s](\w+\d*\w*)-?(.*)$/
+    format = /^(\w+\d+)-((?:CSP\d+-\d+|\w\d+))(?:[-\s](\w+\d*\w*)-?(.*))?$/
     match = code.match(format) 
     if (match)
       @plot_code   = match[1].upcase
