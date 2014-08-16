@@ -79,7 +79,7 @@ class RowImporter
       return value unless is_nil_value(value)
     end
 
-    def find_or_create_branch(code, reader = nil)
+    def find_or_create_plot(code, reader = nil)
 
       if reader.nil?
         reader = CodeReader.new(code)
@@ -91,10 +91,28 @@ class RowImporter
         raise Gemdata::PlotNotFound, "Plot with code '#{reader.plot_code}' does not exist"
       end
 
+      plot
+    end
+    def find_or_create_tree(code, reader = nil)
+
+      if reader.nil?
+        reader = CodeReader.new(code)
+      end
+
+      plot = find_or_create_plot(code, reader)
       tree = Tree.where(:tree_code => reader.tree_code).includes(:sub_plot).where('sub_plots.plot_id' => plot.id).first
 
       if tree.nil?
         raise Gemdata::TreeNotFound, "Tree with code '#{reader.tree_code}' does not exist in plot #{reader.plot_code}"
+      end
+
+      tree
+    end
+
+    def find_or_create_branch(code, reader = nil)
+
+      if reader.nil?
+        reader = CodeReader.new(code)
       end
 
       find_or_create(Branch, :code => reader.branch_code, :tree_id => tree.id)
