@@ -32,4 +32,11 @@ describe WeatherReading do
     expect(@wr).to_not be_valid
   end
 
+  it 'can find a weather reading betwen two times' do
+    @wr.save!
+    time1 = Time.new 2014, 06, 06, 06, 05
+    time2 = Time.new 2014, 06, 06, 06, 07
+    expect(WeatherReading.find_between time1, time2).to eq(@wr)
+  end
+
 end
