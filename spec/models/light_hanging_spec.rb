@@ -41,4 +41,9 @@ describe LightHanging do
     expect(@lh).to_not be_valid
   end
 
+  it 'should find hangings by a time' do
+    @lh.save!
+    expect(LightHanging.find_by_time Time.new(2013, 6, 14, 7, 0, 0, '+00:00')).to eq(@lh)
+  end
+
 end
