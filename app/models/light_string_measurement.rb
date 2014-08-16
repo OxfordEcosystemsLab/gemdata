@@ -1,5 +1,9 @@
 class LightStringMeasurement < ActiveRecord::Base
   include BatchImport
 
-  belongs_to :light_string_hanging
+  belongs_to :light_hanging
+
+  validates :datetime, :presence => true
+  validates :light_hanging, :presence => true
+
 end

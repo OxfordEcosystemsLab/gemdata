@@ -1,5 +1,34 @@
 require 'spec_helper'
 
 describe LightStringMeasurement do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  before :each do
+    @lsm = LightStringMeasurement.new
+    @lsm.light_hanging = LightHanging.new
+    @lsm.datetime = Time.new(2014, 06, 06, 06, 06, 06)
+    @lsm.record = 134567
+    @lsm.m0 = 1.359
+    @lsm.m10 = 0.611
+    @lsm.m26 = 0.123
+    @lsm.batch = Batch.new
+  end
+
+  it 'can be valid' do
+    expect(@lsm).to be_valid
+  end
+
+  it 'is not valid on its own' do
+    expect(LightStringMeasurement.new).to_not be_valid
+  end
+
+  it 'is not valid without a hanging' do
+    @lsm.light_hanging = nil
+    expect(@lsm).to_not be_valid
+  end
+
+  it 'is not valid without a date' do
+    @lsm.datetime = nil
+    expect(@lsm).to_not be_valid
+  end
+
 end
