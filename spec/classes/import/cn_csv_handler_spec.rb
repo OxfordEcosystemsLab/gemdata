@@ -1,13 +1,30 @@
 require 'spec_helper'
 require 'exceptions'
 
+class FakeImporter < RowImporter
+
+  attr_writer :cn_curve
+
+  def self.table_name
+    'test'
+  end
+
+  def self.ar_class
+    Tree
+  end
+
+  def read_row(values, logger)
+    Float values[0]
+    Lookup::ImportStatus.inserted
+  end
+end
 describe CnCsvHandler do
 
   it 'can do an import with a cn_curve' do
 
     tree = set_up_tree('SPD01', 'T541')
 
-    handler = CnCsvHandler.new(CnImporter, "#{Rails.root}/spec/fixtures/cn.csv", Array.new, nil)
+    handler = CnCsvHandler.new(FakeImporter, "#{Rails.root}/spec/fixtures/cn.csv", Array.new, nil)
     begin
       thread = handler.import!
       thread.join
