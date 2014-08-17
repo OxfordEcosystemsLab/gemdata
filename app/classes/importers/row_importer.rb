@@ -79,6 +79,10 @@ class RowImporter
       return value unless is_nil_value(value)
     end
 
+    def nil_if_NA value
+      value == 'NA' ? nil : value
+    end
+
     def find_or_create_plot(code, reader = nil)
 
       if reader.nil?

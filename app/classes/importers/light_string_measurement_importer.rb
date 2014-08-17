@@ -55,8 +55,4 @@ class LightStringMeasurementImporter < RowImporter
       LightStringMeasurement
     end
 
-    def nil_if_NA value
-      value == 'NA' ? nil : value
-    end
-
 end
