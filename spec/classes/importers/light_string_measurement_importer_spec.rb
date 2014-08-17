@@ -9,8 +9,8 @@ describe LightStringMeasurementImporter do
     @tree = set_up_tree('SPD01', 'T187')
     @light_hanging = LightHanging.create!(
       :tree  => @tree,
-      :start  => Time.new(2013, 06, 8, 8, 0, 0, '+00:00'),
-      :finish => Time.new(2013, 07, 9, 18, 0, 0, '+00:00'),
+      :start  => Time.utc(2013, 06, 8, 8, 0, 0),
+      :finish => Time.utc(2013, 07, 9, 18, 0, 0),
       :weather_reading => WeatherReading.new,
       :batch => Batch.new
     )
@@ -25,7 +25,7 @@ describe LightStringMeasurementImporter do
 
     lsm = importer.object
     expect(lsm.light_hanging).to eq(@light_hanging)
-    expect(lsm.datetime).to eq(Time.new(2013, 6, 9, 16, 30, 10, '+00:00'))
+    expect(lsm.datetime).to eq(Time.utc(2013, 6, 9, 16, 30, 10))
     expect(lsm.m0).to eq(1.359)
     expect(lsm.m0_5).to eq(1.291)
     expect(lsm.m1).to be_nil

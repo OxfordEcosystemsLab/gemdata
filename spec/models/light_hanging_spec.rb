@@ -13,8 +13,8 @@ describe LightHanging do
     @lh.vd = 12
     @lh.hd = 1.2
     @lh.note = 'EL INSTRUMENTO FALLA CONSTANTEMENTE'
-    @lh.start  = Time.new(2013, 6, 13, 13, 52, 0, '+00:00')
-    @lh.finish = Time.new(2013, 6, 14,  9,  0, 0, '+00:00')
+    @lh.start  = Time.utc(2013, 6, 13, 13, 52, 0)
+    @lh.finish = Time.utc(2013, 6, 14,  9,  0, 0)
     @lh.batch = Batch.new
   end
 
@@ -43,7 +43,7 @@ describe LightHanging do
 
   it 'should find hangings by a time' do
     @lh.save!
-    expect(LightHanging.find_by_time Time.new(2013, 6, 14, 7, 0, 0, '+00:00')).to eq(@lh)
+    expect(LightHanging.find_by_time Time.utc(2013, 6, 14, 7, 0, 0)).to eq(@lh)
   end
 
 end

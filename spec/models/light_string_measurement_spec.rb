@@ -5,7 +5,7 @@ describe LightStringMeasurement do
   before :each do
     @lsm = LightStringMeasurement.new
     @lsm.light_hanging = LightHanging.new
-    @lsm.datetime = Time.new(2014, 06, 06, 06, 06, 06)
+    @lsm.datetime = Time.utc(2014, 06, 06, 06, 06, 06)
     @lsm.record = 134567
     @lsm.m0 = 1.359
     @lsm.m10 = 0.611

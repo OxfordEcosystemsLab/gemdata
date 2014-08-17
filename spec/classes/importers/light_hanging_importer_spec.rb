@@ -9,7 +9,7 @@ describe LightHangingImporter do
     @tree = set_up_tree('SPD01', 'T187')
     @weather_reading = WeatherReading.create!(
       :plot  => @tree.sub_plot.plot,
-      :datetime => Time.new(2013, 06, 14, 8, 0, 0),
+      :datetime => Time.utc(2013, 06, 14, 8, 0, 0),
       :batch => Batch.new
     )
   end
@@ -31,8 +31,8 @@ describe LightHangingImporter do
     expect(lh.vd).to eq(12)
     expect(lh.hd).to eq(1.2)
     expect(lh.note).to eq('EL INSTRUMENTO FALLA CONSTANTEMENTE')
-    expect(lh.start).to  eq(Time.new(2013, 6, 13, 13, 52, 0, "+00:00"))
-    expect(lh.finish).to eq(Time.new(2013, 6, 14,  9,  0, 0, "+00:00"))
+    expect(lh.start).to  eq(Time.utc(2013, 6, 13, 13, 52, 0))
+    expect(lh.finish).to eq(Time.utc(2013, 6, 14,  9,  0, 0))
 
     expect(lh).to be_valid
   end
