@@ -115,6 +115,7 @@ class RowImporter
         reader = CodeReader.new(code)
       end
 
+      tree = find_or_create_tree(code, reader)
       find_or_create(Branch, :code => reader.branch_code, :tree_id => tree.id)
     end
 
