@@ -14,7 +14,7 @@ class CrownPerimeterImporter < RowImporter
 
     @cp.seq = values[4]
     @cp.sun = nil_if_NA values[5]
-    @cp.type = nil_if_NA values[6]
+    @cp.reading_type = nil_if_NA values[6]
     @cp.az = values[7]
     @cp.vd = values[8]
     @cp.hd = values[9]

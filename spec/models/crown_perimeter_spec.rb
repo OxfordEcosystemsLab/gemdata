@@ -8,7 +8,7 @@ describe CrownPerimeter do
     @cp.time = Time.utc(2013, 6, 13, 13, 52, 0)
     @cp.seq  = 1
     @cp.sun  = 'S'
-    @cp.type = 'top'
+    @cp.reading_type = 'top'
     @cp.az   = 109
     @cp.vd   = 11.1
     @cp.hd   = 3
