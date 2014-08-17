@@ -21,7 +21,7 @@ describe LightHangingImporter do
     status = importer.read_row(values, Array.new)
     expect(status).to eq(Lookup::ImportStatus.inserted)
 
-    lh = importer.object
+    lh = importer.object.reload
     expect(lh.tree).to eq(@tree)
     expect(lh.weather_reading).to eq(@weather_reading)
     expect(lh.last_sensor).to eq(13)

@@ -19,7 +19,7 @@ describe ForestPlotsImporter do
     status = importer.read_row(@values, logger)
     expect(status).to eq(Lookup::ImportStatus.inserted)
 
-    tree = importer.object
+    tree = importer.object.reload
     expect(tree.fp_id).to eq(54832)
     expect(tree.tree_code).to eq('T2')
 
@@ -58,8 +58,8 @@ describe ForestPlotsImporter do
 
     importer = ForestPlotsImporter.new(1, 1)
     importer.read_row(@values, logger)
-    expect(importer.object.sub_plot.plot).to eq(plot)
-    expect(importer.object.sub_plot).to eq(subplot)
+    expect(importer.object.reload.sub_plot.plot).to eq(plot)
+    expect(importer.object.reload.sub_plot).to eq(subplot)
 
   end
 
@@ -71,7 +71,7 @@ describe ForestPlotsImporter do
 
     importer = ForestPlotsImporter.new(1, 2)
     importer.read_row(@values, logger)
-    expect(importer.object.fp_species).to eq(fp_species)
+    expect(importer.object.reload.fp_species).to eq(fp_species)
 
   end
 
@@ -85,7 +85,7 @@ describe ForestPlotsImporter do
 
     importer = ForestPlotsImporter.new(1, 1)
     importer.read_row(@values, logger)
-    expect(importer.object.censuses).to include(census)
+    expect(importer.object.reload.censuses).to include(census)
 
   end
 
@@ -98,8 +98,8 @@ describe ForestPlotsImporter do
     second_importer = ForestPlotsImporter.new(1, 1)
     second_status   = second_importer.read_row(second_values, logger)
     expect(second_status).to eq(Lookup::ImportStatus.skipped)
-    expect(second_importer.object).to be_valid
-    expect(second_importer.object).to eq(first_importer.object)
+    expect(second_importer.object.reload).to be_valid
+    expect(second_importer.object.reload).to eq(first_importer.object.reload)
   end
 
   it 'should not set a duplicate tag for collisions' do
@@ -110,9 +110,9 @@ describe ForestPlotsImporter do
     second_importer = ForestPlotsImporter.new(1, 2)
     second_status   = second_importer.read_row(second_values, logger)
     expect(second_status).to eq(Lookup::ImportStatus.inserted)
-    expect(second_importer.object).to be_valid
-    expect(second_importer.object.tree_code).to eq('DUP2')
-    expect(second_importer.object).to_not eq(first_importer.object)
+    expect(second_importer.object.reload).to be_valid
+    expect(second_importer.object.reload.tree_code).to eq('DUP2')
+    expect(second_importer.object.reload).to_not eq(first_importer.object.reload)
   end
 
   it 'should trim imports damn it!'

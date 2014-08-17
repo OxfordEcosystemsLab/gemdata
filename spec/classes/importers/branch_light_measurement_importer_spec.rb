@@ -23,7 +23,7 @@ describe BranchLightMeasurementImporter do
     status = importer.read_row(values, Array.new)
     expect(status).to eq(Lookup::ImportStatus.inserted)
 
-    blm = importer.object
+    blm = importer.object.reload
     expect(blm.branch_light_placement).to eq(@branch_light_placement)
     expect(blm.datetime).to eq(Time.utc(2013, 5, 8, 7, 0, 0))
     expect(blm.number).to eq(1)

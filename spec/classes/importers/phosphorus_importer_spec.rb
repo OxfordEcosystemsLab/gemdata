@@ -20,7 +20,7 @@ describe PhosphorusImporter do
     status = importer.read_row(values, Array.new)
     expect(status).to eq(Lookup::ImportStatus.inserted)
 
-    cn = importer.object
+    cn = importer.object.reload
     expect(cn).to be_valid
     expect(cn.leaf).to eq(@leaf)
     expect(cn.phosphorus_curve).to eq(@phosphorus_curve)

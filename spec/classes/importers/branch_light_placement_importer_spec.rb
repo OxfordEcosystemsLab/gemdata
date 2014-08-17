@@ -21,7 +21,7 @@ describe BranchLightPlacementImporter do
     status = importer.read_row(values, Array.new)
     expect(status).to eq(Lookup::ImportStatus.inserted)
 
-    @blp = importer.object
+    @blp = importer.object.reload
     expect(@blp.branch).to eq(@branch)
     expect(@blp.weather_reading).to eq(@weather_reading)
 

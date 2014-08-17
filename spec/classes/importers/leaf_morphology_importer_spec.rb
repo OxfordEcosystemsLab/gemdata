@@ -16,7 +16,7 @@ describe LeafMorphologyImporter do
     status = importer.read_row(values, Array.new)
     expect(status).to eq(Lookup::ImportStatus.inserted)
 
-    az = importer.object
+    az = importer.object.reload
     expect(az.leaf).to eq(@leaf)
     expect(az.date).to eq(Date.new(2013,04,26))
     expect(az.evaluators).to eq('Naia-Colby')
@@ -36,7 +36,7 @@ describe LeafMorphologyImporter do
     status = importer.read_row(values, Array.new)
     expect(status).to eq(Lookup::ImportStatus.inserted)
 
-    az = importer.object
+    az = importer.object.reload
     expect(az.petiole_width).to eq(2.07)
     expect(az).to be_valid
 
@@ -48,7 +48,7 @@ describe LeafMorphologyImporter do
     importer = LeafMorphologyImporter.new(1, 2)
     status = importer.read_row(values, Array.new)
     expect(status).to eq(Lookup::ImportStatus.inserted)
-    expect(importer.object).to be_valid
+    expect(importer.object.reload).to be_valid
 
   end
 
@@ -58,7 +58,7 @@ describe LeafMorphologyImporter do
     importer = LeafMorphologyImporter.new(1, 2)
     expect{importer.read_row(values, Array.new)}.to raise_error
 
-    az = importer.object
+    az = importer.object.reload
     expect(az).to_not be_valid
     expect(az.fresh_mass).to be_nil
     expect(az.dry_mass).to be_nil

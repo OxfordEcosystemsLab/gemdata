@@ -16,7 +16,7 @@ describe WoodDensityImporter do
     status = importer.read_row(values, Array.new)
     expect(status).to eq(Lookup::ImportStatus.inserted)
 
-    wood = importer.object
+    wood = importer.object.reload
     expect(wood.branch).to eq(@branch)
     expect(wood.date).to eq(Date.new(2013,05,20))
     expect(wood.evaluator).to eq('Omayra')
@@ -32,7 +32,7 @@ describe WoodDensityImporter do
 
     expect{importer.read_row(values, Array.new)}.to raise_error
 
-    wood = importer.object
+    wood = importer.object.reload
     expect(wood).to_not be_valid
     expect(wood).to have(1).error_on(:branch_number)
     expect(wood).to have(2).error_on(:volume)

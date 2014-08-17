@@ -23,7 +23,7 @@ describe LightStringMeasurementImporter do
     status = importer.read_row(values, Array.new)
     expect(status).to eq(Lookup::ImportStatus.inserted)
 
-    lsm = importer.object
+    lsm = importer.object.reload
     expect(lsm.light_hanging).to eq(@light_hanging)
     expect(lsm.datetime).to eq(Time.utc(2013, 6, 9, 16, 30, 10))
     expect(lsm.m0).to eq(1.359)

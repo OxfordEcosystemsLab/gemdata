@@ -17,7 +17,7 @@ describe BranchArchitectureImporter do
     status = importer.read_row(values, Array.new)
     expect(status).to eq(Lookup::ImportStatus.inserted)
 
-    b = importer.object
+    b = importer.object.reload
     expect(b).to be_valid
     expect(b.date).to eq(Date.new 2013, 6, 9)
     expect(b.evaluator).to eq('Milenka, Tatiana')

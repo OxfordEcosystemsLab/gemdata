@@ -16,12 +16,12 @@ describe CrownPerimeterImporter do
     status = importer.read_row(values, Array.new)
     expect(status).to eq(Lookup::ImportStatus.inserted)
 
-    cp = importer.object
+    cp = importer.object.reload
     expect(cp.tree).to eq(@tree)
     expect(cp.time).to eq(Time.utc(1899, 12, 31, 9, 30, 0))
     expect(cp.seq).to eq(1)
     expect(cp.sun).to be_nil
-    expect(cp.type).to eq('top')
+    expect(cp.reading_type).to eq('top')
     expect(cp.az).to eq(109)
     expect(cp.vd).to eq(11.1)
     expect(cp.hd).to eq(3)

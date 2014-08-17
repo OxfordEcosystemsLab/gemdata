@@ -16,7 +16,7 @@ describe CnpMeasurementImporter do
     status = importer.read_row(values, Array.new)
     expect(status).to eq(Lookup::ImportStatus.inserted)
 
-    cnp = importer.object
+    cnp = importer.object.reload
     expect(cnp.leaf).to eq(@leaf)
     expect(cnp.row).to eq('A')
     expect(cnp.column).to eq(1)

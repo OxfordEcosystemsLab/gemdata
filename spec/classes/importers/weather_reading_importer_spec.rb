@@ -16,7 +16,7 @@ describe WeatherReadingImporter do
     status = importer.read_row(values, Array.new)
     expect(status).to eq(Lookup::ImportStatus.inserted)
 
-    wr = importer.object
+    wr = importer.object.reload
     expect(wr.plot).to eq(@plot)
     expect(wr.datetime).to eq(Time.new(2013, 06, 18, 11, 15))
     expect(wr.clouds).to eq(1)

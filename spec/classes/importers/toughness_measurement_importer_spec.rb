@@ -16,7 +16,7 @@ describe ToughnessMeasurementImporter do
     status = importer.read_row(values, Array.new)
     expect(status).to eq(Lookup::ImportStatus.inserted)
 
-    tm = importer.object
+    tm = importer.object.reload
     expect(tm).to be_valid
     expect(tm.branch).to eq(@branch)
     expect(tm.date).to eq(Date.new 2013, 04, 26)
