@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140816203651) do
+ActiveRecord::Schema.define(version: 20140817120837) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,13 +71,14 @@ ActiveRecord::Schema.define(version: 20140816203651) do
     t.float    "hd_branch"
     t.float    "vground_branch"
     t.string   "light_cond"
-    t.string   "liana_cov"
     t.string   "note"
     t.datetime "start"
-    t.datetime "end"
+    t.datetime "finish"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "batch_id"
+    t.float    "angle_pic"
+    t.float    "liana_cov"
   end
 
   add_index "branch_light_placements", ["branch_id"], name: "index_branch_light_placements_on_branch_id", using: :btree
