@@ -20,14 +20,20 @@ class CsvUploadsController < ApplicationController
 
   def traits
     @importer_classes = [
-      LeafMorphologyImporter,
       BranchArchitectureImporter,
-      ForestPlotsImporter,
+      BranchLightMeasurementImporter,
+      BranchLightPlacementImporter,
       CnImporter,
       CnpMeasurementImporter,
-      ToughnessMeasurementImporter,
-      WoodDensityImporter,
+      ForestPlotsImporter,
+      LeafMorphologyImporter,
+      LightHangingImporter,
+      LightStringMeasurementImporter,
+      PhosphorusImporter,
       SpectraMeasurementImporter,
+      ToughnessMeasurementImporter,
+      WeatherReadingImporter,
+      WoodDensityImporter,
     ]
   end
 
