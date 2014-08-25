@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140825182637) do
+ActiveRecord::Schema.define(version: 20140825184456) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -558,6 +558,9 @@ ActiveRecord::Schema.define(version: 20140825182637) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "batch_id"
+    t.date     "date"
+    t.string   "person"
+    t.float    "area"
   end
 
   add_index "leaf_areas", ["leaf_part_id"], name: "index_leaf_areas_on_leaf_part_id", using: :btree
@@ -583,6 +586,7 @@ ActiveRecord::Schema.define(version: 20140825182637) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "batch_id"
+    t.string   "code"
   end
 
   add_index "leaf_parts", ["leaf_id"], name: "index_leaf_parts_on_leaf_id", using: :btree
