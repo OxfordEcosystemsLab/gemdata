@@ -84,11 +84,7 @@ class RowImporter
     end
 
     def find_or_create_plot(code, reader = nil)
-
-      if reader.nil?
-        reader = CodeReader.new(code)
-      end
-
+      reader ||= CodeReader.new(code)
       plot = Plot.where(:plot_code => reader.plot_code).first
 
       if plot.nil?
@@ -97,12 +93,9 @@ class RowImporter
 
       plot
     end
+
     def find_or_create_tree(code, reader = nil)
-
-      if reader.nil?
-        reader = CodeReader.new(code)
-      end
-
+      reader ||= CodeReader.new(code)
       plot = find_or_create_plot(code, reader)
       tree = Tree.where(:tree_code => reader.tree_code).includes(:sub_plot).where('sub_plots.plot_id' => plot.id).first
 
@@ -114,19 +107,21 @@ class RowImporter
     end
 
     def find_or_create_branch(code, reader = nil)
-
-      if reader.nil?
-        reader = CodeReader.new(code)
-      end
-
+      reader ||= CodeReader.new(code)
       tree = find_or_create_tree(code, reader)
       find_or_create(Branch, :code => reader.branch_code, :tree_id => tree.id)
     end
 
-    def find_or_create_leaf(code)
-      reader = CodeReader.new(code)
+    def find_or_create_leaf(code, reader = nil)
+      reader ||= CodeReader.new(code)
       branch = find_or_create_branch(code, reader)
-      find_or_create(Leaf, :code => reader.suffix, :branch => branch)
+      find_or_create(Leaf, :code => reader.leaf_code, :branch => branch)
+    end
+
+    def find_or_create_leaf_part(code)
+      reader = CodeReader.new(code)
+      leaf = find_or_create_leaf(code, reader)
+      find_or_create(LeafPart, :code => reader.suffix, :leaf => leaf)
     end
 
     def self.ar_class
