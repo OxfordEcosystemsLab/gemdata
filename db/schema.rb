@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140817140739) do
+ActiveRecord::Schema.define(version: 20140825182637) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -592,6 +592,9 @@ ActiveRecord::Schema.define(version: 20140817140739) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "batch_id"
+    t.string   "replica"
+    t.integer  "photo_number"
+    t.string   "angle"
   end
 
   add_index "leaf_repellencies", ["branch_id"], name: "index_leaf_repellencies_on_branch_id", using: :btree
