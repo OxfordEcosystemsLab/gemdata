@@ -14,6 +14,10 @@ class ForestPlotsImporter < RowImporter
     "Forest plots"
   end
 
+  def self.csv_options
+    super.merge :quote_char => "\x00"
+  end
+
   def read_row(values, logger)
 
     plot_code = strip_dashes(values[1])

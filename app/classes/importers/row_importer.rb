@@ -29,6 +29,10 @@ class RowImporter
     BaseCsvHandler
   end
 
+  def self.csv_options
+    Hash.new
+  end
+
   def object
     raise NoMethodError
   end

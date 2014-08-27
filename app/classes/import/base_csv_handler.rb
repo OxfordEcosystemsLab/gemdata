@@ -81,7 +81,7 @@ class BaseCsvHandler
 
           line.strip!
 
-          row = CSV.parse_line(line, :quote_char => "\x00")
+          row = CSV.parse_line(line, @importer_class.csv_options)
 
           if skip_row?(row_number, row)
             next
