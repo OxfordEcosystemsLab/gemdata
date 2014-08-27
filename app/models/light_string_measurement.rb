@@ -4,6 +4,6 @@ class LightStringMeasurement < ActiveRecord::Base
   belongs_to :light_hanging
 
   validates :datetime, :presence => true
-  validates :light_hanging, :presence => true
+  validates :record, :presence => true
 
 end

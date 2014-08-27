@@ -21,8 +21,8 @@ describe LightStringMeasurement do
     expect(LightStringMeasurement.new).to_not be_valid
   end
 
-  it 'is not valid without a hanging' do
-    @lsm.light_hanging = nil
+  it 'is not valid without a record' do
+    @lsm.record = nil
     expect(@lsm).to_not be_valid
   end
 
