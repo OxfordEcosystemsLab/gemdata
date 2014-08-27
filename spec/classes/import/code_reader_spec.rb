@@ -25,6 +25,8 @@ describe CodeReader do
 
   it 'can read just a tree' do
     expect_to_read 'WAY01-T1031'
+    expect_to_read 'WAY01-T78'
+    expect_to_read 'TAM05-T300'
     reader = CodeReader.new 'WAY01-T1031'
     expect(reader.tree_code).to eq('T1031')
   end
