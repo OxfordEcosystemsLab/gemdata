@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140825184456) do
+ActiveRecord::Schema.define(version: 20140828094134) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -974,7 +974,7 @@ ActiveRecord::Schema.define(version: 20140825184456) do
     t.integer  "batch_id"
   end
 
-  add_index "plots", ["plot_code"], name: "index_plots_on_plot_code", unique: true, using: :btree
+  add_index "plots", ["plot_code", "fp_id"], name: "index_plots_on_plot_code_and_fp_id", unique: true, using: :btree
   add_index "plots", ["site_id"], name: "index_plots_on_site_id", using: :btree
 
   create_table "region_countries", force: true do |t|
@@ -1983,6 +1983,24 @@ ActiveRecord::Schema.define(version: 20140825184456) do
   add_index "trees", ["fp_species_id"], name: "index_trees_on_fp_species_id", using: :btree
   add_index "trees", ["sub_plot_id"], name: "index_trees_on_sub_plot_id", using: :btree
   add_index "trees", ["tree_code", "sub_plot_id"], name: "index_trees_on_tree_code_and_sub_plot_id", unique: true, using: :btree
+
+  create_table "users", force: true do |t|
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "weather_readings", force: true do |t|
     t.integer  "plot_id"
