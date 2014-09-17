@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140828094134) do
+ActiveRecord::Schema.define(version: 20140917144525) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -242,6 +242,16 @@ ActiveRecord::Schema.define(version: 20140828094134) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "crown_dimensions", force: true do |t|
+    t.integer "tree_id"
+    t.float   "depth"
+    t.float   "width_max"
+    t.float   "vol"
+    t.integer "batch_id"
+  end
+
+  add_index "crown_dimensions", ["tree_id"], name: "index_crown_dimensions_on_tree_id", using: :btree
 
   create_table "crown_perimeters", force: true do |t|
     t.integer  "tree_id"
