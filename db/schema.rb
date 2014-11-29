@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141129141323) do
+ActiveRecord::Schema.define(version: 20141129181407) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1098,22 +1098,25 @@ ActiveRecord::Schema.define(version: 20141129141323) do
     t.datetime "updated_at"
   end
 
-  create_table "small_stem_values", force: true do |t|
-    t.integer  "tree_id",            null: false
-    t.datetime "reading_date",       null: false
-    t.integer  "growth_period_days", null: false
-    t.float    "pom_height_m"
-    t.float    "dbh_mm"
-    t.float    "tree_height_m"
+  create_table "small_tree_dendrometer_readings", force: true do |t|
+    t.integer  "tree_id",           null: false
+    t.datetime "date",              null: false
     t.float    "wood_density_g_m2"
-    t.string   "quality_code",       null: false
+    t.float    "tree_height_m"
+    t.float    "pom_height_m"
+    t.float    "dbh_northsouth_cm"
+    t.float    "dbh_westeast_cm"
+    t.string   "rainfor_flag1"
+    t.string   "rainfor_flag2"
+    t.string   "rainfor_flag3"
+    t.string   "quality_code"
     t.text     "comments"
+    t.integer  "batch_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "batch_id"
   end
 
-  add_index "small_stem_values", ["tree_id"], name: "index_small_stem_values_on_tree_id", using: :btree
+  add_index "small_tree_dendrometer_readings", ["tree_id"], name: "index_small_tree_dendrometer_readings_on_tree_id", using: :btree
 
   create_table "soil_respiration_tubes", force: true do |t|
     t.integer  "plot_id",          null: false
@@ -2158,7 +2161,7 @@ ActiveRecord::Schema.define(version: 20141129141323) do
 
   add_foreign_key "sites", "region_countries", name: "sites_region_country_id_fk"
 
-  add_foreign_key "small_stem_values", "trees", name: "small_stem_values_tree_id_fk"
+  add_foreign_key "small_tree_dendrometer_readings", "trees", name: "small_tree_dendrometer_readings_tree_id_fk"
 
   add_foreign_key "soil_respiration_tubes", "plots", name: "soil_respiration_tubes_plot_id_fk"
 

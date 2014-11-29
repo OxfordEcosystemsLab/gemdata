@@ -10,9 +10,9 @@ class LargeTreeDendrometerReadingImporter < RowImporter
     @rec = find_or_new({
       tree:                            tree,
       date:                            date,
-      pom_height_m:                    values[6],
-      dendrometer_reading_mm:          values[7],
-      dendrometer_reading_replaced_mm: values[8],
+      pom_height_m:                    nil_if_na(values[6]),
+      dendrometer_reading_mm:          nil_if_na(values[7]),
+      dendrometer_reading_replaced_mm: nil_if_na(values[8]),
       status_code:                     values[9],
       mortality_code:                  values[10],
       comments:                        values[11]

@@ -83,8 +83,8 @@ class RowImporter
       return value unless is_nil_value(value)
     end
 
-    def nil_if_NA value
-      value == 'NA' ? nil : value
+    def nil_if_na(value)
+      value == 'NA' || value == 'NaN' ? nil : value
     end
 
     def find_or_new(ar_class = nil, unique_identifiers)
