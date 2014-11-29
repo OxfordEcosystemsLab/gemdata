@@ -3,6 +3,6 @@ class SubPlot < ActiveRecord::Base
 
   belongs_to :plot
 
-  validates :plot, presence: true
+  validates :plot, :sub_plot_code, presence: true
 
 end

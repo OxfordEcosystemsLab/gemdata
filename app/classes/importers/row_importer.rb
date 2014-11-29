@@ -44,11 +44,11 @@ class RowImporter
   protected
 
     def save_with_status!
-      new     = object.new_record?
+      is_new  = object.new_record?
       changed = object.changed?
       saved   = object.save!
 
-      if new
+      if is_new
         Lookup::ImportStatus.inserted
       elsif changed
         Lookup::ImportStatus.updated
@@ -85,6 +85,17 @@ class RowImporter
 
     def nil_if_NA value
       value == 'NA' ? nil : value
+    end
+
+    def find_or_new(ar_class = nil, unique_identifiers)
+      ar_class ||= self.class.ar_class
+      ar_class.batch_find_or_initialize_by(@batch_id, unique_identifiers)
+    end
+
+    def find_or_create_tree_from_parts(plot_code, sub_plot_code, tree_tag)
+      plot = find_or_create(Plot, plot_code: plot_code.upcase.strip)
+      sub_plot = find_or_create(SubPlot, plot: plot, sub_plot_code: sub_plot_code)
+      find_or_create(Tree, sub_plot: sub_plot, tree_code: tree_tag)
     end
 
     def find_or_create_plot(code, reader = nil)
@@ -133,4 +144,3 @@ class RowImporter
     end
 
 end
-

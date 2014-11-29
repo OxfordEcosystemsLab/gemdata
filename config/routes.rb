@@ -3,7 +3,7 @@ Gemdata::Application.routes.draw do
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
-  resources :csv_uploads, only: [:create] do
+  resources :csv_uploads do
     collection do
       get 'traits'
       get 'cycles'

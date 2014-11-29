@@ -18,10 +18,10 @@ module ContextHelper
     Branch.create(:code => branch_code, :tree_id => tree.id, :batch => batch)
   end
 
-  def set_up_tree(plot_code, tree_code, batch_id = 1)
+  def set_up_tree(plot_code, tree_code, sub_plot_code = '1', batch_id = 1)
     batch = find_batch(batch_id)
     plot = set_up_plot(plot_code, batch_id)
-    sub_plot = SubPlot.create!(:plot_id => plot.id, :batch => batch)
+    sub_plot = SubPlot.create!(:plot_id => plot.id, :sub_plot_code => sub_plot_code, :batch => batch)
     fp_species = FpSpecies.new
     Tree.create!(:tree_code => tree_code, :sub_plot => sub_plot, :fp_species => fp_species, :batch => batch)
   end

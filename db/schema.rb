@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141129113357) do
+ActiveRecord::Schema.define(version: 20141129141323) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -232,6 +232,7 @@ ActiveRecord::Schema.define(version: 20141129113357) do
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "coarse_woody_debris_values", ["cwd_sub_transect_id"], name: "index_coarse_woody_debris_values_on_cwd_sub_transect_id", using: :btree
@@ -241,6 +242,7 @@ ActiveRecord::Schema.define(version: 20141129113357) do
     t.string   "country_name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   create_table "crown_dimensions", force: true do |t|
@@ -281,6 +283,7 @@ ActiveRecord::Schema.define(version: 20141129113357) do
     t.string   "sub_transect_end_point"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "cwd_sub_transects", ["cwd_transect_id", "cwd_sub_transects_num"], name: "index_cwd_sub_transects_on_transect_and_sub_transect", unique: true, using: :btree
@@ -291,6 +294,7 @@ ActiveRecord::Schema.define(version: 20141129113357) do
     t.integer  "plot_id",          null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "cwd_transects", ["plot_id", "cwd_transect_num"], name: "index_cwd_transects_on_plot_id_and_cwd_transect_num", unique: true, using: :btree
@@ -326,22 +330,6 @@ ActiveRecord::Schema.define(version: 20141129113357) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "dendrometer_values", force: true do |t|
-    t.integer  "tree_id",                null: false
-    t.datetime "reading_date",           null: false
-    t.integer  "growth_period_days",     null: false
-    t.float    "pom_height_m"
-    t.integer  "dbh_first_year"
-    t.float    "dbh_first_year_mm"
-    t.float    "dendrometer_reading_mm"
-    t.string   "quality_code",           null: false
-    t.text     "comments"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "dendrometer_values", ["tree_id"], name: "index_dendrometer_values_on_tree_id", using: :btree
 
   create_table "fine_litterfall_imports", force: true do |t|
     t.string   "plot_code",               null: false
@@ -386,6 +374,7 @@ ActiveRecord::Schema.define(version: 20141129113357) do
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "fine_litterfall_values", ["litterfall_trap_id"], name: "index_fine_litterfall_values_on_litterfall_trap_id", using: :btree
@@ -440,6 +429,7 @@ ActiveRecord::Schema.define(version: 20141129113357) do
     t.string   "global_region_name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "global_regions", ["global_region_code"], name: "index_global_regions_on_global_region_code", unique: true, using: :btree
@@ -509,6 +499,7 @@ ActiveRecord::Schema.define(version: 20141129113357) do
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "ingrowth_core_values", ["ingrowth_core_id"], name: "index_ingrowth_core_values_on_ingrowth_core_id", using: :btree
@@ -518,10 +509,27 @@ ActiveRecord::Schema.define(version: 20141129113357) do
     t.integer  "plot_id",           null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "ingrowth_cores", ["plot_id", "ingrowth_core_num"], name: "index_ingrowth_cores_on_plot_id_and_ingrowth_core_num", unique: true, using: :btree
   add_index "ingrowth_cores", ["plot_id"], name: "index_ingrowth_cores_on_plot_id", using: :btree
+
+  create_table "large_tree_dendrometer_readings", force: true do |t|
+    t.integer  "tree_id",                         null: false
+    t.datetime "date",                            null: false
+    t.float    "pom_height_m"
+    t.float    "dendrometer_reading_mm",          null: false
+    t.float    "dendrometer_reading_replaced_mm"
+    t.string   "status_code"
+    t.string   "mortality_code"
+    t.text     "comments"
+    t.integer  "batch_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "large_tree_dendrometer_readings", ["tree_id"], name: "index_large_tree_dendrometer_readings_on_tree_id", using: :btree
 
   create_table "leaf_anatomies", force: true do |t|
     t.integer  "leaf_part_id"
@@ -559,6 +567,7 @@ ActiveRecord::Schema.define(version: 20141129113357) do
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "leaf_area_index_values", ["plot_id"], name: "index_leaf_area_index_values_on_plot_id", using: :btree
@@ -643,6 +652,7 @@ ActiveRecord::Schema.define(version: 20141129113357) do
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "leaf_respiration_values", ["tree_id"], name: "index_leaf_respiration_values_on_tree_id", using: :btree
@@ -744,6 +754,7 @@ ActiveRecord::Schema.define(version: 20141129113357) do
     t.integer "plot_id",                 null: false
     t.string  "litterfall_trap_num",     null: false
     t.float   "litterfall_trap_size_m2", null: false
+    t.integer "batch_id"
   end
 
   add_index "litterfall_traps", ["plot_id", "litterfall_trap_num"], name: "index_litterfall_traps_on_plot_id_and_litterfall_trap_num", unique: true, using: :btree
@@ -994,6 +1005,7 @@ ActiveRecord::Schema.define(version: 20141129113357) do
     t.string   "region_country_name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "region_countries", ["country_id"], name: "index_region_countries_on_country_id", using: :btree
@@ -1006,6 +1018,7 @@ ActiveRecord::Schema.define(version: 20141129113357) do
     t.string   "region_name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "regions", ["global_region_id"], name: "index_regions_on_global_region_id", using: :btree
@@ -1060,6 +1073,7 @@ ActiveRecord::Schema.define(version: 20141129113357) do
     t.string   "site_name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "sites", ["region_country_id"], name: "index_sites_on_region_country_id", using: :btree
@@ -1096,6 +1110,7 @@ ActiveRecord::Schema.define(version: 20141129113357) do
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "small_stem_values", ["tree_id"], name: "index_small_stem_values_on_tree_id", using: :btree
@@ -1106,6 +1121,7 @@ ActiveRecord::Schema.define(version: 20141129113357) do
     t.string   "plot_corner_code", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "soil_respiration_tubes", ["plot_id", "tube_code", "plot_corner_code"], name: "index_soil_respiration_tubes_on_plot_and_tube_info", unique: true, using: :btree
@@ -1127,6 +1143,7 @@ ActiveRecord::Schema.define(version: 20141129113357) do
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "soil_respiration_values", ["soil_respiration_tube_id"], name: "index_soil_respiration_values_on_soil_respiration_tube_id", using: :btree
@@ -1938,6 +1955,7 @@ ActiveRecord::Schema.define(version: 20141129113357) do
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "batch_id"
   end
 
   add_index "stem_respiration_values", ["tree_id"], name: "index_stem_respiration_values_on_tree_id", using: :btree
@@ -2076,8 +2094,6 @@ ActiveRecord::Schema.define(version: 20141129113357) do
   add_foreign_key "dbh_measurements", "censuses", name: "dbh_measurements_census_id_fk"
   add_foreign_key "dbh_measurements", "trees", name: "dbh_measurements_tree_id_fk"
 
-  add_foreign_key "dendrometer_values", "trees", name: "dendrometer_values_tree_id_fk"
-
   add_foreign_key "fine_litterfall_values", "litterfall_traps", name: "fine_litterfall_values_litterfall_trap_id_fk"
 
   add_foreign_key "fp_genera", "fp_families", name: "fp_genera_fp_family_id_fk"
@@ -2093,6 +2109,8 @@ ActiveRecord::Schema.define(version: 20141129113357) do
   add_foreign_key "ingrowth_core_values", "ingrowth_cores", name: "ingrowth_core_values_ingrowth_core_id_fk"
 
   add_foreign_key "ingrowth_cores", "plots", name: "ingrowth_cores_plot_id_fk"
+
+  add_foreign_key "large_tree_dendrometer_readings", "trees", name: "large_tree_dendrometer_readings_tree_id_fk"
 
   add_foreign_key "leaf_anatomies", "leaf_parts", name: "leaf_anatomies_leaf_part_id_fk"
 

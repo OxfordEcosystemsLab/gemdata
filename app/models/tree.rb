@@ -10,6 +10,5 @@ class Tree < ActiveRecord::Base
 
   validates :tree_code, presence: true
   validates :sub_plot, presence: true
-  validates :fp_species, presence: true
 
 end

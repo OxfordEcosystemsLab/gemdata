@@ -1,20 +1,21 @@
 class CsvUploadsController < ApplicationController
 
+  # SmallStemImports,
+  # FineLitterfallImports,
+  # LeafAreaIndexImports,
+  # IngrowthCoreImports,
+  # CoarseWoodyDebrisImports,
+  # StemRespirationImports,
+  # LeafRespirationImports,
+  # RespirationControlImports,
+  # RespirationPartitioningImports,
+  # MonthlyAveragesImports,
+  # PlotMetadataImports,
+  # GlobalNetworkImports
+
   def cycles
     @import_classes = [
-      DendrometerImports,
-      SmallStemImports,
-      FineLitterfallImports,
-      LeafAreaIndexImports,
-      IngrowthCoreImports,
-      CoarseWoodyDebrisImports,
-      StemRespirationImports,
-      LeafRespirationImports,
-      RespirationControlImports,
-      RespirationPartitioningImports,
-      MonthlyAveragesImports,
-      PlotMetadataImports,
-      GlobalNetworkImports
+      LargeTreeDendrometerReadingImporter
     ]
   end
 
