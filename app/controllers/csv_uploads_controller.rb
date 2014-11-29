@@ -1,6 +1,6 @@
 class CsvUploadsController < ApplicationController
 
-  def new
+  def cycles
     @import_classes = [
       DendrometerImports,
       SmallStemImports,
@@ -54,11 +54,11 @@ class CsvUploadsController < ApplicationController
         redirect_to csv_upload_path(id: import_id)
       else
         flash[:notice] = "This file does not appear to be a valid csv file. It has a content type of: #{params[:file].content_type}"
-        redirect_to new_csv_upload_path
+        redirect_to cycles_csv_uploads_path
       end
     else
       flash[:notice] = "Please select a csv file."
-      redirect_to new_csv_upload_path
+      redirect_to cycles_csv_uploads_path
     end
   end
 
