@@ -6,7 +6,7 @@ describe LightStringMeasurement do
     @lsm = LightStringMeasurement.new
     @lsm.light_hanging = LightHanging.new
     @lsm.datetime = Time.utc(2014, 06, 06, 06, 06, 06)
-    @lsm.record = 134567
+    @lsm.record_no = 134567
     @lsm.m0 = 1.359
     @lsm.m10 = 0.611
     @lsm.m26 = 0.123
@@ -22,7 +22,7 @@ describe LightStringMeasurement do
   end
 
   it 'is not valid without a record' do
-    @lsm.record = nil
+    @lsm.record_no = nil
     expect(@lsm).to_not be_valid
   end
 

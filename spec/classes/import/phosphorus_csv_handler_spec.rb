@@ -21,7 +21,7 @@ end
 
 describe PhosphorusCsvHandler do
 
-  it 'can do an import with a cn_curve' do
+  it 'can do an import with a phosphorus_curve' do
 
     tree = set_up_tree('SPD01', 'T231')
 

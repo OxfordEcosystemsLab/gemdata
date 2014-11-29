@@ -7,8 +7,8 @@ class LightStringMeasurementImporter < RowImporter
   def read_row(values, logger)
 
     @lsm = find_or_new({
-      :datetime => Time.strptime(values[1] + ' UTC', "%Y-%m-%d %H:%M:%S %Z"),
-      :record   => values[2]
+      :datetime  => Time.strptime(values[1] + ' UTC', "%Y-%m-%d %H:%M:%S %Z"),
+      :record_no => values[2]
     })
     attempt_to_overwrite!(@lsm)
 

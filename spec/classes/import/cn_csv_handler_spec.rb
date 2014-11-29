@@ -18,6 +18,7 @@ class FakeImporter < RowImporter
     Lookup::ImportStatus.inserted
   end
 end
+
 describe CnCsvHandler do
 
   it 'can do an import with a cn_curve' do

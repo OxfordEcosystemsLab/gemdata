@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140917144525) do
+ActiveRecord::Schema.define(version: 20141129113357) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -700,7 +700,7 @@ ActiveRecord::Schema.define(version: 20140917144525) do
   create_table "light_string_measurements", force: true do |t|
     t.integer  "light_hanging_id"
     t.datetime "datetime"
-    t.integer  "record"
+    t.integer  "record_no"
     t.float    "m0"
     t.float    "m0_5"
     t.float    "m1"
