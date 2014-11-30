@@ -2,7 +2,6 @@ class CsvUploadsController < ApplicationController
 
   # LeafAreaIndexImports,
   # IngrowthCoreImports,
-  # StemRespirationImports,
   # LeafRespirationImports,
   # RespirationControlImports,
   # RespirationPartitioningImports,
@@ -16,7 +15,8 @@ class CsvUploadsController < ApplicationController
       SmallTreeDendrometerReadingImporter,
       FineLitterfallImporter,
       IngrowthCoreImporter,
-      CoarseWoodyDebrisImporter
+      CoarseWoodyDebrisImporter,
+      EgmRespirationImporter
     ]
   end
 

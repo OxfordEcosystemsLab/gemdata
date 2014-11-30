@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141130132607) do
+ActiveRecord::Schema.define(version: 20141130160147) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -330,6 +330,48 @@ ActiveRecord::Schema.define(version: 20141130132607) do
     t.datetime "updated_at"
   end
 
+  create_table "egm_respiration_collars", force: true do |t|
+    t.integer  "plot_id",          null: false
+    t.integer  "sub_plot_id"
+    t.integer  "tree_id"
+    t.string   "collar_num"
+    t.string   "plot_corner_code"
+    t.integer  "batch_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "egm_respiration_collars", ["plot_id"], name: "index_egm_respiration_collars_on_plot_id", using: :btree
+  add_index "egm_respiration_collars", ["sub_plot_id"], name: "index_egm_respiration_collars_on_sub_plot_id", using: :btree
+  add_index "egm_respiration_collars", ["tree_id"], name: "index_egm_respiration_collars_on_tree_id", using: :btree
+
+  create_table "egm_respiration_values", force: true do |t|
+    t.integer  "egm_respiration_collar_id"
+    t.integer  "ingrowth_core_id"
+    t.datetime "datetime",                  null: false
+    t.string   "measurement_code",          null: false
+    t.string   "treatment_code"
+    t.string   "litter_code"
+    t.string   "disturbance_code"
+    t.integer  "replica"
+    t.float    "egm_measurement"
+    t.float    "recno"
+    t.float    "co2ref_ppm"
+    t.float    "inputd"
+    t.float    "time"
+    t.float    "inputf"
+    t.float    "atmp_mb"
+    t.float    "probe_type"
+    t.string   "quality_code"
+    t.text     "comments"
+    t.integer  "batch_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "egm_respiration_values", ["egm_respiration_collar_id"], name: "index_egm_respiration_values_on_egm_respiration_collar_id", using: :btree
+  add_index "egm_respiration_values", ["ingrowth_core_id"], name: "index_egm_respiration_values_on_ingrowth_core_id", using: :btree
+
   create_table "fine_litterfall_imports", force: true do |t|
     t.string   "plot_code",               null: false
     t.integer  "year",                    null: false
@@ -519,6 +561,7 @@ ActiveRecord::Schema.define(version: 20141130132607) do
     t.float    "dendrometer_reading_replaced_mm"
     t.string   "status_code"
     t.string   "mortality_code"
+    t.string   "quality_code"
     t.text     "comments"
     t.integer  "batch_id"
     t.datetime "created_at"
@@ -634,22 +677,6 @@ ActiveRecord::Schema.define(version: 20141130132607) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "leaf_respiration_values", force: true do |t|
-    t.integer  "tree_id",      null: false
-    t.datetime "reading_date", null: false
-    t.float    "correction"
-    t.float    "a_sun"
-    t.float    "a_shade"
-    t.float    "resp_sun"
-    t.float    "resp_shade"
-    t.string   "quality_code", null: false
-    t.text     "comments"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "leaf_respiration_values", ["tree_id"], name: "index_leaf_respiration_values_on_tree_id", using: :btree
 
   create_table "leaf_venations", force: true do |t|
     t.integer  "leaf_part_id"
@@ -1111,37 +1138,6 @@ ActiveRecord::Schema.define(version: 20141130132607) do
   end
 
   add_index "small_tree_dendrometer_readings", ["tree_id"], name: "index_small_tree_dendrometer_readings_on_tree_id", using: :btree
-
-  create_table "soil_respiration_tubes", force: true do |t|
-    t.integer  "plot_id",          null: false
-    t.string   "tube_code",        null: false
-    t.string   "plot_corner_code", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "soil_respiration_tubes", ["plot_id", "tube_code", "plot_corner_code"], name: "index_soil_respiration_tubes_on_plot_and_tube_info", unique: true, using: :btree
-  add_index "soil_respiration_tubes", ["plot_id"], name: "index_soil_respiration_tubes_on_plot_id", using: :btree
-
-  create_table "soil_respiration_values", force: true do |t|
-    t.integer  "soil_respiration_tube_id", null: false
-    t.datetime "reading_date",             null: false
-    t.string   "measurement_type",         null: false
-    t.string   "disturbance_code",         null: false
-    t.float    "co2_ref_ppm"
-    t.float    "pressure_mb"
-    t.float    "air_temp_c"
-    t.float    "soil_temp_c"
-    t.float    "depth_cm"
-    t.float    "vwc_pcnt"
-    t.float    "delta_flux"
-    t.string   "quality_code",             null: false
-    t.text     "comments"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "soil_respiration_values", ["soil_respiration_tube_id"], name: "index_soil_respiration_values_on_soil_respiration_tube_id", using: :btree
 
   create_table "specific_leaf_areas", force: true do |t|
     t.integer  "leaf_id"
@@ -1937,23 +1933,6 @@ ActiveRecord::Schema.define(version: 20141130132607) do
     t.datetime "updated_at"
   end
 
-  create_table "stem_respiration_values", force: true do |t|
-    t.integer  "tree_id",      null: false
-    t.datetime "reading_date", null: false
-    t.string   "tube_num"
-    t.float    "co2_ref_ppm"
-    t.float    "pressure_mb"
-    t.float    "air_temp_c"
-    t.float    "depth_cm"
-    t.float    "delta_flux"
-    t.string   "quality_code", null: false
-    t.text     "comments"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "stem_respiration_values", ["tree_id"], name: "index_stem_respiration_values_on_tree_id", using: :btree
-
   create_table "sub_plots", force: true do |t|
     t.integer  "plot_id"
     t.string   "sub_plot_code"
@@ -2088,6 +2067,10 @@ ActiveRecord::Schema.define(version: 20141130132607) do
   add_foreign_key "dbh_measurements", "censuses", name: "dbh_measurements_census_id_fk"
   add_foreign_key "dbh_measurements", "trees", name: "dbh_measurements_tree_id_fk"
 
+  add_foreign_key "egm_respiration_collars", "plots", name: "egm_respiration_collars_plot_id_fk"
+
+  add_foreign_key "egm_respiration_values", "egm_respiration_collars", name: "egm_respiration_values_egm_respiration_collar_id_fk"
+
   add_foreign_key "fine_litterfall_values", "litterfall_traps", name: "fine_litterfall_values_litterfall_trap_id_fk"
 
   add_foreign_key "fp_genera", "fp_families", name: "fp_genera_fp_family_id_fk"
@@ -2117,8 +2100,6 @@ ActiveRecord::Schema.define(version: 20141130132607) do
   add_foreign_key "leaf_parts", "leaves", name: "leaf_parts_leaf_id_fk"
 
   add_foreign_key "leaf_repellencies", "branches", name: "leaf_repellencies_branch_id_fk"
-
-  add_foreign_key "leaf_respiration_values", "trees", name: "leaf_respiration_values_tree_id_fk"
 
   add_foreign_key "leaf_venations", "leaf_parts", name: "leaf_venations_leaf_part_id_fk"
 
@@ -2154,15 +2135,9 @@ ActiveRecord::Schema.define(version: 20141130132607) do
 
   add_foreign_key "small_tree_dendrometer_readings", "trees", name: "small_tree_dendrometer_readings_tree_id_fk"
 
-  add_foreign_key "soil_respiration_tubes", "plots", name: "soil_respiration_tubes_plot_id_fk"
-
-  add_foreign_key "soil_respiration_values", "soil_respiration_tubes", name: "soil_respiration_values_soil_respiration_tube_id_fk"
-
   add_foreign_key "specific_leaf_areas", "leaves", name: "specific_leaf_areas_leaf_id_fk"
 
   add_foreign_key "spectra_measurements", "leaves", name: "spectra_measurements_leaf_id_fk"
-
-  add_foreign_key "stem_respiration_values", "trees", name: "stem_respiration_values_tree_id_fk"
 
   add_foreign_key "sub_plots", "plots", name: "sub_plots_plot_id_fk"
 

@@ -87,6 +87,10 @@ class RowImporter
       value == 'NA' || value == 'NaN' ? nil : value
     end
 
+    def nil_if_blank(value)
+      value.blank? ? nil : value
+    end
+
     def find_or_new(ar_class = nil, unique_identifiers)
       ar_class ||= self.class.ar_class
       ar_class.batch_find_or_initialize_by(@batch_id, unique_identifiers)
@@ -98,8 +102,14 @@ class RowImporter
 
     def find_or_create_tree_from_parts(plot_code, sub_plot_code, tree_tag)
       plot = find_or_create_plot(plot_code)
-      sub_plot = find_or_create(SubPlot, plot: plot, sub_plot_code: sub_plot_code)
-      find_or_create(Tree, sub_plot: sub_plot, tree_code: tree_tag)
+      tree = plot.trees.where(tree_code: tree_tag).first
+      if tree && tree.sub_plot.sub_plot_code != sub_plot_code
+        raise Gemdata::TreeNotFound, "Tree '#{tree_tag}' found, but has subplot code miss-match: '#{tree.sub_plot.sub_plot_code}' != '#{sub_plot_code}'"
+      else
+        sub_plot = find_or_create(SubPlot, plot: plot, sub_plot_code: sub_plot_code)
+        tree = find_or_create(Tree, sub_plot_id: sub_plot.id, tree_code: tree_tag)
+      end
+      tree
     end
 
     def find_plot(plot_code)
@@ -132,6 +142,13 @@ class RowImporter
       reader = CodeReader.new(code)
       leaf = find_or_create_leaf(code, reader)
       find_or_create(LeafPart, :code => reader.suffix, :leaf => leaf)
+    end
+
+    def find_or_create_ingrowth_core(plot, core_num)
+      find_or_create(IngrowthCore,
+        plot: plot,
+        ingrowth_core_num: core_num
+      )
     end
 
     def self.ar_class

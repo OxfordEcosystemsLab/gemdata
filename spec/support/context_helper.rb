@@ -50,6 +50,12 @@ module ContextHelper
     CwdSubTransect.create!(cwd_transect: cwd_transect, sub_transect_num: sub_transect_num, sub_transect_area_m2: sub_transect_area, batch: batch)
   end
 
+  def set_up_egm_respiration_collar(plot_code, collar_num = nil, batch_id = 1)
+    batch = find_batch(batch_id)
+    plot = set_up_plot(plot_code, batch_id)
+    EgmRespirationCollar.create!(plot: plot, collar_num: collar_num, batch: batch)
+  end
+
   def find_batch(batch_id)
     batch = Batch.find_or_create_by(id: batch_id)
   end

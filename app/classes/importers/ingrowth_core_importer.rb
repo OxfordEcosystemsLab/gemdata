@@ -7,9 +7,9 @@ class IngrowthCoreImporter < RowImporter
   def read_row(values, logger)
     plot = find_or_create_plot(values[0])
     date = Date.strptime("#{values[1]} #{values[2]} #{values[3]}", "%Y %m %d")
-    core = find_or_create_ingrowth_core(plot, values)
+    ingrowth_core = find_or_create_ingrowth_core(plot, values[4])
     @rec = find_or_new({
-      ingrowth_core:              core,
+      ingrowth_core:              ingrowth_core,
       date:                       date,
       is_stock_yn:                values[5],
       ingrowth_core_litterfall_g: nil_if_na(values[6]),
@@ -30,13 +30,6 @@ class IngrowthCoreImporter < RowImporter
 
     def self.ar_class
       IngrowthCoreValue
-    end
-
-    def find_or_create_ingrowth_core(plot, values)
-      find_or_create(IngrowthCore,
-        plot: plot,
-        ingrowth_core_num: values[4]
-      )
     end
 
 end
