@@ -7,7 +7,7 @@ class LightHangingImporter < RowImporter
   def read_row(values, logger)
 
     @lh = find_or_new({
-      :tree => find_or_create_tree(values[2]),
+      :tree => find_tree(values[2]),
       :start =>  Time.strptime(values[10] + ' UTC', "%Y-%m-%d %H:%M:%S %Z"),
       :finish => Time.strptime(values[11] + ' UTC', "%Y-%m-%d %H:%M:%S %Z")
     })

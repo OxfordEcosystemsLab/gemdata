@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141129181407) do
+ActiveRecord::Schema.define(version: 20141129190057) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -232,7 +232,6 @@ ActiveRecord::Schema.define(version: 20141129181407) do
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "batch_id"
   end
 
   add_index "coarse_woody_debris_values", ["cwd_sub_transect_id"], name: "index_coarse_woody_debris_values_on_cwd_sub_transect_id", using: :btree
@@ -242,7 +241,6 @@ ActiveRecord::Schema.define(version: 20141129181407) do
     t.string   "country_name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "batch_id"
   end
 
   create_table "crown_dimensions", force: true do |t|
@@ -283,7 +281,6 @@ ActiveRecord::Schema.define(version: 20141129181407) do
     t.string   "sub_transect_end_point"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "batch_id"
   end
 
   add_index "cwd_sub_transects", ["cwd_transect_id", "cwd_sub_transects_num"], name: "index_cwd_sub_transects_on_transect_and_sub_transect", unique: true, using: :btree
@@ -294,7 +291,6 @@ ActiveRecord::Schema.define(version: 20141129181407) do
     t.integer  "plot_id",          null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "batch_id"
   end
 
   add_index "cwd_transects", ["plot_id", "cwd_transect_num"], name: "index_cwd_transects_on_plot_id_and_cwd_transect_num", unique: true, using: :btree
@@ -357,9 +353,8 @@ ActiveRecord::Schema.define(version: 20141129181407) do
   end
 
   create_table "fine_litterfall_values", force: true do |t|
-    t.integer  "litterfall_trap_id",     null: false
-    t.datetime "collection_date",        null: false
-    t.integer  "collection_period_days", null: false
+    t.integer  "litterfall_trap_id",    null: false
+    t.datetime "collection_date",       null: false
     t.float    "leaves_g_per_trap"
     t.float    "twigs_g_per_trap"
     t.float    "flowers_g_per_trap"
@@ -370,11 +365,11 @@ ActiveRecord::Schema.define(version: 20141129181407) do
     t.float    "palm_leaves_g"
     t.float    "palm_flower_g"
     t.float    "palm_fruit_g"
-    t.string   "quality_code",           null: false
+    t.string   "quality_code"
     t.text     "comments"
+    t.integer  "batch_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "batch_id"
   end
 
   add_index "fine_litterfall_values", ["litterfall_trap_id"], name: "index_fine_litterfall_values_on_litterfall_trap_id", using: :btree
@@ -429,7 +424,6 @@ ActiveRecord::Schema.define(version: 20141129181407) do
     t.string   "global_region_name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "batch_id"
   end
 
   add_index "global_regions", ["global_region_code"], name: "index_global_regions_on_global_region_code", unique: true, using: :btree
@@ -499,7 +493,6 @@ ActiveRecord::Schema.define(version: 20141129181407) do
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "batch_id"
   end
 
   add_index "ingrowth_core_values", ["ingrowth_core_id"], name: "index_ingrowth_core_values_on_ingrowth_core_id", using: :btree
@@ -509,7 +502,6 @@ ActiveRecord::Schema.define(version: 20141129181407) do
     t.integer  "plot_id",           null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "batch_id"
   end
 
   add_index "ingrowth_cores", ["plot_id", "ingrowth_core_num"], name: "index_ingrowth_cores_on_plot_id_and_ingrowth_core_num", unique: true, using: :btree
@@ -567,7 +559,6 @@ ActiveRecord::Schema.define(version: 20141129181407) do
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "batch_id"
   end
 
   add_index "leaf_area_index_values", ["plot_id"], name: "index_leaf_area_index_values_on_plot_id", using: :btree
@@ -652,7 +643,6 @@ ActiveRecord::Schema.define(version: 20141129181407) do
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "batch_id"
   end
 
   add_index "leaf_respiration_values", ["tree_id"], name: "index_leaf_respiration_values_on_tree_id", using: :btree
@@ -751,10 +741,12 @@ ActiveRecord::Schema.define(version: 20141129181407) do
   add_index "light_string_measurements", ["light_hanging_id"], name: "index_light_string_measurements_on_light_hanging_id", using: :btree
 
   create_table "litterfall_traps", force: true do |t|
-    t.integer "plot_id",                 null: false
-    t.string  "litterfall_trap_num",     null: false
-    t.float   "litterfall_trap_size_m2", null: false
-    t.integer "batch_id"
+    t.integer  "plot_id",                 null: false
+    t.string   "litterfall_trap_num",     null: false
+    t.float    "litterfall_trap_size_m2", null: false
+    t.integer  "batch_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "litterfall_traps", ["plot_id", "litterfall_trap_num"], name: "index_litterfall_traps_on_plot_id_and_litterfall_trap_num", unique: true, using: :btree
@@ -1005,7 +997,6 @@ ActiveRecord::Schema.define(version: 20141129181407) do
     t.string   "region_country_name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "batch_id"
   end
 
   add_index "region_countries", ["country_id"], name: "index_region_countries_on_country_id", using: :btree
@@ -1018,7 +1009,6 @@ ActiveRecord::Schema.define(version: 20141129181407) do
     t.string   "region_name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "batch_id"
   end
 
   add_index "regions", ["global_region_id"], name: "index_regions_on_global_region_id", using: :btree
@@ -1073,7 +1063,6 @@ ActiveRecord::Schema.define(version: 20141129181407) do
     t.string   "site_name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "batch_id"
   end
 
   add_index "sites", ["region_country_id"], name: "index_sites_on_region_country_id", using: :btree
@@ -1124,7 +1113,6 @@ ActiveRecord::Schema.define(version: 20141129181407) do
     t.string   "plot_corner_code", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "batch_id"
   end
 
   add_index "soil_respiration_tubes", ["plot_id", "tube_code", "plot_corner_code"], name: "index_soil_respiration_tubes_on_plot_and_tube_info", unique: true, using: :btree
@@ -1146,7 +1134,6 @@ ActiveRecord::Schema.define(version: 20141129181407) do
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "batch_id"
   end
 
   add_index "soil_respiration_values", ["soil_respiration_tube_id"], name: "index_soil_respiration_values_on_soil_respiration_tube_id", using: :btree
@@ -1958,7 +1945,6 @@ ActiveRecord::Schema.define(version: 20141129181407) do
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "batch_id"
   end
 
   add_index "stem_respiration_values", ["tree_id"], name: "index_stem_respiration_values_on_tree_id", using: :btree

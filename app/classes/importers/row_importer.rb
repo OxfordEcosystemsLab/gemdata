@@ -92,38 +92,33 @@ class RowImporter
       ar_class.batch_find_or_initialize_by(@batch_id, unique_identifiers)
     end
 
+    def find_or_create_plot(plot_code)
+      find_or_create(Plot, plot_code: plot_code.upcase.strip)
+    end
+
     def find_or_create_tree_from_parts(plot_code, sub_plot_code, tree_tag)
-      plot = find_or_create(Plot, plot_code: plot_code.upcase.strip)
+      plot = find_or_create_plot(plot_code)
       sub_plot = find_or_create(SubPlot, plot: plot, sub_plot_code: sub_plot_code)
       find_or_create(Tree, sub_plot: sub_plot, tree_code: tree_tag)
     end
 
-    def find_or_create_plot(code, reader = nil)
-      reader ||= CodeReader.new(code)
-      plot = Plot.where(:plot_code => reader.plot_code).first
-
-      if plot.nil?
-        raise Gemdata::PlotNotFound, "Plot with code '#{reader.plot_code}' does not exist"
-      end
-
+    def find_plot(plot_code)
+      plot = Plot.find_by(plot_code: plot_code)
+      raise Gemdata::PlotNotFound, "Plot with code '#{plot_code}' does not exist" unless plot
       plot
     end
 
-    def find_or_create_tree(code, reader = nil)
+    def find_tree(code, reader = nil)
       reader ||= CodeReader.new(code)
-      plot = find_or_create_plot(code, reader)
+      plot = find_plot(reader.plot_code)
       tree = Tree.where(:tree_code => reader.tree_code).includes(:sub_plot).where('sub_plots.plot_id' => plot.id).first
-
-      if tree.nil?
-        raise Gemdata::TreeNotFound, "Tree with code '#{reader.tree_code}' does not exist in plot #{reader.plot_code}"
-      end
-
+      raise Gemdata::TreeNotFound, "Tree with code '#{reader.tree_code}' does not exist in plot #{reader.plot_code}" if tree.nil?
       tree
     end
 
     def find_or_create_branch(code, reader = nil)
       reader ||= CodeReader.new(code)
-      tree = find_or_create_tree(code, reader)
+      tree = find_tree(code, reader)
       find_or_create(Branch, :code => reader.branch_code, :tree_id => tree.id)
     end
 

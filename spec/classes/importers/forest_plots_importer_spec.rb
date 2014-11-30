@@ -54,7 +54,7 @@ describe ForestPlotsImporter do
   it 'selects existing plots and subplots' do
 
     plot = Plot.create!(:plot_code => 'TAM04', :fp_id => 90, batch_id: 1)
-    subplot = SubPlot.create!(:plot => plot, batch_id: 1)
+    subplot = SubPlot.create!(:plot => plot, :sub_plot_code => '1', batch_id: 1)
 
     importer = ForestPlotsImporter.new(1, 1)
     importer.read_row(@values, logger)
@@ -78,7 +78,7 @@ describe ForestPlotsImporter do
   it 'creates selects an existing census' do
 
     plot = Plot.create!(:plot_code => 'TAM04', :fp_id => 90, batch_id: 1)
-    sub_plot = SubPlot.create!(:plot_id => plot.id, batch_id: 1)
+    sub_plot = SubPlot.create!(:plot_id => plot.id, :sub_plot_code => '1', batch_id: 1)
     fp_species = FpSpecies.new
     tree = Tree.create!(:tree_code => 'T2', :sub_plot => sub_plot, :fp_species => fp_species, :fp_id => 54832, batch_id: 1)
     census = Census.create!(number: 1, mean_date: '1983.67', plot: plot, batch_id: 1)

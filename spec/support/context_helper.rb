@@ -31,6 +31,12 @@ module ContextHelper
     Plot.create!(:plot_code => plot_code, :batch => batch)
   end
 
+  def set_up_litterfall_trap(plot_code, trap_num, trap_size, batch_id = 1)
+    batch = find_batch(batch_id)
+    plot = set_up_plot(plot_code, batch_id)
+    LitterfallTrap.create!(plot: plot, litterfall_trap_num: trap_num, litterfall_trap_size_m2: trap_size, batch: batch)
+  end
+
   def find_batch(batch_id)
     batch = Batch.find_or_create_by(id: batch_id)
   end

@@ -1,6 +1,5 @@
 class CsvUploadsController < ApplicationController
 
-  # FineLitterfallImports,
   # LeafAreaIndexImports,
   # IngrowthCoreImports,
   # CoarseWoodyDebrisImports,
@@ -15,7 +14,8 @@ class CsvUploadsController < ApplicationController
   def cycles
     @import_classes = [
       LargeTreeDendrometerReadingImporter,
-      SmallTreeDendrometerReadingImporter
+      SmallTreeDendrometerReadingImporter,
+      FineLitterfallImporter
     ]
   end
 

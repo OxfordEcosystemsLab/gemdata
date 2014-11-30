@@ -7,7 +7,7 @@ class CrownDimensionImporter < RowImporter
   def read_row(values, logger)
 
     @cd = find_or_new({
-      :tree      => find_or_create_tree(values[1]),
+      :tree      => find_tree(values[1]),
       :depth     => values[2],
       :width_max => values[3],
       :vol       => values[4]
