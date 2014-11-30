@@ -43,6 +43,13 @@ module ContextHelper
     IngrowthCore.create!(plot: plot, ingrowth_core_num: core_num, batch: batch)
   end
 
+  def set_up_cwd_sub_transect(plot_code, transect_num, sub_transect_num, sub_transect_area, batch_id = 1)
+    batch = find_batch(batch_id)
+    plot = set_up_plot(plot_code, batch_id)
+    cwd_transect = CwdTransect.create!(plot: plot, transect_num: transect_num, batch: batch)
+    CwdSubTransect.create!(cwd_transect: cwd_transect, sub_transect_num: sub_transect_num, sub_transect_area_m2: sub_transect_area, batch: batch)
+  end
+
   def find_batch(batch_id)
     batch = Batch.find_or_create_by(id: batch_id)
   end

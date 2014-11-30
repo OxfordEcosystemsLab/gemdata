@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141130132018) do
+ActiveRecord::Schema.define(version: 20141130132607) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -218,23 +218,23 @@ ActiveRecord::Schema.define(version: 20141130132018) do
   end
 
   create_table "coarse_woody_debris_values", force: true do |t|
-    t.integer  "cwd_sub_transect_id",    null: false
-    t.datetime "collection_date",        null: false
-    t.integer  "collection_period_days", null: false
-    t.string   "cwd_num",                null: false
+    t.integer  "cwd_sub_transect_id", null: false
+    t.datetime "date",                null: false
+    t.string   "cwd_num",             null: false
     t.string   "size_class"
     t.string   "decay_class"
     t.float    "diameter_1_cm"
     t.float    "diameter_2_cm"
     t.float    "length_cm"
     t.float    "dry_weight_g"
-    t.string   "quality_code",           null: false
+    t.string   "quality_code"
     t.text     "comments"
+    t.integer  "batch_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "batch_id"
   end
 
+  add_index "coarse_woody_debris_values", ["cwd_sub_transect_id", "date", "cwd_num"], name: "index_cwd_values_on_sub_transect_date_and_cwd_num", unique: true, using: :btree
   add_index "coarse_woody_debris_values", ["cwd_sub_transect_id"], name: "index_coarse_woody_debris_values_on_cwd_sub_transect_id", using: :btree
 
   create_table "countries", force: true do |t|
@@ -242,7 +242,6 @@ ActiveRecord::Schema.define(version: 20141130132018) do
     t.string   "country_name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "batch_id"
   end
 
   create_table "crown_dimensions", force: true do |t|
@@ -276,28 +275,28 @@ ActiveRecord::Schema.define(version: 20141130132018) do
   add_index "crown_perimeters", ["tree_id"], name: "index_crown_perimeters_on_tree_id", using: :btree
 
   create_table "cwd_sub_transects", force: true do |t|
-    t.string   "cwd_sub_transects_num",    null: false
     t.integer  "cwd_transect_id",          null: false
+    t.string   "sub_transect_num",         null: false
     t.float    "sub_transect_area_m2",     null: false
     t.string   "sub_transect_start_point"
     t.string   "sub_transect_end_point"
+    t.integer  "batch_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "batch_id"
   end
 
-  add_index "cwd_sub_transects", ["cwd_transect_id", "cwd_sub_transects_num"], name: "index_cwd_sub_transects_on_transect_and_sub_transect", unique: true, using: :btree
+  add_index "cwd_sub_transects", ["cwd_transect_id", "sub_transect_num"], name: "index_cwd_sub_transects_on_transect_and_sub_transect", unique: true, using: :btree
   add_index "cwd_sub_transects", ["cwd_transect_id"], name: "index_cwd_sub_transects_on_cwd_transect_id", using: :btree
 
   create_table "cwd_transects", force: true do |t|
-    t.string   "cwd_transect_num", null: false
-    t.integer  "plot_id",          null: false
+    t.integer  "plot_id",      null: false
+    t.string   "transect_num", null: false
+    t.integer  "batch_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "batch_id"
   end
 
-  add_index "cwd_transects", ["plot_id", "cwd_transect_num"], name: "index_cwd_transects_on_plot_id_and_cwd_transect_num", unique: true, using: :btree
+  add_index "cwd_transects", ["plot_id", "transect_num"], name: "index_cwd_transects_on_plot_id_and_transect_num", unique: true, using: :btree
   add_index "cwd_transects", ["plot_id"], name: "index_cwd_transects_on_plot_id", using: :btree
 
   create_table "dbh_measurements", force: true do |t|
@@ -428,7 +427,6 @@ ActiveRecord::Schema.define(version: 20141130132018) do
     t.string   "global_region_name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "batch_id"
   end
 
   add_index "global_regions", ["global_region_code"], name: "index_global_regions_on_global_region_code", unique: true, using: :btree
@@ -565,7 +563,6 @@ ActiveRecord::Schema.define(version: 20141130132018) do
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "batch_id"
   end
 
   add_index "leaf_area_index_values", ["plot_id"], name: "index_leaf_area_index_values_on_plot_id", using: :btree
@@ -650,7 +647,6 @@ ActiveRecord::Schema.define(version: 20141130132018) do
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "batch_id"
   end
 
   add_index "leaf_respiration_values", ["tree_id"], name: "index_leaf_respiration_values_on_tree_id", using: :btree
@@ -1006,7 +1002,6 @@ ActiveRecord::Schema.define(version: 20141130132018) do
     t.string   "region_country_name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "batch_id"
   end
 
   add_index "region_countries", ["country_id"], name: "index_region_countries_on_country_id", using: :btree
@@ -1019,7 +1014,6 @@ ActiveRecord::Schema.define(version: 20141130132018) do
     t.string   "region_name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "batch_id"
   end
 
   add_index "regions", ["global_region_id"], name: "index_regions_on_global_region_id", using: :btree
@@ -1074,7 +1068,6 @@ ActiveRecord::Schema.define(version: 20141130132018) do
     t.string   "site_name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "batch_id"
   end
 
   add_index "sites", ["region_country_id"], name: "index_sites_on_region_country_id", using: :btree
@@ -1125,7 +1118,6 @@ ActiveRecord::Schema.define(version: 20141130132018) do
     t.string   "plot_corner_code", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "batch_id"
   end
 
   add_index "soil_respiration_tubes", ["plot_id", "tube_code", "plot_corner_code"], name: "index_soil_respiration_tubes_on_plot_and_tube_info", unique: true, using: :btree
@@ -1147,7 +1139,6 @@ ActiveRecord::Schema.define(version: 20141130132018) do
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "batch_id"
   end
 
   add_index "soil_respiration_values", ["soil_respiration_tube_id"], name: "index_soil_respiration_values_on_soil_respiration_tube_id", using: :btree
@@ -1959,7 +1950,6 @@ ActiveRecord::Schema.define(version: 20141130132018) do
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "batch_id"
   end
 
   add_index "stem_respiration_values", ["tree_id"], name: "index_stem_respiration_values_on_tree_id", using: :btree

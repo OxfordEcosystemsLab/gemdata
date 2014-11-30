@@ -40,4 +40,3 @@ class IngrowthCoreImporter < RowImporter
     end
 
 end
-
