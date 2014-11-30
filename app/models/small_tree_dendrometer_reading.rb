@@ -11,4 +11,6 @@ class SmallTreeDendrometerReading < ActiveRecord::Base
   validates :dbh_northsouth_cm, numericality: { greater_than: 0, less_than_or_equal_to: 250 }, allow_nil: true
   validates :dbh_westeast_cm,   numericality: { greater_than: 0, less_than_or_equal_to: 250 }, allow_nil: true
 
+  validates :quality_code, allow_nil: true, inclusion: { in: %w(1 2 3) }
+
 end

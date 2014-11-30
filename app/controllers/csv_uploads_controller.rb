@@ -15,7 +15,8 @@ class CsvUploadsController < ApplicationController
     @import_classes = [
       LargeTreeDendrometerReadingImporter,
       SmallTreeDendrometerReadingImporter,
-      FineLitterfallImporter
+      FineLitterfallImporter,
+      IngrowthCoreImporter
     ]
   end
 

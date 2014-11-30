@@ -14,4 +14,6 @@ class FineLitterfallValue < ActiveRecord::Base
   validates :palm_flower_g,         allow_nil: true, numericality: { greater_than_or_equal_to: 0 }
   validates :palm_fruit_g,          allow_nil: true, numericality: { greater_than_or_equal_to: 0 }
 
+  validates :quality_code, allow_nil: true, inclusion: { in: %w(1 2 3) }
+
 end
