@@ -11,6 +11,7 @@ class CreateLargeTreeDendrometerReadings < ActiveRecord::Migration
       t.float      :dendrometer_reading_replaced_mm
       t.string     :status_code
       t.string     :mortality_code
+      t.string     :quality_code
       t.text       :comments
       t.integer    :batch_id
       t.timestamps
