@@ -5,6 +5,6 @@ class SubPlot < ActiveRecord::Base
 
   has_many :trees
 
-  validates :plot, :sub_plot_code, presence: true
+  validates :plot, presence: true
 
 end
