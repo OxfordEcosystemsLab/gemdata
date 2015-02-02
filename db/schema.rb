@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141130160147) do
+ActiveRecord::Schema.define(version: 20150202151529) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -917,9 +917,9 @@ ActiveRecord::Schema.define(version: 20141130160147) do
 
   create_table "photosynthesis_measurements", force: true do |t|
     t.integer  "leaf_id"
-    t.integer  "file_number"
+    t.text     "filename"
     t.string   "code"
-    t.integer  "order"
+    t.integer  "area_corr"
     t.float    "photosynthesis"
     t.float    "photosynthesis_std"
     t.float    "conductance"
@@ -927,23 +927,22 @@ ActiveRecord::Schema.define(version: 20141130160147) do
     t.float    "internal_co2"
     t.float    "transpiration"
     t.float    "vpd"
-    t.float    "area"
     t.float    "air_temp"
     t.float    "leaf_temp"
-    t.float    "block_temp"
     t.float    "co2_reference"
     t.float    "co2_sample"
     t.float    "water_reference"
     t.float    "water_sample"
     t.float    "rh_reference"
     t.float    "rh_sample"
-    t.float    "flow"
     t.float    "par_in"
-    t.float    "par_out"
     t.float    "pressure"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "batch_id"
+    t.string   "pm_type"
+    t.date     "date"
+    t.time     "time"
   end
 
   add_index "photosynthesis_measurements", ["leaf_id"], name: "index_photosynthesis_measurements_on_leaf_id", using: :btree
