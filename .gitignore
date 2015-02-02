@@ -22,3 +22,7 @@
 .project
 .sass-cache/**/*
 .*.swp
+
+# Editor backups (on Linux)
+**/*~
+
