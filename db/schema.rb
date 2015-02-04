@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150202151529) do
+ActiveRecord::Schema.define(version: 20150204170005) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,7 +92,7 @@ ActiveRecord::Schema.define(version: 20150202151529) do
     t.integer  "batch_id"
   end
 
-  add_index "branches", ["code"], name: "index_branches_on_code", unique: true, using: :btree
+  add_index "branches", ["code"], name: "index_branches_on_code", using: :btree
   add_index "branches", ["tree_id"], name: "index_branches_on_tree_id", using: :btree
 
   create_table "censuses", force: true do |t|
@@ -916,7 +916,6 @@ ActiveRecord::Schema.define(version: 20150202151529) do
   add_index "phosphorus_measurements", ["leaf_id"], name: "index_phosphorus_measurements_on_leaf_id", using: :btree
 
   create_table "photosynthesis_measurements", force: true do |t|
-    t.integer  "leaf_id"
     t.text     "filename"
     t.string   "code"
     t.integer  "area_corr"
@@ -943,9 +942,10 @@ ActiveRecord::Schema.define(version: 20150202151529) do
     t.string   "pm_type"
     t.date     "date"
     t.time     "time"
+    t.integer  "leaf_part_id"
   end
 
-  add_index "photosynthesis_measurements", ["leaf_id"], name: "index_photosynthesis_measurements_on_leaf_id", using: :btree
+  add_index "photosynthesis_measurements", ["leaf_part_id"], name: "index_photosynthesis_measurements_on_leaf_part_id", using: :btree
 
   create_table "plot_metadata_imports", force: true do |t|
     t.string   "plot_code",                               null: false
@@ -2121,7 +2121,7 @@ ActiveRecord::Schema.define(version: 20150202151529) do
   add_foreign_key "phosphorus_measurements", "leaves", name: "phosphorus_measurements_leaf_id_fk"
   add_foreign_key "phosphorus_measurements", "phosphorus_curves", name: "phosphorus_measurements_phosphorus_curve_id_fk"
 
-  add_foreign_key "photosynthesis_measurements", "leaves", name: "photosynthesis_measurements_leaf_id_fk"
+  add_foreign_key "photosynthesis_measurements", "leaf_parts", name: "photosynthesis_measurements_leaf_part_id_fk"
 
   add_foreign_key "plots", "sites", name: "plots_site_id_fk"
 
