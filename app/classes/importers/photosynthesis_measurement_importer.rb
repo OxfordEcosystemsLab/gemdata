@@ -9,16 +9,18 @@ class PhotosynthesisMeasurementImporter < RowImporter
       #########################################################################
       #
       # The code reader is going to need to do a      CSP -> tree code lookup
+      # All the data we will need to make I9999999 trees work is also in that
+      # table
       #
       #########################################################################
-      :leaf => find_or_create_leaf(values[1]),
+      :leaf_part => find_or_create_leaf_part(values[1]),
+      :pm_type => values[3]
     })
     attempt_to_overwrite!(@pm)
 
     @pm.filename = values[0]
     @pm.code = values[1]
     @pm.area_corr = values[2]
-    @pm.pm_type = values[3]
     begin
       @pm.date = Date.strptime(values[4], "%d/%m/%y")
     rescue ArgumentError
