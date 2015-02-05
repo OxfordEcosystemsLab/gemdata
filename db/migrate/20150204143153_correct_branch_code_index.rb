@@ -6,6 +6,6 @@ class CorrectBranchCodeIndex < ActiveRecord::Migration
     #
     # see 20140322201843_create_branches.rb
     remove_index :branches, :code
-    add_index :branches, :code
+    add_index :branches, [:tree_id, :code], unique: true
   end
 end

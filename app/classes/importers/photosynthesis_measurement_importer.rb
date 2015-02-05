@@ -21,16 +21,8 @@ class PhotosynthesisMeasurementImporter < RowImporter
     @pm.filename = values[0]
     @pm.code = values[1]
     @pm.area_corr = values[2]
-    begin
-      @pm.date = Date.strptime(values[4], "%d/%m/%y")
-    rescue ArgumentError
-      @pm.date = nil
-    end
-    begin
-      @pm.time = Time.strptime(values[5], "%H:%M:%S")
-    rescue ArgumentError
-      @pm.time = nil
-    end
+    @pm.date = Date.strptime(values[4], "%d/%m/%y")
+    @pm.time = Time.strptime(values[5], "%H:%M:%S") unless values[5] == 'NA'
     @pm.photosynthesis = values[6]
     @pm.photosynthesis_std = values[7]
     @pm.conductance = values[8]

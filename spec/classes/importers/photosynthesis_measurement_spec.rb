@@ -39,7 +39,16 @@ describe PhotosynthesisMeasurementImporter do
     expect(pm.rh_sample).to eq(54.10851064)
     expect(pm.par_in).to eq(1200)
     expect(pm.pressure).to eq(73.5)
-    expect(pm.batch_id).to eq(1) # or is that 2? ... we'll find out in a minute
+    expect(pm.batch_id).to eq(1)
+  end
+
+  it 'allows time to be NA' do
+    values = CSV.parse_line 'ESP01-T1-B1S-L1,ESP01-T1-B1S-L1,0,AMAX,09/05/13,NA,13.85957447,0.090071408,0.025293617,0.000146561,76.91489362,0.668085106,1.908085106,15.35957447,23.21085106,1000.172766,982.7297872,12.1016383,12.89434043,50.78212766,54.10851064,1200,73.5'
+    importer = PhotosynthesisMeasurementImporter.new(1, 1)
+    status = importer.read_row(values, Array.new)
+    expect(status).to eq(Lookup::ImportStatus.inserted)
+    pm = importer.object.reload
+    expect(pm.time).to eq(nil)
   end
 
   # individual validators are tested in:
