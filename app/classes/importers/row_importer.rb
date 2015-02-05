@@ -141,7 +141,8 @@ class RowImporter
     def find_or_create_leaf_part(code)
       reader = CodeReader.new(code)
       leaf = find_or_create_leaf(code, reader)
-      find_or_create(LeafPart, :code => reader.suffix, :leaf => leaf)
+      suffix = reader.suffix || '00'
+      find_or_create(LeafPart, :code => suffix, :leaf => leaf)
     end
 
     def find_or_create_ingrowth_core(plot, core_num)

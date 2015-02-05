@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141130160147) do
+ActiveRecord::Schema.define(version: 20150205111040) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,7 +92,7 @@ ActiveRecord::Schema.define(version: 20141130160147) do
     t.integer  "batch_id"
   end
 
-  add_index "branches", ["code"], name: "index_branches_on_code", unique: true, using: :btree
+  add_index "branches", ["tree_id", "code"], name: "index_branches_on_tree_id_and_code", unique: true, using: :btree
   add_index "branches", ["tree_id"], name: "index_branches_on_tree_id", using: :btree
 
   create_table "censuses", force: true do |t|
@@ -916,10 +916,9 @@ ActiveRecord::Schema.define(version: 20141130160147) do
   add_index "phosphorus_measurements", ["leaf_id"], name: "index_phosphorus_measurements_on_leaf_id", using: :btree
 
   create_table "photosynthesis_measurements", force: true do |t|
-    t.integer  "leaf_id"
-    t.integer  "file_number"
+    t.text     "filename"
     t.string   "code"
-    t.integer  "order"
+    t.integer  "area_corr"
     t.float    "photosynthesis"
     t.float    "photosynthesis_std"
     t.float    "conductance"
@@ -927,26 +926,26 @@ ActiveRecord::Schema.define(version: 20141130160147) do
     t.float    "internal_co2"
     t.float    "transpiration"
     t.float    "vpd"
-    t.float    "area"
     t.float    "air_temp"
     t.float    "leaf_temp"
-    t.float    "block_temp"
     t.float    "co2_reference"
     t.float    "co2_sample"
     t.float    "water_reference"
     t.float    "water_sample"
     t.float    "rh_reference"
     t.float    "rh_sample"
-    t.float    "flow"
     t.float    "par_in"
-    t.float    "par_out"
     t.float    "pressure"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "batch_id"
+    t.string   "pm_type"
+    t.date     "date"
+    t.time     "time"
+    t.integer  "leaf_part_id"
   end
 
-  add_index "photosynthesis_measurements", ["leaf_id"], name: "index_photosynthesis_measurements_on_leaf_id", using: :btree
+  add_index "photosynthesis_measurements", ["leaf_part_id"], name: "index_photosynthesis_measurements_on_leaf_part_id", using: :btree
 
   create_table "plot_metadata_imports", force: true do |t|
     t.string   "plot_code",                               null: false
@@ -1978,6 +1977,7 @@ ActiveRecord::Schema.define(version: 20141130160147) do
     t.integer  "fp_species_id"
     t.integer  "fp_id"
     t.integer  "batch_id"
+    t.boolean  "gem_tree",      default: true
   end
 
   add_index "trees", ["batch_id"], name: "index_trees_on_batch_id", using: :btree
@@ -2122,7 +2122,7 @@ ActiveRecord::Schema.define(version: 20141130160147) do
   add_foreign_key "phosphorus_measurements", "leaves", name: "phosphorus_measurements_leaf_id_fk"
   add_foreign_key "phosphorus_measurements", "phosphorus_curves", name: "phosphorus_measurements_phosphorus_curve_id_fk"
 
-  add_foreign_key "photosynthesis_measurements", "leaves", name: "photosynthesis_measurements_leaf_id_fk"
+  add_foreign_key "photosynthesis_measurements", "leaf_parts", name: "photosynthesis_measurements_leaf_part_id_fk"
 
   add_foreign_key "plots", "sites", name: "plots_site_id_fk"
 

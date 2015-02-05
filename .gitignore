@@ -18,7 +18,12 @@
 
 /config/database.yml
 /config/private.yml
+/public/assets/*
 
 .project
 .sass-cache/**/*
 .*.swp
+
+# Editor backups (on Linux)
+**/*~
+

@@ -31,14 +31,24 @@ describe CodeReader do
     expect(reader.tree_code).to eq('T1031')
   end
 
+  it 'can read a complex tree code' do
+    expect_to_read 'ESP01-T641.1-B1S-L4'
+    reader = CodeReader.new 'ESP01-T641.1-B1S-L4'
+    expect(reader.tree_code).to eq('T641.1')
+  end
+  
   it 'can read a leaf code' do
-    reader = CodeReader.new 'WAY01-T1031-B14-L45-45252'
+    # Are we going to see any codes in this format?
+    #reader = CodeReader.new 'WAY01-T1031-B14-L45-45252'
+    reader = CodeReader.new 'WAY01-T1031-B14-L45C2'
     expect(reader.leaf_code).to eq('L45')
   end
 
   it 'can read a suffix' do
-    reader = CodeReader.new 'WAY01-T1031-B25H-L1P-130822.-OX'
-    expect(reader.suffix).to eq('130822.-OX')
+    # Are we going to see any codes in this format?
+    #reader = CodeReader.new 'WAY01-T1031-B25H-L1P-130822.-OX'
+    reader = CodeReader.new 'WAY01-T1031-B25H-L1C2'
+    expect(reader.suffix).to eq('C2')
   end
 
 end
