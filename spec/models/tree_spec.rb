@@ -7,6 +7,7 @@ describe Tree do
     @tree.tree_code = 'abc'
     @tree.sub_plot = SubPlot.create(:plot_id => 2)
     @tree.fp_species = FpSpecies.create(:name => 'Sapien')
+    @tree.gem_tree = false
     @tree.batch = Batch.new
   end
 
@@ -26,10 +27,11 @@ describe Tree do
     expect(@tree).to have(1).errors_on(:sub_plot)
   end
 
-  it 'is not valid without a species' do
-    @tree.fp_species = nil
-    expect(@tree).to_not be_valid
-    expect(@tree).to have(1).errors_on(:fp_species)
-  end
+  # tree model has been changed to not REQUIRE an fp_species
+  #it 'is not valid without a species' do
+  #  @tree.fp_species = nil
+  #  expect(@tree).to_not be_valid
+  #  expect(@tree).to have(1).errors_on(:fp_species)
+  #end
 
 end
