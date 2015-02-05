@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150204170005) do
+ActiveRecord::Schema.define(version: 20150205111040) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1977,6 +1977,7 @@ ActiveRecord::Schema.define(version: 20150204170005) do
     t.integer  "fp_species_id"
     t.integer  "fp_id"
     t.integer  "batch_id"
+    t.boolean  "gem_tree",      default: true
   end
 
   add_index "trees", ["batch_id"], name: "index_trees_on_batch_id", using: :btree
