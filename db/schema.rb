@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150205111040) do
+ActiveRecord::Schema.define(version: 20150205143128) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -273,6 +273,24 @@ ActiveRecord::Schema.define(version: 20150205111040) do
   end
 
   add_index "crown_perimeters", ["tree_id"], name: "index_crown_perimeters_on_tree_id", using: :btree
+
+  create_table "csp_translations", force: true do |t|
+    t.string  "csp_code"
+    t.string  "genus"
+    t.string  "species"
+    t.string  "full_name"
+    t.string  "family"
+    t.string  "taxon_info"
+    t.date    "date_collected"
+    t.string  "habit"
+    t.boolean "sun"
+    t.string  "tree_code"
+    t.string  "branch_code"
+    t.string  "site"
+  end
+
+  add_index "csp_translations", ["csp_code"], name: "index_csp_translations_on_csp_code", using: :btree
+  add_index "csp_translations", ["tree_code"], name: "index_csp_translations_on_tree_code", using: :btree
 
   create_table "cwd_sub_transects", force: true do |t|
     t.integer  "cwd_transect_id",          null: false
