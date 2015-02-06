@@ -29,6 +29,7 @@ class CsvUploadsController < ApplicationController
       CnpMeasurementImporter,
       CrownDimensionImporter,
       CrownPerimeterImporter,
+      CspTranslationImporter,
       ForestPlotsImporter,
       LeafAreaImporter,
       LeafMorphologyImporter,
