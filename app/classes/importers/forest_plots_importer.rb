@@ -20,7 +20,7 @@ class ForestPlotsImporter < RowImporter
 
   def read_row(values, logger)
 
-    plot_code = strip_dashes(values[1])
+    plot_code = values[1]
     sub_plot_code = values[9]
 
     plot = @plots_cache[plot_code]
@@ -86,10 +86,6 @@ Saving with tree code #{@tree.tree_code}]
   end
 
   private
-
-    def strip_dashes(value)
-      value.delete('-') unless value.nil?
-    end
 
     def self.ar_class
       Tree

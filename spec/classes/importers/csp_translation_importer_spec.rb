@@ -6,7 +6,7 @@ describe CspTranslationImporter do
   it_behaves_like 'Importer'
 
   before :each do
-    @plot = set_up_plot('WAY01')
+    @plot = set_up_plot('WAY-01')
   end
 
   it 'can read CSV and spot a tree code' do
@@ -26,7 +26,7 @@ describe CspTranslationImporter do
     expect(ct.sun).to eq(false)
     expect(ct.tree_code).to eq('T174')
     expect(ct.branch_code).to eq('B11H')
-    expect(ct.site).to eq('WAY01')
+    expect(ct.site).to eq('WAY-01')
   end
 
   it 'can spot a "B1S"' do

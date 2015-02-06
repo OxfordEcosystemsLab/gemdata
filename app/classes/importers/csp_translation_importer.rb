@@ -12,10 +12,10 @@ class CspTranslationImporter < RowImporter
   #############################################################################
   def initialize(batch_id, overwrite_batch_id)
     super(batch_id, overwrite_batch_id)
-    find_or_create_plot('ACJ01')
-    find_or_create_plot('SPD02')
-    find_or_create_plot('SPD02')
-    find_or_create_plot('PAN03')
+    find_or_create_plot('ACJ-01')
+    find_or_create_plot('SPD-02')
+    find_or_create_plot('SPD-02')
+    find_or_create_plot('PAN-03')
   end
 
   def read_row(values, logger)
@@ -52,10 +52,14 @@ class CspTranslationImporter < RowImporter
         raise "invalid habit #{habit}"
     end
     @ct.branch_code = branch_code
-    plot_code = values[11].delete('-')
+    reformat = values[11].upcase.match(/^(\w+)-?(\d+)/)
+    digits = reformat[2]
+    if digits.length == 1 then
+      digits = "0#{digits}"
+    end
+    plot_code   = "#{reformat[1]}-#{digits}"
     @ct.site = plot_code
     status = save_with_status!
-   
     if (status != Lookup::ImportStatus.failed) and tree_code.match(/^I.*$/) then
       # create tree and (if necessary) sub plot for all I99999 trees
       plot = find_plot(plot_code)
