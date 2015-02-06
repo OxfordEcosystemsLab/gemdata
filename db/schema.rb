@@ -92,7 +92,7 @@ ActiveRecord::Schema.define(version: 20150205143128) do
     t.integer  "batch_id"
   end
 
-  add_index "branches", ["code"], name: "index_branches_on_code", using: :btree
+  add_index "branches", ["tree_id", "code"], name: "index_branches_on_tree_id_and_code", unique: true, using: :btree
   add_index "branches", ["tree_id"], name: "index_branches_on_tree_id", using: :btree
 
   create_table "censuses", force: true do |t|
