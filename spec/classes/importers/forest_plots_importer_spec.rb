@@ -10,7 +10,7 @@ describe ForestPlotsImporter do
 
   before :each do
     Batch.find_or_create_by!(id:1)
-    @values = CSV.parse_line '90,TAM-04,Tambopata plot two swamp edge clay,PERU,Oliver Phillips,1983.67,1,90,Main Plot View,,54832,377,Sapotaceae,24801,Pouteria,653110,Pouteria indet,,,2,105,105,105,105,1300,a,1,5,0,,,'
+    @values = CSV.parse_line '90,TAM-04,Tambopata plot two swamp edge clay,PERU,Oliver Phillips,1983.67,1,90,Main Plot View,1,54832,377,Sapotaceae,24801,Pouteria,653110,Pouteria indet,,,2,105,105,105,105,1300,a,1,5,0,,,'
   end
 
   it 'can read CSV' do
@@ -116,5 +116,6 @@ describe ForestPlotsImporter do
   end
 
   it 'should trim imports damn it!'
+
 
 end
