@@ -21,23 +21,27 @@ class ForestPlotsImporter < RowImporter
   def read_row(values, logger)
 
     plot_code = strip_dashes(values[1])
+    sub_plot_code = values[9]
 
     plot = @plots_cache[plot_code]
 
     if plot.nil?
+      # Plots have lots of other columns which are not being imported here
+      # latitude, longtitude and all that lot.
       plot = find_or_create(Plot, :fp_id => values[0], :plot_code => plot_code)
       attempt_to_overwrite!(plot)
       plot.plot_desc = values[2]
       plot.save!
-
       @plots_cache[plot_code] = plot
     end
 
-    sub_plot = @sub_plots_cache[plot.id]
+    sub_plot = @sub_plots_cache[sub_plot_code]
 
     if sub_plot.nil?
-      sub_plot = find_or_create(SubPlot, :plot_id => plot.id)
-      @sub_plots_cache[plot.id] = sub_plot
+      # Sub-plots have other columns which are not being imported here
+      # type, area and all that lot.
+      sub_plot = find_or_create(SubPlot, :plot_id => plot.id, :sub_plot_code => sub_plot_code)
+      @sub_plots_cache[sub_plot_code] = sub_plot
     end
 
     @tree = find_or_new({
