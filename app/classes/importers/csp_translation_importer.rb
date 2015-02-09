@@ -52,12 +52,7 @@ class CspTranslationImporter < RowImporter
         raise "invalid habit #{habit}"
     end
     @ct.branch_code = branch_code
-    reformat = values[11].upcase.match(/^(\w+)-?(\d+)/)
-    digits = reformat[2]
-    if digits.length == 1 then
-      digits = "0#{digits}"
-    end
-    plot_code   = "#{reformat[1]}-#{digits}"
+    plot_code = CodeReader.tidy_plot_code(values[11])
     @ct.site = plot_code
     status = save_with_status!
     if (status != Lookup::ImportStatus.failed) and tree_code.match(/^I.*$/) then

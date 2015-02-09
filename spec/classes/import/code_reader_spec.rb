@@ -18,7 +18,7 @@ describe CodeReader do
   it 'can read a T code  with a hyphen in the plot code' do
     expect_to_read "WAY-01-T1031-B1S"
   end
-
+  
   it 'can read a CSP code' do
     expect_to_read "WAY01-CSP28003-77-S"
   end
@@ -45,6 +45,16 @@ describe CodeReader do
     expect_to_read 'TAM05-T300'
     reader = CodeReader.new 'WAY01-T1031'
     expect(reader.tree_code).to eq('T1031')
+  end
+
+  it 'can tidy a poorly formatted plot code' do
+    reader = CodeReader.new 'WAY1-T1031'
+    expect(reader.plot_code).to eq('WAY-01')
+  end
+
+  it 'can tidy a poorly formatted, hyphenated plot code' do
+    reader = CodeReader.new 'WAY-1-T1031'
+    expect(reader.plot_code).to eq('WAY-01')
   end
 
   it 'can read a complex tree code' do
