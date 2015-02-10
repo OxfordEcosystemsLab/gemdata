@@ -4,20 +4,6 @@ class CspTranslationImporter < RowImporter
     @ct
   end
 
-  #############################################################################
-  #
-  # This method really, really shoudn't be here
-  # But I'm bodging up the data so I can get on with everything else
-  #
-  #############################################################################
-  def initialize(batch_id, overwrite_batch_id)
-    super(batch_id, overwrite_batch_id)
-    find_or_create_plot('ACJ-01')
-    find_or_create_plot('SPD-02')
-    find_or_create_plot('SPD-02')
-    find_or_create_plot('PAN-03')
-  end
-
   def read_row(values, logger)
     @ct = CspTranslation.new
     @ct.csp_code = values[0]
