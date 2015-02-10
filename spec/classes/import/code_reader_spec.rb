@@ -99,4 +99,11 @@ describe CodeReader do
     expect(hyphenated.plot_code).to eq(plain.plot_code)
   end
 
+  it 'can read the "strange" code from the Carnegie data' do
+    reader = CodeReader.new 'WAY-01-T1050.2A-B1S'
+    expect(reader.plot_code).to eq('WAY-01')
+    expect(reader.tree_code).to eq('T1050.2A')
+    expect(reader.branch_code).to eq('B1S')
+  end
+  
 end

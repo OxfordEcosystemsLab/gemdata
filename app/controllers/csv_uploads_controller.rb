@@ -25,6 +25,7 @@ class CsvUploadsController < ApplicationController
       BranchArchitectureImporter,
       BranchLightMeasurementImporter,
       BranchLightPlacementImporter,
+      CarnegieBulkLeafChemistryImporter,
       CnImporter,
       CnpMeasurementImporter,
       CrownDimensionImporter,
