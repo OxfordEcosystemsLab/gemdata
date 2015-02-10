@@ -6,7 +6,7 @@ describe LeafRepellencyImporter do
   it_behaves_like 'Importer'
 
   before :each do
-    @branch = set_up_branch('ACJ01', 'T733', 'B3S')
+    @branch = set_up_branch('ACJ-01', 'T733', 'B3S')
   end
 
   it 'can read CSV with leaf code L' do
