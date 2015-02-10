@@ -5,7 +5,7 @@ class CodeReader
   attr_reader :plot_code, :tree_code, :branch_code, :leaf_code, :suffix
 
   def self.tidy_plot_code(raw)
-    reformat = raw.upcase.match(/^(\w+)-?(\d+)/)
+    reformat = raw.upcase.match(/^(\w\w\w)-?(\d\d?)/)
     digits = reformat[2]
     if digits.length == 1 then
       digits = "0#{digits}"
