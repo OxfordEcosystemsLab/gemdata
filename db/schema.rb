@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150206163258) do
+ActiveRecord::Schema.define(version: 20150209113312) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -94,6 +94,41 @@ ActiveRecord::Schema.define(version: 20150206163258) do
 
   add_index "branches", ["tree_id", "code"], name: "index_branches_on_tree_id_and_code", unique: true, using: :btree
   add_index "branches", ["tree_id"], name: "index_branches_on_tree_id", using: :btree
+
+  create_table "carnegie_bulk_leaf_chemistries", force: true do |t|
+    t.string   "csp_code"
+    t.integer  "branch_1"
+    t.integer  "branch_2"
+    t.integer  "branch_3"
+    t.string   "flagged"
+    t.string   "reason"
+    t.date     "date_collected"
+    t.float    "n"
+    t.float    "chl_a"
+    t.float    "chl_b"
+    t.float    "carotenoids"
+    t.float    "soluble_c"
+    t.float    "delta_13c"
+    t.float    "water"
+    t.float    "p"
+    t.float    "ca"
+    t.float    "k"
+    t.float    "mg"
+    t.float    "lma"
+    t.float    "c"
+    t.float    "lignin"
+    t.float    "cellulose"
+    t.float    "hemi_cellulose"
+    t.float    "phenols"
+    t.float    "tannins"
+    t.float    "b"
+    t.float    "fe"
+    t.float    "mn"
+    t.float    "zn"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "batch_id"
+  end
 
   create_table "censuses", force: true do |t|
     t.integer  "number"
