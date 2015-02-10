@@ -7,8 +7,8 @@ class WeatherReadingImporter < RowImporter
   def read_row(values, logger)
 
     @wr = find_or_new({
-      :plot => find_or_create(Plot, :plot_code => values[1]),
-      :datetime => Time.strptime(values[7], "%m/%d/%Y %H:%M")
+      :plot => find_or_create(Plot, :plot_code => CodeReader.tidy_plot_code(values[1])),
+      :datetime => Time.strptime(values[7], '%m/%d/%Y %H:%M:%S')
     })
     attempt_to_overwrite!(@wr)
 
