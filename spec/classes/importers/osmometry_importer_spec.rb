@@ -6,7 +6,7 @@ describe OsmometryImporter do
   it_behaves_like 'Importer'
 
   before :each do
-    @branch = set_up_branch('PAN03', 'T213', 'B2S', 1)
+    @branch = set_up_branch('PAN-03', 'T213', 'B2S', 1)
   end
 
   it 'can read CSV' do
