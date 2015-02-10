@@ -32,11 +32,8 @@ class CarnegieBulkLeafChemistry < ActiveRecord::Base
   validates :lignin, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
   validates :cellulose, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
   validates :hemi_cellulose, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
-  
-  # Phenols should be a percentage but A LOT of the data is out of this range
-  # validates :phenols, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
-  # Tannins should be a percentage but some of the data is out of this range
-  # validates :tannins, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
+  validates :phenols, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1000 }
+  validates :tannins, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1000 }
   
   # b - mg g^(-1) dry mass
   # fe - mg g^(-1) dry mass

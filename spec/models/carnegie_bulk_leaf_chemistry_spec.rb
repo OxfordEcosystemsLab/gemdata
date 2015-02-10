@@ -43,9 +43,7 @@ describe CarnegieBulkLeafChemistry do
     'c',
     'lignin',
     'cellulose',
-    'hemi_cellulose',
-    'phenols',
-    'tannins'
+    'hemi_cellulose'
   ]
   @percent_cols.each do |column|
     it 'does not permit negative percentages on #{column}' do
