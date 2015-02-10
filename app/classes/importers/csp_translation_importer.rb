@@ -30,15 +30,7 @@ class CspTranslationImporter < RowImporter
     habit = values[7]
     @ct.habit = habit
     @ct.sun = values[8]
-    tree_code = values[9].upcase.gsub(/-/, '')
-    # if it starts with a number, put a "T" on front so that all tree codes
-    # are either I........ or T............
-    if tree_code.match(/^\d.*$/) then
-      tree_code = "T#{tree_code}"
-    end
-    if not tree_code.match(/^[TI]\d+[\d\.A]*$/) then
-      raise "invalid tree_code #{tree_code}"
-    end
+    tree_code = CodeReader.tidy_tree_code(values[9])
     @ct.tree_code = tree_code
     habit = habit.gsub(/\s/, '').downcase
     branch_code = case habit
