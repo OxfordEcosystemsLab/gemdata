@@ -11,6 +11,10 @@ describe CodeReader do
     expect{CodeReader.new code}.to raise_error
   end
 
+  it 'can tidy a plot code' do
+    expect(CodeReader.tidy_plot_code('WAY1')).to eq('WAY-01')
+  end
+
   it 'can read a T code' do
     expect_to_read "WAY01-T1031-B1S"
   end
@@ -19,14 +23,6 @@ describe CodeReader do
     expect_to_read "WAY-01-T1031-B1S"
   end
   
-  it 'can read a CSP code' do
-    expect_to_read "WAY01-CSP28003-77-S"
-  end
-
-  it 'can read a CSP code with a hyphen in the plot code' do
-    expect_to_read "WAY-01-CSP28003-77-S"
-  end
-
   it 'raises an exception on invalid code' do
     expect_to_not_read "What's all this? What's all this?"
   end
@@ -40,10 +36,10 @@ describe CodeReader do
   end
 
   it 'can read just a tree with a hyphen in the plot code' do
-    expect_to_read 'WAY01-T1031'
-    expect_to_read 'WAY01-T78'
-    expect_to_read 'TAM05-T300'
-    reader = CodeReader.new 'WAY01-T1031'
+    expect_to_read 'WAY-01-T1031'
+    expect_to_read 'WAY-01-T78'
+    expect_to_read 'TAM-05-T300'
+    reader = CodeReader.new 'WAY-01-T1031'
     expect(reader.tree_code).to eq('T1031')
   end
 
@@ -81,16 +77,16 @@ describe CodeReader do
     expect(reader.leaf_code).to eq('L45')
   end
 
-  it 'can read a suffix' do
+  it 'can read a leaf part' do
     # Are we going to see any codes in this format?
     #reader = CodeReader.new 'WAY01-T1031-B25H-L1P-130822.-OX'
     reader = CodeReader.new 'WAY01-T1031-B25H-L1C2'
-    expect(reader.suffix).to eq('C2')
+    expect(reader.leaf_part).to eq('C2')
   end
 
-  it 'can read a suffix with a hyphen in the plot code' do
+  it 'can read a leaf part with a hyphen in the plot code' do
     reader = CodeReader.new 'WAY-01-T1031-B25H-L1C2'
-    expect(reader.suffix).to eq('C2')
+    expect(reader.leaf_part).to eq('C2')
   end
 
   it 'can read a hyphenated plot code the same as an ordinary plot code' do
@@ -105,5 +101,29 @@ describe CodeReader do
     expect(reader.tree_code).to eq('T1050.2A')
     expect(reader.branch_code).to eq('B1S')
   end
+
+  it 'can read a CSP code from branch architecture' do
+    CspTranslation.create!(:csp_code => 'CSP28002', :tree_code => 'T32', :branch_code => 'B11H')
+    reader = CodeReader.new 'WAY01-CSP-28002-32-H'
+    expect(reader.plot_code).to eq('WAY-01')
+    expect(reader.tree_code).to eq('T32')
+    expect(reader.branch_code).to eq('B11H')
+  end
   
+  it 'can read a CSP code with a hyphenated plot code' do
+    CspTranslation.create!(:csp_code => 'CSP28002', :tree_code => 'T32', :branch_code => 'B11H')
+    reader = CodeReader.new 'WAY-01-CSP-28002-32-H'
+    expect(reader.plot_code).to eq('WAY-01')
+    expect(reader.tree_code).to eq('T32')
+    expect(reader.branch_code).to eq('B11H')
+  end
+  
+  it 'can read the code from the photosynthesis test' do
+    reader = CodeReader.new 'WAY01-T1031-B25H-L1C2'
+    expect(reader.plot_code).to eq('WAY-01')
+    expect(reader.tree_code).to eq('T1031')
+    expect(reader.branch_code).to eq('B25H')
+    expect(reader.leaf_code).to eq('L1')
+    expect(reader.leaf_part).to eq('C2')
+  end
 end
