@@ -6,13 +6,6 @@ class PhotosynthesisMeasurementImporter < RowImporter
 
   def read_row(values, logger)
     @pm = find_or_new({
-      #########################################################################
-      #
-      # The code reader is going to need to do a      CSP -> tree code lookup
-      # All the data we will need to make I9999999 trees work is also in that
-      # table
-      #
-      #########################################################################
       :leaf_part => find_or_create_leaf_part(values[1]),
       :pm_type => values[3]
     })
@@ -40,11 +33,6 @@ class PhotosynthesisMeasurementImporter < RowImporter
     @pm.rh_sample = values[20]
     @pm.par_in = values[21]
     @pm.pressure = values[22]
-
-    # created_at timestamp without time zone,
-	  # updated_at timestamp without time zone,
-	  # batch_id integer
-
     save_with_status!
   end
 

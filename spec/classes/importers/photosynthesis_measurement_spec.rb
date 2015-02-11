@@ -5,17 +5,14 @@ require 'importer'
 describe PhotosynthesisMeasurementImporter do
   it_behaves_like 'Importer'
 
-  before :each do
-    @leaf_part = set_up_leaf_part('ESP01', 'T1', 'B1S', 'L1', '00')
-  end
-
   it 'can read CSV' do
+    leaf_part = set_up_leaf_part('ESP-01', 'T1', 'B1S', 'L1', '00')
     values = CSV.parse_line 'ESP01-T1-B1S-L1,ESP01-T1-B1S-L1,0,AMAX,09/05/13,10:23:13,13.85957447,0.090071408,0.025293617,0.000146561,76.91489362,0.668085106,1.908085106,15.35957447,23.21085106,1000.172766,982.7297872,12.1016383,12.89434043,50.78212766,54.10851064,1200,73.5'
     importer = PhotosynthesisMeasurementImporter.new(1, 1)
     status = importer.read_row(values, Array.new)
     expect(status).to eq(Lookup::ImportStatus.inserted)
     pm = importer.object.reload
-    expect(pm.leaf_part).to eq(@leaf_part)
+    expect(pm.leaf_part).to eq(leaf_part)
     expect(pm.filename).to eq('ESP01-T1-B1S-L1')
     expect(pm.code).to eq('ESP01-T1-B1S-L1')
     expect(pm.area_corr).to eq(0)
@@ -43,6 +40,7 @@ describe PhotosynthesisMeasurementImporter do
   end
 
   it 'allows time to be NA' do
+    leaf_part = set_up_leaf_part('ESP-01', 'T1', 'B1S', 'L1', '00')
     values = CSV.parse_line 'ESP01-T1-B1S-L1,ESP01-T1-B1S-L1,0,AMAX,09/05/13,NA,13.85957447,0.090071408,0.025293617,0.000146561,76.91489362,0.668085106,1.908085106,15.35957447,23.21085106,1000.172766,982.7297872,12.1016383,12.89434043,50.78212766,54.10851064,1200,73.5'
     importer = PhotosynthesisMeasurementImporter.new(1, 1)
     status = importer.read_row(values, Array.new)
@@ -51,9 +49,20 @@ describe PhotosynthesisMeasurementImporter do
     expect(pm.time).to eq(nil)
   end
 
+  it 'processes leaf parts correctly' do
+    leaf_part = set_up_leaf_part('ESP-01', 'T1', 'B1S', 'L2', 'C1')
+    values = CSV.parse_line 'ESP01-T1-B1S-L2C1,ESP01-T1-B1S-L2C1,0,AMAX,09/05/13,NA,13.85957447,0.090071408,0.025293617,0.000146561,76.91489362,0.668085106,1.908085106,15.35957447,23.21085106,1000.172766,982.7297872,12.1016383,12.89434043,50.78212766,54.10851064,1200,73.5'
+    importer = PhotosynthesisMeasurementImporter.new(1, 1)
+    status = importer.read_row(values, Array.new)
+    expect(status).to eq(Lookup::ImportStatus.inserted)
+    pm = importer.object.reload
+    expect(pm.leaf_part).to eq(leaf_part)
+  end
+
   # individual validators are tested in:
   # ./gemdata/spec/models/photosynthesis_measurement_spec.rb
   it 'performs validation' do
+    leaf_part = set_up_leaf_part('ESP-01', 'T1', 'B1S', 'L1', '00')
     values = CSV.parse_line 'rubbish,ESP01-T13-B1S-L3,rubbish,rubbish,rubbish,rubbish,rubbish,rubbish,rubbish,rubbish,rubbish,rubbish,rubbish,rubbish,rubbish,rubbish,rubbish,rubbish,rubbish,rubbish,rubbish,rubbish,rubbish'
     # The code reader should deal with bad codes more elegantly than it does
     importer = PhotosynthesisMeasurementImporter.new(1, 1)
