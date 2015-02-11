@@ -6,7 +6,7 @@ describe BranchArchitectureImporter do
   it_behaves_like 'Importer'
 
   before :each do
-    @branch = set_up_branch('SPD01', 'T1159', 'B1S', 1)
+    @branch = set_up_branch('SPD-01', 'T1159', 'B1S', 1)
   end
 
   it 'can read CSV' do
