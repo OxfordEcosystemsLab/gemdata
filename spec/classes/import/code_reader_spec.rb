@@ -95,6 +95,12 @@ describe CodeReader do
     expect(hyphenated.plot_code).to eq(plain.plot_code)
   end
 
+  it 'can read a space separated plot code the same as an ordinary plot code' do
+    hyphenated = CodeReader.new 'WAY 1-T1031-B25H-L1C2'
+    plain = CodeReader.new 'WAY1-T1031-B25H-L1C2'
+    expect(hyphenated.plot_code).to eq(plain.plot_code)
+  end
+
   it 'can read the "strange" code from the Carnegie data' do
     reader = CodeReader.new 'WAY-01-T1050.2A-B1S'
     expect(reader.plot_code).to eq('WAY-01')

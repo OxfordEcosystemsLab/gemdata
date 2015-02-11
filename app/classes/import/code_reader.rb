@@ -7,7 +7,7 @@ class CodeReader
   ##############################################################################
 
   def self.tidy_plot_code(raw)
-    reformat = raw.upcase.match(/^(\w\w\w)-?(\d\d?)$/)
+    reformat = raw.upcase.match(/^(\w\w\w)[\-\s]?(\d\d?)$/)
     digits = reformat[2]
     if digits.length == 1 then
       digits = "0#{digits}"
@@ -32,7 +32,7 @@ class CodeReader
 
   def extract_plot_code(code)
     # extract the plot code from beggining and return the remainder
-    match = code.upcase.match(/^(\w\w\w-?\d\d?)-(.*)$/)
+    match = code.upcase.match(/^(\w\w\w[\-\s]?\d\d?)-(.*)$/)
     if not match then
       raise Gemdata::CodeUnreadable, "Could not get plot from code [#{@full_code}]"
     end
