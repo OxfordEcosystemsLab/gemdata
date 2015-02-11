@@ -6,7 +6,8 @@ describe LeafAreaImporter do
   it_behaves_like 'Importer'
 
   before :each do
-    @leaf_part = set_up_leaf_part('TAM05', 'T342', 'B11H', 'L1P', '130822.-OK', 1)
+    #@leaf_part = set_up_leaf_part('TAM-05', 'T342', 'B11H', 'L1P', '130822.-OK', 1)
+    @leaf_part = set_up_leaf_part('TAM-05', 'T342', 'B11H', 'L1', 'P', 1)
   end
 
   it 'can read CSV' do
@@ -23,6 +24,12 @@ describe LeafAreaImporter do
     expect(la.area).to eq(16972.5)
 
     expect(la).to be_valid
+  end
+
+  it 'performs validation' do
+    values = CSV.parse_line 'not a number,GUANYIN,TAM05-T342-B11H-L1P-130822.-OK,not a number'
+    importer = LeafAreaImporter.new(1, 2)
+    expect{importer.read_row(values, Array.new)}.to raise_error
   end
 
 end
