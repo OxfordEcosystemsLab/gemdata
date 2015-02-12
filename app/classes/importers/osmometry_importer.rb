@@ -11,7 +11,7 @@ class OsmometryImporter < RowImporter
     @o = find_or_new({
       :branch => find_or_create_branch(code),
       :date   => Date.strptime(values[0], "%d-%h-%y"),
-      :disk_orientation => values[3]
+      :disk_orientation => translate_orientation(values[3])
     })
     attempt_to_overwrite!(@o)
 
@@ -34,9 +34,19 @@ class OsmometryImporter < RowImporter
 
   private
 
-    def zero_if_base(value)
-      value == 'Base' ? 0 : value
+    def translate_orientation(spanish)
+      if spanish.downcase == 'haz' then
+        'top'
+      elsif spanish.downcase == 'enves' then
+        'bottom'
+      else
+        spanish
+      end
     end
+
+    #def zero_if_base(value)
+    #  value == 'Base' ? 0 : value
+    #end
 
     def self.ar_class
       Osmometry

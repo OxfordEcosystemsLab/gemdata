@@ -10,5 +10,6 @@ class Osmometry < ActiveRecord::Base
   validates :temperature, presence: true
   validates :humidity,    presence: true
   validates :m1,          presence: true
-
+  validates :disk_orientation, inclusion: { in: %w(top bottom), message: "%{value} is not a valid disk_orientation" }
+  
 end
