@@ -89,8 +89,8 @@ class CodeReader
   ##############################################################################
 
   def initialize(code)
-    @full_code = code
-    remainder = extract_plot_code(code)
+    @full_code = code.gsub('_', '-')
+    remainder = extract_plot_code(@full_code)
     if (not remainder.blank?) and (not extract_csp_code(remainder)) then
       remainder = extract_tree_code(remainder) unless remainder.blank?
       remainder = extract_branch_code(remainder) unless remainder.blank?

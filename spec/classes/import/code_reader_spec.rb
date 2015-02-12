@@ -142,4 +142,10 @@ describe CodeReader do
     expect(reader.leaf_part).to eq('S')
   end
 
+  it 'can read a code with underscores' do
+    reader = CodeReader.new 'ACJ01_I2014'
+    expect(reader.plot_code).to eq('ACJ-01')
+    expect(reader.tree_code).to eq('I2014')
+  end
+
 end
