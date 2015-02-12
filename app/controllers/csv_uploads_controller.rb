@@ -35,6 +35,7 @@ class CsvUploadsController < ApplicationController
       LeafAreaImporter,
       LeafMorphologyImporter,
       LeafRepellencyImporter,
+      LeafVenationImporter,
       LightHangingImporter,
       LightStringMeasurementImporter,
       OsmometryImporter,

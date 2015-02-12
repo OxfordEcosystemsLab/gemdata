@@ -132,4 +132,14 @@ describe CodeReader do
     expect(reader.leaf_code).to eq('L1')
     expect(reader.leaf_part).to eq('C2')
   end
+
+  it 'can read the code from the veins test' do
+    reader = CodeReader.new 'ACJ01-I2014-B1S-L1S'
+    expect(reader.plot_code).to eq('ACJ-01')
+    expect(reader.tree_code).to eq('I2014')
+    expect(reader.branch_code).to eq('B1S')
+    expect(reader.leaf_code).to eq('L1')
+    expect(reader.leaf_part).to eq('S')
+  end
+
 end
