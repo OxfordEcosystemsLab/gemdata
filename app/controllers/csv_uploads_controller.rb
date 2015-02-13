@@ -33,6 +33,7 @@ class CsvUploadsController < ApplicationController
       CspTranslationImporter,
       ForestPlotsImporter,
       LeafAreaImporter,
+      LeafDryMatterImporter,
       LeafMorphologyImporter,
       LeafRepellencyImporter,
       LeafVenationImporter,
