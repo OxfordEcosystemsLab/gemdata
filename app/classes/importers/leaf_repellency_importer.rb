@@ -5,16 +5,15 @@ class LeafRepellencyImporter < RowImporter
   end
 
   def read_row(values, logger)
-
     @lr = find_or_new({
-      :branch => find_or_create_branch(values[1]),
-      :replica => values[2],
+      :branch => find_or_create_branch("#{values[3]}-#{values[4]}-#{values[5]}"),
+      :replica => values[8]
     })
     attempt_to_overwrite!(@lr)
-
-    @lr.photo_number = values[3]
-    @lr.angle = values[4]
-
+    @lr.photo_number = values[9]
+    @lr.angle = values[15]
+    @lr.angle_exclude = values[16].upcase
+    @lr.angle_comments = values[17]
     save_with_status!
   end
 
@@ -25,3 +24,4 @@ class LeafRepellencyImporter < RowImporter
     end
 
 end
+
