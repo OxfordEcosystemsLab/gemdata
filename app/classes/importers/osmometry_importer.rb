@@ -6,10 +6,8 @@ class OsmometryImporter < RowImporter
 
   def read_row(values, logger)
 
-    code = values[5].gsub(/\s/, '')
-
     @o = find_or_new({
-      :branch => find_or_create_branch(code),
+      :branch => find_or_create_branch(values[5]),
       :date   => Date.strptime(values[0], "%d-%h-%y"),
       :disk_orientation => translate_orientation(values[3])
     })
