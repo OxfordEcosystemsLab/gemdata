@@ -30,64 +30,6 @@ class CodeReader
 
   ##############################################################################
 
-  def extract_plot_code(code)
-    # extract the plot code from beggining and return the remainder
-    match = code.upcase.match(/^(\w\w\w[\-]?\d\d?)-(.*)$/)
-    if not match then
-      raise Gemdata::CodeUnreadable, "Could not get plot from code [#{@full_code}]"
-    end
-    @plot_code = self.class.tidy_plot_code(match[1])
-    match[2]
-  end
-
-  def extract_csp_code(code)
-    # extract the CSP code from beggining
-    # return true or false for if a match was found
-    match = code.match(/^(CSP-?\d\d\d\d\d)-(.*)$/)
-    if match then
-      csp_translation = CspTranslation.find_by! csp_code: match[1].gsub(/-/, '')
-      @tree_code = csp_translation.tree_code
-      @branch_code = csp_translation.branch_code
-      @suffix = match[2]
-      true      
-    else
-      false
-    end
-  end
-
-  def extract_tree_code(code)
-    # extract the tree code from beggining and return the remainder
-    match = code.match(/^([TI][\.\d\w]+)-?(.*)$/)
-    if not match then
-      raise Gemdata::CodeUnreadable, "Could not get tree from code [#{code}] [#{@full_code}]"
-    end
-    @tree_code = self.class.tidy_tree_code(match[1])
-    match[2]
-  end
-
-  def extract_branch_code(code)
-    # extract the branch code from beggining and return the remainder
-    match = code.match(/^(B\d\d?[SH]?)-?(.*)$/)
-    if not match then
-      raise Gemdata::CodeUnreadable, "Could not get branch from code [#{code}] [#{@full_code}]"
-    end
-    @branch_code = match[1]
-    match[2]
-  end
-
-  def extract_leaf_code(code)
-    # extract the leaf code from beggining and return the remainder
-    match = code.match(/^(L\d+)((?:\w+\d*)?)-?(.*)$/)
-    if not match then
-      raise Gemdata::CodeUnreadable, "Could not get leaf from code [#{code}] [#{@full_code}]"
-    end
-    @leaf_code = match[1]
-    @leaf_part = match[2]
-    match[3]
-  end
-
-  ##############################################################################
-
   def initialize(code)
     @full_code = code.gsub('_', '-').gsub(/\s/, '')
     remainder = extract_plot_code(@full_code)
@@ -97,5 +39,66 @@ class CodeReader
       @suffix = extract_leaf_code(remainder) unless remainder.blank?
     end
   end
+
+  
+  ##############################################################################
+
+  private
+
+    def extract_plot_code(code)
+      # extract the plot code from beggining and return the remainder
+      match = code.upcase.match(/^(\w\w\w[\-]?\d\d?)-(.*)$/)
+      if not match then
+        raise Gemdata::CodeUnreadable, "Could not get plot from code [#{@full_code}]"
+      end
+      @plot_code = self.class.tidy_plot_code(match[1])
+      match[2]
+    end
+
+    def extract_csp_code(code)
+      # extract the CSP code from beggining
+      # return true or false for if a match was found
+      match = code.match(/^(CSP-?\d\d\d\d\d)-(.*)$/)
+      if match then
+        csp_translation = CspTranslation.find_by! csp_code: match[1].gsub(/-/, '')
+        @tree_code = csp_translation.tree_code
+        @branch_code = csp_translation.branch_code
+        @suffix = match[2]
+        true      
+      else
+        false
+      end
+    end
+
+    def extract_tree_code(code)
+      # extract the tree code from beggining and return the remainder
+      match = code.match(/^([TI][\d]+((?:[\.\-]\d+[\d\w]*)?))-?(.*)$/)
+      if not match then
+        raise Gemdata::CodeUnreadable, "Could not get tree from code [#{code}] [#{@full_code}]"
+      end
+      @tree_code = self.class.tidy_tree_code(match[1])
+      match[3] # or 2????????
+    end
+
+    def extract_branch_code(code)
+      # extract the branch code from beggining and return the remainder
+      match = code.match(/^(B\d\d?[SH]?)-?(.*)$/)
+      if not match then
+        raise Gemdata::CodeUnreadable, "Could not get branch from code [#{code}] [#{@full_code}]"
+      end
+      @branch_code = match[1]
+      match[2]
+    end
+
+    def extract_leaf_code(code)
+      # extract the leaf code from beggining and return the remainder
+      match = code.match(/^(L\d+)((?:\w+\d*)?)-?(.*)$/)
+      if not match then
+        raise Gemdata::CodeUnreadable, "Could not get leaf from code [#{code}] [#{@full_code}]"
+      end
+      @leaf_code = match[1]
+      @leaf_part = match[2]
+      match[3]
+    end
 
 end

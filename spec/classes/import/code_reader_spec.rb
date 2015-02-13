@@ -148,4 +148,13 @@ describe CodeReader do
     expect(reader.tree_code).to eq('I2014')
   end
 
+  it 'can read a hyphenated tree code' do
+    reader = CodeReader.new 'WAY01-T1050-2A-B1S-L1S'
+    expect(reader.plot_code).to eq('WAY-01')
+    expect(reader.tree_code).to eq('T10502A')
+    expect(reader.branch_code).to eq('B1S')
+    expect(reader.leaf_code).to eq('L1')
+    expect(reader.leaf_part).to eq('S')
+  end
+
 end
