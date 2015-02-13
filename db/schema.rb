@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150209113312) do
+ActiveRecord::Schema.define(version: 20150213111605) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -280,11 +280,16 @@ ActiveRecord::Schema.define(version: 20150209113312) do
   end
 
   create_table "crown_dimensions", force: true do |t|
-    t.integer "tree_id"
-    t.float   "depth"
-    t.float   "width_max"
-    t.float   "vol"
-    t.integer "batch_id"
+    t.integer  "tree_id"
+    t.float    "depth"
+    t.float    "width_max"
+    t.float    "vol"
+    t.integer  "batch_id"
+    t.float    "h_tree"
+    t.float    "poly_vol"
+    t.float    "surf_area"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "crown_dimensions", ["tree_id"], name: "index_crown_dimensions_on_tree_id", using: :btree
@@ -675,6 +680,22 @@ ActiveRecord::Schema.define(version: 20150209113312) do
 
   add_index "leaf_areas", ["leaf_part_id"], name: "index_leaf_areas_on_leaf_part_id", using: :btree
 
+  create_table "leaf_dry_matters", force: true do |t|
+    t.integer  "leaf_part_id"
+    t.date     "date"
+    t.string   "evaluators"
+    t.float    "fresh_mass"
+    t.float    "dry_mass"
+    t.float    "thickness"
+    t.float    "petiole_width"
+    t.string   "comments"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "batch_id"
+  end
+
+  add_index "leaf_dry_matters", ["leaf_part_id"], name: "index_leaf_dry_matters_on_leaf_part_id", using: :btree
+
   create_table "leaf_morphologies", force: true do |t|
     t.integer  "leaf_id"
     t.datetime "date"
@@ -708,7 +729,9 @@ ActiveRecord::Schema.define(version: 20150209113312) do
     t.integer  "batch_id"
     t.string   "replica"
     t.integer  "photo_number"
-    t.string   "angle"
+    t.string   "angle_exclude"
+    t.string   "angle_comments"
+    t.float    "angle"
   end
 
   add_index "leaf_repellencies", ["branch_id"], name: "index_leaf_repellencies_on_branch_id", using: :btree
@@ -736,8 +759,35 @@ ActiveRecord::Schema.define(version: 20150209113312) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "batch_id"
+    t.string   "census_comparable_branch_code"
+    t.string   "image_enhanced"
+    t.string   "image_traced"
+    t.string   "image_veins_fitted"
+    t.string   "image_areoles_fitted"
+    t.string   "image_data_vertex_list"
+    t.string   "image_data_edge_list"
+    t.string   "image_data_edge_perims"
+    t.string   "image_data_edge_radii"
+    t.boolean  "vein_image_good"
+    t.float    "vein_area_analyzed"
+    t.float    "vein_density"
+    t.float    "vein_length_mean"
+    t.float    "vein_length_sd"
+    t.float    "vein_tortuosity_mean"
+    t.float    "vein_tortuosity_sd"
+    t.float    "vein_minimum_spanning_tree_ratio"
+    t.float    "vein_areole_elongation_ratio_mean"
+    t.float    "vein_areole_elongation_ratio_sd"
+    t.float    "vein_areole_roughness_mean"
+    t.float    "vein_areole_roughness_sd"
+    t.float    "vein_areole_loopiness"
+    t.float    "vein_freely_ending_veinlet_ratio"
+    t.float    "vein_area_fraction"
+    t.float    "vein_thickness_mean_weighted"
+    t.float    "vein_thickness_sd_weighted"
   end
 
+  add_index "leaf_venations", ["census_comparable_branch_code"], name: "index_leaf_venations_on_census_comparable_branch_code", using: :btree
   add_index "leaf_venations", ["leaf_part_id"], name: "index_leaf_venations_on_leaf_part_id", using: :btree
 
   create_table "leaves", force: true do |t|
@@ -780,6 +830,8 @@ ActiveRecord::Schema.define(version: 20150209113312) do
     t.integer  "plot_id"
     t.integer  "batch_id"
   end
+
+  add_index "light_references", ["datetime"], name: "index_light_references_on_datetime", using: :btree
 
   create_table "light_string_measurements", force: true do |t|
     t.integer  "light_hanging_id"
@@ -895,6 +947,8 @@ ActiveRecord::Schema.define(version: 20150209113312) do
     t.float    "m10"
     t.string   "observations"
     t.integer  "batch_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "osmometries", ["branch_id"], name: "index_osmometries_on_branch_id", using: :btree
