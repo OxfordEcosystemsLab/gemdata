@@ -38,6 +38,7 @@ class CsvUploadsController < ApplicationController
       LeafRepellencyImporter,
       LeafVenationImporter,
       LightHangingImporter,
+      LightReferenceImporter,
       LightStringMeasurementImporter,
       OsmometryImporter,
       PhosphorusImporter,
