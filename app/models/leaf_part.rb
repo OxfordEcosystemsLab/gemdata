@@ -5,6 +5,7 @@ class LeafPart < ActiveRecord::Base
 
   belongs_to :leaf
   validates :leaf, presence: true
+  validates :code, presence: true
 
   validates :evaluators, presence: true
   validates :original_code, presence: true
