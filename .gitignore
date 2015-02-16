@@ -27,3 +27,6 @@
 # Editor backups (on Linux)
 **/*~
 
+# Apple Mac. detritus
+**/.DS_Store
+
