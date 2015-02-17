@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150213170858) do
+ActiveRecord::Schema.define(version: 20150216152110) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -696,6 +696,19 @@ ActiveRecord::Schema.define(version: 20150213170858) do
 
   add_index "leaf_morphologies", ["leaf_id"], name: "index_leaf_morphologies_on_leaf_id", using: :btree
 
+  create_table "leaf_part_translations", force: true do |t|
+    t.string   "ar_class"
+    t.string   "original_suffix"
+    t.string   "part"
+    t.integer  "subsection"
+    t.string   "simple_or_compound"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "batch_id"
+  end
+
+  add_index "leaf_part_translations", ["original_suffix"], name: "index_leaf_part_translations_on_original_suffix", using: :btree
+
   create_table "leaf_parts", force: true do |t|
     t.integer  "leaf_id"
     t.datetime "created_at"
@@ -708,8 +721,10 @@ ActiveRecord::Schema.define(version: 20150213170858) do
     t.float    "thickness"
     t.float    "petiole_width"
     t.float    "dry_mass_corrected"
+    t.string   "code"
   end
 
+  add_index "leaf_parts", ["code"], name: "index_leaf_parts_on_code", using: :btree
   add_index "leaf_parts", ["leaf_id"], name: "index_leaf_parts_on_leaf_id", using: :btree
 
   create_table "leaf_repellencies", force: true do |t|

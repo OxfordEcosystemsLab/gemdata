@@ -10,6 +10,7 @@ class LeafPartTranslationImporter < RowImporter
     @pt.part = values[1]
     @pt.subsection = values[2]
     @pt.simple_or_compound = values[3]
+    @pt.ar_class = values[4]
     save_with_status!
   end
 

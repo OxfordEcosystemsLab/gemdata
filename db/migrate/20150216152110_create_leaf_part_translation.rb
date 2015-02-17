@@ -1,6 +1,7 @@
 class CreateLeafPartTranslation < ActiveRecord::Migration
   def change
     create_table :leaf_part_translations do |t|
+      t.string :ar_class
       t.string :original_suffix
       t.string :part
       t.integer :subsection

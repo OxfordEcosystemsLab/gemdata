@@ -6,11 +6,12 @@ describe LeafPartTranslationImporter do
   it_behaves_like 'Importer'
 
   it 'can read CSV' do
-    values = CSV.parse_line 'C1,L,1,C'
+    values = CSV.parse_line 'C1,L,1,C,LeafPart'
     importer = LeafPartTranslationImporter.new(1, 1)
     status = importer.read_row(values, Array.new)
     expect(status).to eq(Lookup::ImportStatus.inserted)
     pt = importer.object.reload
+    expect(pt.ar_class).to eq('LeafPart')
     expect(pt.original_suffix).to eq('C1')
     expect(pt.part).to eq('L')
     expect(pt.subsection).to eq(1)
@@ -18,11 +19,12 @@ describe LeafPartTranslationImporter do
   end
 
   it 'can read CSV with a blank original code' do
-    values = CSV.parse_line ',L,1,S'
+    values = CSV.parse_line ',L,1,S,LeafPart'
     importer = LeafPartTranslationImporter.new(1, 1)
     status = importer.read_row(values, Array.new)
     expect(status).to eq(Lookup::ImportStatus.inserted)
     pt = importer.object.reload
+    expect(pt.ar_class).to eq('LeafPart')
     expect(pt.original_suffix).to eq('')
     expect(pt.part).to eq('L')
     expect(pt.subsection).to eq(1)
