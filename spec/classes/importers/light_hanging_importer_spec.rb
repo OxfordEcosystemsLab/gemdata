@@ -6,7 +6,7 @@ describe LightHangingImporter do
   it_behaves_like 'Importer'
 
   before :each do
-    @tree = set_up_tree('SPD01', 'T187')
+    @tree = set_up_tree('SPD-01', 'T187')
     @weather_reading = WeatherReading.create!(
       :plot  => @tree.sub_plot.plot,
       :datetime => Time.utc(2013, 06, 14, 8, 0, 0),
