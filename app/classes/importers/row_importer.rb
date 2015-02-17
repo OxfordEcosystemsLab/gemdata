@@ -119,7 +119,7 @@ class RowImporter
     end
 
     def find_tree(code, reader = nil)
-      reader ||= CodeReader.new(code)
+      reader ||= CodeReader.new(code, self.ar_class)
       plot = find_plot(reader.plot_code)
       tree = Tree.where(:tree_code => reader.tree_code).includes(:sub_plot).where('sub_plots.plot_id' => plot.id).first
       raise Gemdata::TreeNotFound, "Tree with code '#{reader.tree_code}' does not exist in plot #{reader.plot_code}" if tree.nil?
@@ -127,22 +127,21 @@ class RowImporter
     end
 
     def find_or_create_branch(code, reader = nil)
-      reader ||= CodeReader.new(code)
+      reader ||= CodeReader.new(code, self.ar_class)
       tree = find_tree(code, reader)
       find_or_create(Branch, :code => reader.branch_code, :tree_id => tree.id)
     end
 
     def find_or_create_leaf(code, reader = nil)
-      reader ||= CodeReader.new(code)
+      reader ||= CodeReader.new(code, self.ar_class)
       branch = find_or_create_branch(code, reader)
       find_or_create(Leaf, :code => reader.leaf_code, :branch => branch)
     end
 
     def find_or_create_leaf_part(code)
-      reader = CodeReader.new(code)
+      reader = CodeReader.new(code, self.ar_class)
       leaf = find_or_create_leaf(code, reader)
       leaf_part = reader.leaf_part
-      leaf_part = '00' if leaf_part.blank?
       find_or_create(LeafPart, :code => leaf_part, :leaf => leaf)
     end
 

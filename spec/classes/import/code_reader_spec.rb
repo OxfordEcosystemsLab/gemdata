@@ -157,4 +157,18 @@ describe CodeReader do
     expect(reader.leaf_part).to eq('S')
   end
 
+  it 'can translate an Arizona leaf part code' do
+    LeafPartTranslation.new do |lt|
+      lt.ar_class = 'LeafPart'
+      lt.original_suffix = 'S'
+      lt.part = 'L'
+      lt.subsection = 0
+      lt.simple_or_compound = 'S'
+      lt.batch_id = 1
+      lt.save
+    end
+    reader = CodeReader.new('WAY01-T1050-2A-B1S-L1S', 'LeafPart')
+    expect(reader.leaf_part).to eq('L0S')
+  end
+
 end

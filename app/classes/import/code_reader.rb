@@ -30,17 +30,16 @@ class CodeReader
 
   ##############################################################################
 
-  def initialize(code)
+  def initialize(code, ar_class = '')
     @full_code = code.gsub('_', '-').gsub(/\s/, '')
     remainder = extract_plot_code(@full_code)
     if (not remainder.blank?) and (not extract_csp_code(remainder)) then
       remainder = extract_tree_code(remainder) unless remainder.blank?
       remainder = extract_branch_code(remainder) unless remainder.blank?
-      @suffix = extract_leaf_code(remainder) unless remainder.blank?
+      @suffix = extract_leaf_code(remainder, ar_class) unless remainder.blank?
     end
   end
 
-  
   ##############################################################################
 
   private
@@ -77,7 +76,7 @@ class CodeReader
         raise Gemdata::CodeUnreadable, "Could not get tree from code [#{code}] [#{@full_code}]"
       end
       @tree_code = self.class.tidy_tree_code(match[1])
-      match[3] # or 2????????
+      match[3]
     end
 
     def extract_branch_code(code)
@@ -90,14 +89,15 @@ class CodeReader
       match[2]
     end
 
-    def extract_leaf_code(code)
+    def extract_leaf_code(code, ar_class)
       # extract the leaf code from beggining and return the remainder
       match = code.match(/^(L\d+)((?:\w+\d*)?)-?(.*)$/)
       if not match then
         raise Gemdata::CodeUnreadable, "Could not get leaf from code [#{code}] [#{@full_code}]"
       end
       @leaf_code = match[1]
-      @leaf_part = match[2]
+      lpt = LeafPartTranslation.find_by(ar_class: ar_class, original_suffix: match[2])
+      @leaf_part = lpt.blank? ? match[2] : (lpt.part + lpt.subsection.to_s + lpt.simple_or_compound)
       match[3]
     end
 
