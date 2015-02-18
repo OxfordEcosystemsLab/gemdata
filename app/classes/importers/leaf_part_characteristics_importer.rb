@@ -5,9 +5,13 @@ class LeafPartCharacteristicsImporter < RowImporter
   end
 
   def read_row(values, logger)
-
-    @lp = find_or_create_leaf_part(values[5])
-    attempt_to_overwrite!(@lp)    
+    code = values[4].gsub(/\s/, '')
+    reader = CodeReader.new(code, 'LeafPart')
+    @lp = find_or_new({
+      :leaf => find_or_create_leaf(code, reader),
+      :code => reader.leaf_part
+    })
+    attempt_to_overwrite!(@lp)
     @lp.original_code = values[5].gsub(/\s/, '')
     @lp.evaluators = values[2]
     @lp.fresh_mass = values[6] unless values[6] == '-'
