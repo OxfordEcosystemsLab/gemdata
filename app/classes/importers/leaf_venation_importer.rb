@@ -19,11 +19,6 @@ class LeafVenationImporter < RowImporter
     @lv.image_data_edge_perims = values[8] unless values[8] == 'NA'
     @lv.image_data_edge_radii = values[9] unless values[9] == 'NA'
     @lv.vein_image_good = values[19]
-    
-    Rails.logger.error 'Andy'
-    Rails.logger.error values[19]
-    Rails.logger.error @lv.vein_image_good
-    
     @lv.vein_area_analyzed = values[20] unless values[20] == 'NA'
     @lv.vein_density = values[21] unless values[21] == 'NA'
     @lv.vein_length_mean = values[22] unless values[22] == 'NA'
