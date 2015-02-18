@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150216152110) do
+ActiveRecord::Schema.define(version: 20150218144600) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -679,22 +679,6 @@ ActiveRecord::Schema.define(version: 20150216152110) do
   end
 
   add_index "leaf_areas", ["leaf_part_id"], name: "index_leaf_areas_on_leaf_part_id", using: :btree
-
-  create_table "leaf_morphologies", force: true do |t|
-    t.integer  "leaf_id"
-    t.datetime "date"
-    t.string   "evaluators"
-    t.float    "fresh_mass"
-    t.float    "dry_mass"
-    t.float    "thickness"
-    t.float    "petiole_width"
-    t.string   "comments"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "batch_id"
-  end
-
-  add_index "leaf_morphologies", ["leaf_id"], name: "index_leaf_morphologies_on_leaf_id", using: :btree
 
   create_table "leaf_part_translations", force: true do |t|
     t.string   "ar_class"
@@ -2205,8 +2189,6 @@ ActiveRecord::Schema.define(version: 20150216152110) do
   add_foreign_key "leaf_area_index_values", "plots", name: "leaf_area_index_values_plot_id_fk"
 
   add_foreign_key "leaf_areas", "leaf_parts", name: "leaf_areas_leaf_part_id_fk"
-
-  add_foreign_key "leaf_morphologies", "leaves", name: "leaf_morphologies_leaf_id_fk"
 
   add_foreign_key "leaf_parts", "leaves", name: "leaf_parts_leaf_id_fk"
 
