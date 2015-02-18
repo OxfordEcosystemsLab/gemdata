@@ -65,6 +65,12 @@ describe CodeReader do
     expect(reader.tree_code).to eq('T641.1')
   end
   
+  it 'can read a tree code ending in "A"' do
+    reader = CodeReader.new 'TAM06-T404A-B11H-L1C1'
+    expect(reader.tree_code).to eq('T404A')
+    expect(reader.branch_code).to eq('B11H')
+  end
+
   it 'can read a leaf code' do
     # Are we going to see any codes in this format?
     #reader = CodeReader.new 'WAY01-T1031-B14-L45-45252'
@@ -108,14 +114,14 @@ describe CodeReader do
     expect(reader.branch_code).to eq('B1S')
   end
 
-  it 'can read a CSP code from branch architecture' do
+  it 'can read a hyphenated CSP code from branch architecture' do
     CspTranslation.create!(:csp_code => 'CSP28002', :tree_code => 'T32', :branch_code => 'B11H')
     reader = CodeReader.new 'WAY01-CSP-28002-32-H'
     expect(reader.plot_code).to eq('WAY-01')
     expect(reader.tree_code).to eq('T32')
     expect(reader.branch_code).to eq('B11H')
   end
-  
+
   it 'can read a CSP code with a hyphenated plot code' do
     CspTranslation.create!(:csp_code => 'CSP28002', :tree_code => 'T32', :branch_code => 'B11H')
     reader = CodeReader.new 'WAY-01-CSP-28002-32-H'
@@ -123,7 +129,7 @@ describe CodeReader do
     expect(reader.tree_code).to eq('T32')
     expect(reader.branch_code).to eq('B11H')
   end
-  
+
   it 'can read the code from the photosynthesis test' do
     reader = CodeReader.new 'WAY01-T1031-B25H-L1C2'
     expect(reader.plot_code).to eq('WAY-01')
@@ -169,6 +175,20 @@ describe CodeReader do
     end
     reader = CodeReader.new('WAY01-T1050-2A-B1S-L1S', 'LeafPart')
     expect(reader.leaf_part).to eq('L0S')
+  end
+
+  it 'can translate the strange codes from the characteristics data' do
+    reader = CodeReader.new('ESP01-T238-B1S-L1', 'LeafPart')
+    expect(reader.leaf_part).to eq('L0S')
+  end
+
+  it 'can translate CSP codes with repeated tree/branch codes' do
+    reader = CodeReader.new('WAY01-CSP28003-77-SUN-L1L', '')
+    expect(reader.plot_code).to eq('WAY-01')
+    expect(reader.tree_code).to eq('T77')
+    expect(reader.branch_code).to eq('B1S')
+    expect(reader.leaf_code).to eq('L1')
+    expect(reader.leaf_part).to eq('L')
   end
 
 end

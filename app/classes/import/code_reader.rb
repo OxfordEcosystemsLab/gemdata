@@ -33,9 +33,14 @@ class CodeReader
   def initialize(code, ar_class = '')
     @full_code = code.gsub('_', '-').gsub(/\s/, '')
     remainder = extract_plot_code(@full_code)
-    if (not remainder.blank?) and (not extract_csp_code(remainder)) then
-      remainder = extract_tree_code(remainder) unless remainder.blank?
-      remainder = extract_branch_code(remainder) unless remainder.blank?
+    if not remainder.blank? then
+      csp_remainder = extract_csp_code(remainder)
+      if csp_remainder == false then
+        remainder = extract_tree_code(remainder)
+        remainder = extract_branch_code(remainder) unless remainder.blank?
+      else
+        remainder = csp_remainder
+      end
       @suffix = extract_leaf_code(remainder, ar_class) unless remainder.blank?
     end
   end
@@ -56,24 +61,24 @@ class CodeReader
 
     def extract_csp_code(code)
       # extract the CSP code from beggining
-      # return true or false for if a match was found
-      match = code.match(/^(CSP-?\d\d\d\d\d)-(.*)$/)
+      # return the remainder... or false for if a match was found
+      result = false
+      match = code.match(/^(CSP-?\d\d\d\d\d((?:-\d+-(SHADE|SUN|H))?))(?:(-.*)?)$/)
       if match then
-        csp_translation = CspTranslation.find_by! csp_code: match[1].gsub(/-/, '')
+        csp_code = match[1].gsub(/-\d+-(SHADE|SUN|H)/, '').gsub(/-/, '')
+        csp_translation = CspTranslation.find_by! csp_code: csp_code
         @tree_code = csp_translation.tree_code
         @branch_code = csp_translation.branch_code
-        @suffix = match[2]
-        true      
-      else
-        false
+        result = match[4].blank? ? '' : match[4].gsub(/^-/, '')
       end
+      result
     end
 
     def extract_tree_code(code)
       # extract the tree code from beggining and return the remainder
-      match = code.match(/^([TI][\d]+((?:[\.\-]\d+[\d\w]*)?))-?(.*)$/)
+      match = code.match(/^([TI][\d]+((?:[\.\-]\d*)?)A?)-?(.*)$/)
       if not match then
-        raise Gemdata::CodeUnreadable, "Could not get tree from code [#{code}] [#{@full_code}]"
+        raise Gemdata::CodeUnreadable, "Could not get tree from code [#{code}] (full code: [#{@full_code}])"
       end
       @tree_code = self.class.tidy_tree_code(match[1])
       match[3]
@@ -83,7 +88,7 @@ class CodeReader
       # extract the branch code from beggining and return the remainder
       match = code.match(/^(B\d\d?[SH]?)-?(.*)$/)
       if not match then
-        raise Gemdata::CodeUnreadable, "Could not get branch from code [#{code}] [#{@full_code}]"
+        raise Gemdata::CodeUnreadable, "Could not get branch from code [#{code}] (full code: [#{@full_code}])"
       end
       @branch_code = match[1]
       match[2]
@@ -93,7 +98,7 @@ class CodeReader
       # extract the leaf code from beggining and return the remainder
       match = code.match(/^(L\d+)((?:\w+\d*)?)-?(.*)$/)
       if not match then
-        raise Gemdata::CodeUnreadable, "Could not get leaf from code [#{code}] [#{@full_code}]"
+        raise Gemdata::CodeUnreadable, "Could not get leaf from code [#{code}] (full code: [#{@full_code}])"
       end
       @leaf_code = match[1]
       lpt = LeafPartTranslation.find_by(ar_class: ar_class, original_suffix: match[2])
