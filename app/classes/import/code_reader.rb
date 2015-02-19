@@ -63,9 +63,11 @@ class CodeReader
       # extract the CSP code from beggining
       # return the remainder... or false for if a match was found
       result = false
-      match = code.match(/^(CSP-?\d\d\d\d\d((?:-\d+-(SHADE|SUN|H))?))(?:(-.*)?)$/)
+      #                     csp              redundent  redundent
+      #                     code             tree code  branch code                      remainder
+      match = code.match(/^(CSP-?\d\d\d\d\d)(?:-T?\d+)?(?:-(SHADE|SUN|H|(B\d\d?[SH]?)))?(?:(-.*)?)$/)
       if match then
-        csp_code = match[1].gsub(/-\d+-(SHADE|SUN|H)/, '').gsub(/-/, '')
+        csp_code = match[1].gsub(/-/, '')
         csp_translation = CspTranslation.find_by! csp_code: csp_code
         @tree_code = csp_translation.tree_code
         @branch_code = csp_translation.branch_code
@@ -86,6 +88,10 @@ class CodeReader
 
     def extract_branch_code(code)
       # extract the branch code from beggining and return the remainder
+      #
+      # Branch codes should be validated to only be in this range:
+      # B[1-10]S  - B[11-20]H
+      #
       match = code.match(/^(B\d\d?[SH]?)-?(.*)$/)
       if not match then
         raise Gemdata::CodeUnreadable, "Could not get branch from code [#{code}] (full code: [#{@full_code}])"

@@ -191,4 +191,35 @@ describe CodeReader do
     expect(reader.leaf_part).to eq('L')
   end
 
+  it 'can translate CSP codes with a repeated branch code' do
+    reader = CodeReader.new('WAY01-CSP28003-SUN-L1L', '')
+    expect(reader.plot_code).to eq('WAY-01')
+    expect(reader.tree_code).to eq('T77')
+    expect(reader.branch_code).to eq('B1S')
+    expect(reader.leaf_code).to eq('L1')
+    expect(reader.leaf_part).to eq('L')
+  end
+
+  it 'can translate CSP codes with a repeated T-prefixed tree code' do
+    reader = CodeReader.new('WAY01-CSP28042-T889-B2H-L1L', '')
+    expect(reader.plot_code).to eq('WAY-01')
+    expect(reader.tree_code).to eq('T889')
+    # note - it ignores the redundent branch code and uses
+    # what CSP says the branch is
+    expect(reader.branch_code).to eq('B1S')
+    expect(reader.leaf_code).to eq('L1')
+    expect(reader.leaf_part).to eq('L')
+  end
+
+  it 'can read a code with no prefix on the tree' do
+    reader = CodeReader.new 'WAY01-1031-B25H-L1C2'
+    expect(reader.plot_code).to eq('WAY-01')
+    expect(reader.tree_code).to eq('T1031')
+    expect(reader.branch_code).to eq('B25H')
+    expect(reader.leaf_code).to eq('L1')
+    expect(reader.leaf_part).to eq('C2')
+  end
+
+
+
 end
