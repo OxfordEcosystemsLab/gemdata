@@ -10,7 +10,7 @@ describe Osmometry do
     @o.branch = Branch.new
     @o.temperature = 23.6
     @o.humidity = 56.6
-    @o.disk_orientation = 'haz'
+    @o.disk_orientation = 'top'
     @o.m1 = 876
     @o.m2 = 892
     @o.m3 = 926
