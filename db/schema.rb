@@ -1244,11 +1244,7 @@ ActiveRecord::Schema.define(version: 20150219131341) do
   add_index "specific_leaf_areas", ["leaf_id"], name: "index_specific_leaf_areas_on_leaf_id", using: :btree
 
   create_table "spectra_measurements", force: true do |t|
-    t.integer  "leaf_id"
-    t.string   "code"
     t.string   "comments"
-    t.string   "branch"
-    t.string   "order"
     t.string   "type"
     t.float    "measurement_350"
     t.float    "measurement_351"
@@ -2004,9 +2000,12 @@ ActiveRecord::Schema.define(version: 20150219131341) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "batch_id"
+    t.integer  "leaf_part_id"
+    t.string   "original_code"
+    t.integer  "branch_number"
+    t.integer  "leaf_number"
+    t.integer  "quality_check"
   end
-
-  add_index "spectra_measurements", ["leaf_id"], name: "index_spectra_measurements_on_leaf_id", using: :btree
 
   create_table "stem_respiration_imports", force: true do |t|
     t.string   "plot_code",    null: false
@@ -2235,7 +2234,7 @@ ActiveRecord::Schema.define(version: 20150219131341) do
 
   add_foreign_key "specific_leaf_areas", "leaves", name: "specific_leaf_areas_leaf_id_fk"
 
-  add_foreign_key "spectra_measurements", "leaves", name: "spectra_measurements_leaf_id_fk"
+  add_foreign_key "spectra_measurements", "leaf_parts", name: "spectra_measurements_leaf_part_id_fk"
 
   add_foreign_key "sub_plots", "plots", name: "sub_plots_plot_id_fk"
 
