@@ -5,38 +5,29 @@ require 'importer'
 describe WoodDensityImporter do
   it_behaves_like 'Importer'
 
-  before :each do
-    @branch = set_up_branch('ACJ-01', 'T802', 'B1S')
-  end
-
   it 'can read CSV' do
-
-    values = CSV.parse_line 'Acjnaco,20/05/2013,Omayra,ACJ01-T802-B1S,CC1,6.24'
+    @branch = set_up_branch('WAY-01', 'T812', 'B1S')
+    values = CSV.parse_line 'Wayqecha,28/04/2013,Flor María y Yovana ,WAY01-CSP28009-812-SUN,WAY01-CSP28009-812-SUN,CC1,3.94,2.78,0.71,'
     importer = WoodDensityImporter.new(1, 2)
     status = importer.read_row(values, Array.new)
     expect(status).to eq(Lookup::ImportStatus.inserted)
-
     wood = importer.object.reload
     expect(wood.branch).to eq(@branch)
-    expect(wood.date).to eq(Date.new(2013,05,20))
-    expect(wood.evaluator).to eq('Omayra')
-    expect(wood.branch_number).to eq('CC1')
-    expect(wood.volume).to eq(6.24)
+    expect(wood.date).to eq(Date.new(2013,04,28))
+    expect(wood.evaluator).to eq('Flor María y Yovana')
+    expect(wood.original_code).to eq('WAY01-CSP28009-812-SUN')
+    expect(wood.branch_type).to eq('CC1')
+    expect(wood.fresh_volume_cm3).to eq(3.94)
+    expect(wood.dry_mass).to eq(2.78)
+    expect(wood.density_gcm3).to eq(0.71)
+    expect(wood.comment).to eq(nil)
     expect(wood).to be_valid
   end
 
   it 'performs validation' do
-
-    values = CSV.parse_line 'Acjnaco,20/05/2013,Omayra,ACJ01-T802-B1S,EC9,,'
-    importer = WoodDensityImporter.new(1, 2)
-
+    @branch = set_up_branch('WAY-01', 'T812', 'B1S')
+    values = CSV.parse_line 'Wayqecha,28/04/2013,Flor María y Yovana ,WAY01-CSP28009-812-SUN,WAY01-CSP28009-812-SUN,X,,,0.71,'
     expect{importer.read_row(values, Array.new)}.to raise_error
-
-    # it can't reload what it didn't insert
-    #wood = importer.object.reload
-    #expect(wood).to_not be_valid
-    #expect(wood).to have(1).error_on(:branch_number)
-    #expect(wood).to have(2).error_on(:volume)
-
   end
+
 end

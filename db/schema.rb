@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150218144600) do
+ActiveRecord::Schema.define(version: 20150219131341) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -2126,13 +2126,18 @@ ActiveRecord::Schema.define(version: 20150218144600) do
     t.integer  "branch_id"
     t.datetime "date"
     t.string   "evaluator"
-    t.string   "branch_number"
-    t.float    "volume"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "batch_id"
+    t.string   "original_code"
+    t.string   "branch_type"
+    t.float    "fresh_volume_cm3"
+    t.float    "dry_mass"
+    t.float    "density_gcm3"
+    t.string   "comment"
   end
 
+  add_index "wood_densities", ["branch_id", "branch_type"], name: "index_wood_densities_on_branch_id_and_branch_type", unique: true, using: :btree
   add_index "wood_densities", ["branch_id"], name: "index_wood_densities_on_branch_id", using: :btree
 
   add_foreign_key "branch_architectures", "branches", name: "branch_architectures_branch_id_fk"
