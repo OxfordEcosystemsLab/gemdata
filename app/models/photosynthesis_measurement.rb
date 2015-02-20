@@ -9,7 +9,7 @@ class PhotosynthesisMeasurement < ActiveRecord::Base
 
   validates :filename, presence: true
   validates :code, presence: true
-  validates :area_corr, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }
+  validates :area_corr, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }, allow_nil: true
   validates :pm_type, inclusion: { in: %w(ASAT AMAX), message: "%{value} is not a valid type" }
   validates :date, presence: true
   # time can't be validated in the model!

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150220131710) do
+ActiveRecord::Schema.define(version: 20150220151218) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1051,8 +1051,11 @@ ActiveRecord::Schema.define(version: 20150220131710) do
     t.date     "date"
     t.time     "time"
     t.integer  "leaf_part_id"
+    t.string   "comment"
+    t.string   "quality_flag"
   end
 
+  add_index "photosynthesis_measurements", ["leaf_part_id", "pm_type"], name: "index_photosynthesis_measurements_on_leaf_part_id_and_pm_type", unique: true, using: :btree
   add_index "photosynthesis_measurements", ["leaf_part_id"], name: "index_photosynthesis_measurements_on_leaf_part_id", using: :btree
 
   create_table "plot_metadata_imports", force: true do |t|
