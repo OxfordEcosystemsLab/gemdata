@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150220124221) do
+ActiveRecord::Schema.define(version: 20150220131710) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1257,7 +1257,7 @@ ActiveRecord::Schema.define(version: 20150220124221) do
 
   create_table "spectra_measurements", force: true do |t|
     t.string   "comments"
-    t.string   "type"
+    t.string   "measurement_type"
     t.float    "measurement_350"
     t.float    "measurement_351"
     t.float    "measurement_352"
@@ -2017,7 +2017,10 @@ ActiveRecord::Schema.define(version: 20150220124221) do
     t.integer  "branch_number"
     t.integer  "leaf_number"
     t.integer  "quality_check"
+    t.string   "matlab_branch_code"
   end
+
+  add_index "spectra_measurements", ["leaf_part_id", "measurement_type"], name: "index_spectra_measurements_on_leaf_part_id_and_measurement_type", unique: true, using: :btree
 
   create_table "stem_respiration_imports", force: true do |t|
     t.string   "plot_code",    null: false

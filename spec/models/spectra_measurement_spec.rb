@@ -6,8 +6,9 @@ describe SpectraMeasurement do
     @sm = SpectraMeasurement.new
     @sm.leaf_part = set_up_leaf_part('ESP-01', 'T94', 'B11H', 'L5', 'L')
     @sm.comments = 'Yohoho'
-    @sm.type = 'tl_ref'
-    @sm.original_code = 'Esp01-T94-B11H'
+    @sm.measurement_type = 'tl_ref'
+    @sm.original_code = 'ESP01-T94-B11H-L5-C1'
+    @sm.matlab_branch_code = 'Esp01-T94-B11H'
     @sm.branch_number = 1
     @sm.leaf_number = 3
     @sm.quality_check = 1
@@ -45,13 +46,13 @@ describe SpectraMeasurement do
     expect(@sm).to_not be_valid
   end
 
-  it 'should accept four types' do
-    ['tl_ref', 'tl_trans', 'bl_ref', 'bl_trans'].each do |type|
-      @sm.type = type
+  it 'should accept four measurement_types' do
+    ['tl_ref', 'tl_trans', 'bl_ref', 'bl_trans'].each do |measurement_type|
+      @sm.measurement_type = measurement_type
       expect(@sm).to be_valid
     end
 
-    @sm.type = 'boogaloo'
+    @sm.measurement_type = 'boogaloo'
     expect(@sm).to_not be_valid
   end
 
