@@ -8,7 +8,6 @@ class UpdateLeafParts < ActiveRecord::Migration
       t.float :thickness
       t.float :petiole_width
       t.float :dry_mass_corrected
-      t.remove :code
     end
     drop_table :leaf_dry_matters
   end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150219131341) do
+ActiveRecord::Schema.define(version: 20150220124221) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -680,6 +680,25 @@ ActiveRecord::Schema.define(version: 20150219131341) do
 
   add_index "leaf_areas", ["leaf_part_id"], name: "index_leaf_areas_on_leaf_part_id", using: :btree
 
+  create_table "leaf_part_characteristics", force: true do |t|
+    t.integer  "leaf_part_id"
+    t.string   "evaluators"
+    t.string   "original_code"
+    t.float    "fresh_mass"
+    t.float    "dry_mass"
+    t.float    "thickness"
+    t.float    "petiole_width"
+    t.float    "dry_mass_corrected"
+    t.string   "quality_flag"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "batch_id"
+    t.date     "date"
+    t.string   "comments"
+  end
+
+  add_index "leaf_part_characteristics", ["batch_id"], name: "index_leaf_part_characteristics_on_batch_id", using: :btree
+
   create_table "leaf_part_translations", force: true do |t|
     t.string   "ar_class"
     t.string   "original_suffix"
@@ -698,13 +717,6 @@ ActiveRecord::Schema.define(version: 20150219131341) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "batch_id"
-    t.string   "evaluators"
-    t.string   "original_code"
-    t.float    "fresh_mass"
-    t.float    "dry_mass"
-    t.float    "thickness"
-    t.float    "petiole_width"
-    t.float    "dry_mass_corrected"
     t.string   "code"
   end
 

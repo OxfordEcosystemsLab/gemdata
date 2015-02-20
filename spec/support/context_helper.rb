@@ -3,7 +3,7 @@ module ContextHelper
   def set_up_leaf_part(plot_code, tree_code, branch_code, leaf_code, leaf_part_code, batch_id = 1)
     batch = find_batch(batch_id)
     leaf = set_up_leaf(plot_code, tree_code, branch_code, leaf_code, batch_id)
-    LeafPart.create! :code => leaf_part_code, :leaf => leaf, :batch => batch, :evaluators => 'dummy', :original_code => 'dummy', :fresh_mass => nil, :dry_mass => nil, :thickness => nil, :petiole_width => nil
+    LeafPart.create! :code => leaf_part_code, :leaf => leaf, :batch => batch
   end
 
   def set_up_leaf(plot_code, tree_code, branch_code, leaf_code, batch_id = 1)
