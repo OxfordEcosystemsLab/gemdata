@@ -46,7 +46,7 @@ describe CarnegieBulkLeafChemistry do
     'hemi_cellulose'
   ]
   @percent_cols.each do |column|
-    it 'does not permit negative percentages on #{column}' do
+    it "does not permit negative percentages on #{column}" do
       v = -573.15
       while v < 0  do
         @cc[column] = @v
@@ -54,7 +54,7 @@ describe CarnegieBulkLeafChemistry do
         v = v + 32
       end
     end
-    it 'does not permit percentages > 100 on #{column}' do
+    it "does not permit percentages > 100 on #{column}" do
       v = 574.32
       while v > 100  do
         @cc[column] = @v
