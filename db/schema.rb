@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150220151218) do
+ActiveRecord::Schema.define(version: 20150223140206) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,14 +58,6 @@ ActiveRecord::Schema.define(version: 20150220151218) do
 
   create_table "branch_light_placements", force: true do |t|
     t.integer  "branch_id"
-    t.integer  "weather_reading_id"
-    t.string   "sun_shade"
-    t.string   "pic1"
-    t.string   "pic2"
-    t.string   "pic3"
-    t.float    "hd_pic"
-    t.float    "alt_pic"
-    t.float    "az_pic"
     t.float    "az_branch"
     t.float    "vd_branch"
     t.float    "hd_branch"
@@ -77,12 +69,23 @@ ActiveRecord::Schema.define(version: 20150220151218) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "batch_id"
-    t.float    "angle_pic"
     t.float    "liana_cov"
+    t.integer  "clouds"
+    t.string   "light"
+    t.string   "rain"
+    t.boolean  "checked"
+    t.float    "mean_branch_PPFD"
+    t.float    "mean_ref_PPFD"
+    t.float    "rel_light_proportion"
+    t.integer  "time_advance"
+    t.integer  "time_delay"
+    t.text     "validation_note"
+    t.string   "confidence"
+    t.string   "field_note"
+    t.string   "quality_flag"
   end
 
   add_index "branch_light_placements", ["branch_id"], name: "index_branch_light_placements_on_branch_id", using: :btree
-  add_index "branch_light_placements", ["weather_reading_id"], name: "index_branch_light_placements_on_weather_reading_id", using: :btree
 
   create_table "branches", force: true do |t|
     t.string   "code",       null: false
@@ -720,7 +723,6 @@ ActiveRecord::Schema.define(version: 20150220151218) do
     t.string   "code"
   end
 
-  add_index "leaf_parts", ["code"], name: "index_leaf_parts_on_code", using: :btree
   add_index "leaf_parts", ["leaf_id"], name: "index_leaf_parts_on_leaf_id", using: :btree
 
   create_table "leaf_repellencies", force: true do |t|
@@ -2162,7 +2164,6 @@ ActiveRecord::Schema.define(version: 20150220151218) do
   add_foreign_key "branch_light_measurements", "branch_light_placements", name: "branch_light_measurements_branch_light_placement_id_fk"
 
   add_foreign_key "branch_light_placements", "branches", name: "branch_light_placements_branch_id_fk"
-  add_foreign_key "branch_light_placements", "weather_readings", name: "branch_light_placements_weather_reading_id_fk"
 
   add_foreign_key "branches", "trees", name: "branches_tree_id_fk"
 

@@ -5,32 +5,36 @@ class BranchLightPlacementImporter < RowImporter
   end
 
   def read_row(values, logger)
-
     @blp = find_or_new({
-      :branch => find_or_create_branch(values[1]),
-      :start =>  Time.strptime(values[17] + ' UTC', "%m/%d/%Y %H:%M %Z"),
-      :finish => Time.strptime(values[18] + ' UTC', "%m/%d/%Y %H:%M %Z"),
+      :branch => find_or_create_branch(values[2]),
     })
     attempt_to_overwrite!(@blp)
-
-    @blp.weather_reading = WeatherReading.find_between @blp.start, @blp.finish
-
-    @blp.sun_shade      = values[2].upcase
-    @blp.pic1           = values[3]
-    @blp.pic2           = values[4]
-    @blp.pic3           = values[5]
-    @blp.hd_pic         = values[6]
-    @blp.alt_pic        = values[7]
-    @blp.angle_pic      = values[8]
-    @blp.az_pic         = values[9]
-    @blp.az_branch      = values[10]
-    @blp.vd_branch      = values[11]
-    @blp.hd_branch      = values[12]
-    @blp.vground_branch = values[13]
-    @blp.light_cond     = values[14]
-    @blp.liana_cov      = values[15]
-    @blp.note           = values[16]
-
+    @blp.az_branch = values[3]
+    @blp.vd_branch = values[4]
+    @blp.hd_branch = values[5]
+    @blp.vground_branch = values[6]
+    @blp.light_cond = values[7] unless values[7] == 'NA'
+    @blp.liana_cov = values[8] unless values[8] == 'NA'
+    @blp.note = values[9] unless values[9] == 'NA'
+    @blp.start = Date.strptime(values[10], "%m/%d/%Y %H:%M") unless values[10] == 'NA'
+    @blp.finish = Date.strptime(values[11], "%m/%d/%Y %H:%M") unless values[11] == 'NA'
+    @blp.clouds = values[12] unless values[12] == 'NA'
+    @blp.light = values[13] unless values[13] == 'NA'
+    @blp.rain = values[14] unless values[14] == 'NA'
+    @blp.checked = values[15] unless values[15] == 'NA'
+    @blp.mean_branch_PPFD = values[16] unless values[16] == 'NA'
+    @blp.mean_ref_PPFD = values[17] unless values[17] == 'NA'
+    @blp.rel_light_proportion = values[18] unless values[18] == 'NA'
+    @blp.time_advance = values[19] unless values[19] == 'NA'
+    @blp.time_delay = values[20] unless values[20] == 'NA'
+    @blp.validation_note = values[21] unless values[21] == 'NA'
+    @blp.confidence = values[22] unless values[22] == 'NA'
+    @blp.field_note = values[23] unless values[23] == 'NA'
+    quality_flag = ''
+    if not values[24].blank? then
+      quality_flag = values[24].upcase
+    end
+    @blp.quality_flag = quality_flag
     save_with_status!
   end
 

@@ -5,44 +5,36 @@ require 'importer'
 describe BranchLightPlacementImporter do
   it_behaves_like 'Importer'
 
-  before :each do
-    @branch = set_up_branch('TAM05', 'T37', 'B11H')
-    @weather_reading = WeatherReading.create!(
-      :plot     => @branch.tree.sub_plot.plot,
-      :datetime => Time.utc(2013, 8, 16, 10, 51, 0),
-      :batch    => Batch.new
-    )
-  end
-
   it 'can read CSV' do
-    values = CSV.parse_line '659,TAM05-T37-B11H,sombra,100-0185,100-0186,100-0187,5.3,1.15,0,219,161,23,5,23.1,5DS,80,(-)4:17,8/16/2013 10:51,8/16/2013 10:51'
-
+    @branch = set_up_branch('ESP-01', 'T506', 'B1S')
+    values = CSV.parse_line '159,ESP01,ESP01-T506-B1S,266,10.1,1.9,10.6,NA,NA,NA,5/15/2013 8:19,5/15/2013 8:19,NA,NA,NA,T,17.85815535,242.686071,0.073585415,NA,NA,NA,NA,Luz radiante con sol directo,'
     importer = BranchLightPlacementImporter.new(1, 2)
     status = importer.read_row(values, Array.new)
     expect(status).to eq(Lookup::ImportStatus.inserted)
-
     @blp = importer.object.reload
     expect(@blp.branch).to eq(@branch)
-    expect(@blp.weather_reading).to eq(@weather_reading)
-
-    expect(@blp.sun_shade).to eq('SOMBRA')
-    expect(@blp.pic1).to eq('100-0185')
-    expect(@blp.pic2).to eq('100-0186')
-    expect(@blp.pic3).to eq('100-0187')
-    expect(@blp.hd_pic).to eq(5.3)
-    expect(@blp.alt_pic).to eq(1.15)
-    expect(@blp.angle_pic).to eq(0)
-    expect(@blp.az_pic).to eq(219)
-    expect(@blp.az_branch).to eq(161)
-    expect(@blp.vd_branch).to eq(23)
-    expect(@blp.hd_branch).to eq(5)
-    expect(@blp.vground_branch).to eq(23.1)
-    expect(@blp.light_cond).to eq('5DS')
-    expect(@blp.liana_cov).to eq(80)
-    expect(@blp.note).to eq('(-)4:17')
-    expect(@blp.start).to  eq(Time.utc(2013, 8, 16, 10, 51, 0))
-    expect(@blp.finish).to eq(Time.utc(2013, 8, 16, 10, 51, 0))
-
+    expect(@blp.az_branch).to eq(266)
+    expect(@blp.vd_branch).to eq(10.1)
+    expect(@blp.hd_branch).to eq(1.9)
+    expect(@blp.vground_branch).to eq(10.6)
+    expect(@blp.light_cond).to eq(nil)
+    expect(@blp.liana_cov).to eq(nil)
+    expect(@blp.note).to eq(nil)
+    expect(@blp.start).to eq(Date.parse('2013-5-15 8:19'))
+    expect(@blp.finish).to eq(Date.parse('2013-5-15 8:19'))
+    expect(@blp.clouds).to eq(nil)
+    expect(@blp.light).to eq(nil)
+    expect(@blp.rain).to eq(nil)
+    expect(@blp.checked).to eq(true)
+    expect(@blp.mean_branch_PPFD).to eq(17.85815535)
+    expect(@blp.mean_ref_PPFD).to eq(242.686071)
+    expect(@blp.rel_light_proportion).to eq(0.073585415)
+    expect(@blp.time_advance).to eq(nil)
+    expect(@blp.time_delay).to eq(nil)
+    expect(@blp.validation_note).to eq(nil)
+    expect(@blp.confidence).to eq(nil)
+    expect(@blp.field_note).to eq('Luz radiante con sol directo')
+    expect(@blp.quality_flag).to eq('')
     expect(@blp).to be_valid
   end
 
