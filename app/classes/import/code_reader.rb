@@ -19,9 +19,8 @@ class CodeReader
     tree_code = raw.upcase.gsub(/-/, '')
     # if it starts with a number, put a "T" on front so that all tree codes
     # are either I........ or T............
-    if tree_code.match(/^\d.*$/) then
-      tree_code = "T#{tree_code}"
-    end
+    tree_code = "T#{tree_code}" if tree_code.match(/^\d/)
+    tree_code.gsub!('I.', 'I')
     if not tree_code.match(/^[TI]\d+[\d\.A]*$/) then
       raise Gemdata::CodeUnreadable, "invalid tree_code #{tree_code}"
     end
