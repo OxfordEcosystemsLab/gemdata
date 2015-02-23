@@ -82,8 +82,8 @@ describe LeafVenationImporter do
   end
 
   it 'performs validation' do
-    leaf_part = set_up_leaf_part('ACJ-01', 'I2014', 'B1S', 'L1', 'S')
-    values = CSV.parse_line 'ACJ01-I2014-S,ACJ01-I2014-B1S-L1S,ACJ01-I2014-B1S-L1S-CLAHE.jpg,ACJ01-I2014-B1S-L1S-TRACED.png,ACJ01-I2014-B1S-L1S-VEINS.png,ACJ01-I2014-B1S-L1S-AREOLES.png,ACJ01-I2014-B1S-L1S-VERTEXLIST.csv,ACJ01-I2014-B1S-L1S-EDGELIST.csv,ACJ01-I2014-B1S-L1S-EDGEPERIMS.csv,ACJ01-I2014-B1S-L1S-EDGERADII.csv,ACJ01-I2014-B1S,ACJ01-I2014,ACJ01,sun,ASTERACEAE,Pentacalia,oronocensis,Asteraceae/Pentacalia/oronocensis,TRUE,rubbish,-1,-1,-1,-1,-1,-1,-1,0,-1,-1,-1,-1,-1,-1,-1,-1'
+    leaf_part = set_up_leaf_part('PAN-02', 'T49', 'B1S', 'L1', 'L1C')
+    values = CSV.parse_line 'rubbish,PAN02-T49-B1S-L1C1,rubbish,rubbish,rubbish,rubbish,rubbish,rubbish,rubbish,rubbish,rubbish,rubbish,rubbish,rubbish,rubbish,rubbish,rubbish,rubbish,rubbish,rubbish,rubbish,rubbish,rubbish,1.2226,0.53191,0.74032,1.9686,0.96,20.0923,18.5434,230.9693,0.25018,0.52451,0.024198883,0.005437821'
     importer = LeafVenationImporter.new(1, 1)
     expect{importer.read_row(values, Array.new)}.to raise_error
   end
