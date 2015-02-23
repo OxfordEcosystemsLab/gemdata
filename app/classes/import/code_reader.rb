@@ -77,7 +77,7 @@ class CodeReader
 
     def extract_tree_code(code)
       # extract the tree code from beggining and return the remainder
-      match = code.match(/^([TI][\d]+((?:[\.\-]\d*)?)A?)-?(.*)$/)
+      match = code.match(/^([TI]?\d+((?:[\.\-]\d*)?)A?)-?(.*)$/)
       if not match then
         raise Gemdata::CodeUnreadable, "Could not get tree from code [#{code}] (full code: [#{@full_code}])"
       end
