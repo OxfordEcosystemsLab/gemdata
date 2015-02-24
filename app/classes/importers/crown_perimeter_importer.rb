@@ -7,7 +7,6 @@ class CrownPerimeterImporter < RowImporter
   def read_row(values, logger)
 
     @cp = find_or_new({
-      :time =>  Time.strptime(values[2] + ' UTC', "%Y-%m-%d %H:%M:%S %Z"),
       :tree => find_tree(values[3])
     })
     attempt_to_overwrite!(@cp)

@@ -18,7 +18,6 @@ describe CrownPerimeterImporter do
 
     cp = importer.object.reload
     expect(cp.tree).to eq(@tree)
-    expect(cp.time).to eq(Time.utc(1899, 12, 31, 9, 30, 0))
     expect(cp.seq).to eq(1)
     expect(cp.sun).to be_nil
     expect(cp.reading_type).to eq('top')
