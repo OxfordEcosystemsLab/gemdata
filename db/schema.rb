@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150224143122) do
+ActiveRecord::Schema.define(version: 20150224153432) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,17 +44,16 @@ ActiveRecord::Schema.define(version: 20150224143122) do
   add_index "branch_architectures", ["branch_id"], name: "index_branch_architectures_on_branch_id", using: :btree
 
   create_table "branch_light_measurements", force: true do |t|
-    t.integer  "branch_light_placement_id"
     t.integer  "number"
     t.datetime "datetime"
     t.float    "measurement"
-    t.float    "photons"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "batch_id"
+    t.float    "ppfd"
   end
 
-  add_index "branch_light_measurements", ["branch_light_placement_id"], name: "index_branch_light_measurements_on_branch_light_placement_id", using: :btree
+  add_index "branch_light_measurements", ["number", "datetime"], name: "index_branch_light_measurements_on_number_and_datetime", using: :btree
 
   create_table "branch_light_placements", force: true do |t|
     t.integer  "branch_id"
@@ -86,6 +85,7 @@ ActiveRecord::Schema.define(version: 20150224143122) do
   end
 
   add_index "branch_light_placements", ["branch_id"], name: "index_branch_light_placements_on_branch_id", using: :btree
+  add_index "branch_light_placements", ["start", "finish"], name: "index_branch_light_placements_on_start_and_finish", using: :btree
 
   create_table "branches", force: true do |t|
     t.string   "code",       null: false
@@ -723,6 +723,7 @@ ActiveRecord::Schema.define(version: 20150224143122) do
     t.string   "code"
   end
 
+  add_index "leaf_parts", ["code"], name: "index_leaf_parts_on_code", using: :btree
   add_index "leaf_parts", ["leaf_id"], name: "index_leaf_parts_on_leaf_id", using: :btree
 
   create_table "leaf_repellencies", force: true do |t|
@@ -2155,8 +2156,6 @@ ActiveRecord::Schema.define(version: 20150224143122) do
   add_index "wood_densities", ["branch_id"], name: "index_wood_densities_on_branch_id", using: :btree
 
   add_foreign_key "branch_architectures", "branches", name: "branch_architectures_branch_id_fk"
-
-  add_foreign_key "branch_light_measurements", "branch_light_placements", name: "branch_light_measurements_branch_light_placement_id_fk"
 
   add_foreign_key "branch_light_placements", "branches", name: "branch_light_placements_branch_id_fk"
 
