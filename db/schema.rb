@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150224130033) do
+ActiveRecord::Schema.define(version: 20150224143122) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(version: 20150224130033) do
     t.float    "hd_branch"
     t.float    "vground_branch"
     t.string   "light_cond"
-    t.string   "note"
+    t.text     "note"
     t.datetime "start"
     t.datetime "finish"
     t.datetime "created_at"
@@ -80,13 +80,12 @@ ActiveRecord::Schema.define(version: 20150224130033) do
     t.integer  "time_advance"
     t.integer  "time_delay"
     t.text     "validation_note"
-    t.string   "confidence"
-    t.string   "field_note"
+    t.text     "confidence"
+    t.text     "field_note"
     t.string   "quality_flag"
   end
 
   add_index "branch_light_placements", ["branch_id"], name: "index_branch_light_placements_on_branch_id", using: :btree
-  add_index "branch_light_placements", ["start", "finish"], name: "index_branch_light_placements_on_start_and_finish", using: :btree
 
   create_table "branches", force: true do |t|
     t.string   "code",       null: false
@@ -724,7 +723,6 @@ ActiveRecord::Schema.define(version: 20150224130033) do
     t.string   "code"
   end
 
-  add_index "leaf_parts", ["code"], name: "index_leaf_parts_on_code", using: :btree
   add_index "leaf_parts", ["leaf_id"], name: "index_leaf_parts_on_leaf_id", using: :btree
 
   create_table "leaf_repellencies", force: true do |t|

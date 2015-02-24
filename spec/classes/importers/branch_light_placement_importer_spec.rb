@@ -7,7 +7,7 @@ describe BranchLightPlacementImporter do
 
   it 'can read CSV' do
     @branch = set_up_branch('ESP-01', 'T506', 'B1S')
-    values = CSV.parse_line '159,ESP01,ESP01-T506-B1S,266,10.1,1.9,10.6,NA,NA,NA,5/15/2013 8:19,5/15/2013 8:19,NA,NA,NA,T,17.85815535,242.686071,0.073585415,NA,NA,NA,NA,Luz radiante con sol directo,'
+    values = CSV.parse_line '159,ESP01,ESP01-T506-B1S,266,10.1,1.9,10.6,NA,NA,NA,2013-05-15 8:19:20,2013-05-15 8:19:30,NA,NA,NA,T,17.85815535,242.686071,0.073585415,NA,NA,NA,NA,Luz radiante con sol directo,'
     importer = BranchLightPlacementImporter.new(1, 2)
     status = importer.read_row(values, Array.new)
     expect(status).to eq(Lookup::ImportStatus.inserted)
@@ -36,6 +36,14 @@ describe BranchLightPlacementImporter do
     expect(@blp.field_note).to eq('Luz radiante con sol directo')
     expect(@blp.quality_flag).to eq('')
     expect(@blp).to be_valid
+  end
+
+  it 'can read the big long line from the dataset' do
+    @branch = set_up_branch('SPD-01', 'T1253', 'B1S')
+    values = CSV.parse_line '"272","SPD01","SPD01-T1253-B1S",97,10,5,11.2,NA,NA,NA,2013-06-10 12:38:50,2013-06-10 12:39:20,NA,NA,NA,"T",NA,336.338351070968,542.09745408,0.620438905476454,NA,NA,"Switched the sun and shade measurement times.  In the databook, shade is written before sun, whereas everywhere else, sun is before shade.  Also, the shade measurement is much higher than the sun measurement in the light bar data.  So, we switch them as it seems that the times were most likely accidentally written in the wrong places in the data books.","",NA,"NUBLADO, LUZ DIFUSA",NA'
+    importer = BranchLightPlacementImporter.new(1, 2)
+    status = importer.read_row(values, Array.new)
+    expect(status).to eq(Lookup::ImportStatus.inserted)
   end
 
 end
