@@ -5,5 +5,5 @@ class LightReference < ActiveRecord::Base
   validates :number, presence: true
   validates :datetime, presence: true
   validates :measurement, presence: true
-  validates :photons, presence: true
+  validates :ppfd, presence: true
 end

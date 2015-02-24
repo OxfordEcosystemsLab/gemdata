@@ -12,7 +12,7 @@ class LightReferenceImporter < RowImporter
     attempt_to_overwrite!(@lr)
     @lr.number = values[1]
     @lr.measurement = values[4]
-    @lr.photons = values[5]
+    @lr.ppfd = values[5]
     save_with_status!
   end
 

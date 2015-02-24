@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150224115633) do
+ActiveRecord::Schema.define(version: 20150224130033) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -827,11 +827,11 @@ ActiveRecord::Schema.define(version: 20150224115633) do
     t.integer  "number"
     t.datetime "datetime"
     t.float    "measurement"
-    t.float    "photons"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "plot_id"
     t.integer  "batch_id"
+    t.float    "ppfd"
   end
 
   add_index "light_references", ["datetime"], name: "index_light_references_on_datetime", using: :btree
