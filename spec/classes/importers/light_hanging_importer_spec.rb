@@ -7,11 +7,6 @@ describe LightHangingImporter do
 
   before :each do
     @tree = set_up_tree('SPD-01', 'T187')
-    @weather_reading = WeatherReading.create!(
-      :plot  => @tree.sub_plot.plot,
-      :datetime => Time.utc(2013, 06, 14, 8, 0, 0),
-      :batch => Batch.new
-    )
   end
 
   it 'can read CSV' do
@@ -23,7 +18,6 @@ describe LightHangingImporter do
 
     lh = importer.object.reload
     expect(lh.tree).to eq(@tree)
-    expect(lh.weather_reading).to eq(@weather_reading)
     expect(lh.last_sensor).to eq(13)
     expect(lh.last_sensor_height).to eq(0.25)
     expect(lh.first_sensor_to_crown_top).to eq(1.2)

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150224112528) do
+ActiveRecord::Schema.define(version: 20150224115633) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -837,7 +837,6 @@ ActiveRecord::Schema.define(version: 20150224112528) do
   add_index "light_references", ["datetime"], name: "index_light_references_on_datetime", using: :btree
 
   create_table "light_string_measurements", force: true do |t|
-    t.integer  "light_hanging_id"
     t.datetime "datetime"
     t.integer  "record_no"
     t.float    "m0"
@@ -876,8 +875,6 @@ ActiveRecord::Schema.define(version: 20150224112528) do
     t.integer  "batch_id"
     t.float    "m20"
   end
-
-  add_index "light_string_measurements", ["light_hanging_id"], name: "index_light_string_measurements_on_light_hanging_id", using: :btree
 
   create_table "litterfall_traps", force: true do |t|
     t.integer  "plot_id",                 null: false
@@ -2224,8 +2221,6 @@ ActiveRecord::Schema.define(version: 20150224112528) do
   add_foreign_key "light_hangings", "trees", name: "light_hangings_tree_id_fk"
 
   add_foreign_key "light_references", "plots", name: "light_references_plot_id_fk"
-
-  add_foreign_key "light_string_measurements", "light_hangings", name: "light_string_measurements_light_hanging_id_fk"
 
   add_foreign_key "litterfall_traps", "plots", name: "litterfall_traps_plot_id_fk"
 

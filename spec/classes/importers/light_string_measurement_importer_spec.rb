@@ -7,13 +7,6 @@ describe LightStringMeasurementImporter do
 
   before :each do
     @tree = set_up_tree('SPD01', 'T187')
-    @light_hanging = LightHanging.create!(
-      :tree  => @tree,
-      :start  => Time.utc(2013, 06, 8, 8, 0, 0),
-      :finish => Time.utc(2013, 07, 9, 18, 0, 0),
-      :weather_reading => WeatherReading.new,
-      :batch => Batch.new
-    )
   end
 
   it 'can read CSV' do
@@ -24,7 +17,6 @@ describe LightStringMeasurementImporter do
     expect(status).to eq(Lookup::ImportStatus.inserted)
 
     lsm = importer.object.reload
-    expect(lsm.light_hanging).to eq(@light_hanging)
     expect(lsm.datetime).to eq(Time.utc(2013, 6, 9, 16, 30, 10))
     expect(lsm.m0).to eq(1.359)
     expect(lsm.m0_5).to eq(1.291)

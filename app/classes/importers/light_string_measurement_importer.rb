@@ -12,7 +12,7 @@ class LightStringMeasurementImporter < RowImporter
     })
     attempt_to_overwrite!(@lsm)
 
-    @lsm.light_hanging = LightHanging.find_by_time @lsm.datetime
+    #@lsm.light_hanging = LightHanging.find_by_time @lsm.datetime
     @lsm.m0   = nil_if_na values[3]
     @lsm.m0_5 = nil_if_na values[4]
     @lsm.m1   = nil_if_na values[5]
