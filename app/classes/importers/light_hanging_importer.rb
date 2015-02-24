@@ -8,13 +8,9 @@ class LightHangingImporter < RowImporter
 
     @lh = find_or_new({
       :tree => find_tree(values[2]),
-      :start =>  Time.strptime(values[10] + ' UTC', "%Y-%m-%d %H:%M:%S %Z"),
-      :finish => Time.strptime(values[11] + ' UTC', "%Y-%m-%d %H:%M:%S %Z")
+      :start =>  Time.strptime(values[10] + ' UTC', "%Y-%m-%d %H:%M:%S %Z")
     })
     attempt_to_overwrite!(@lh)
-
-    @lh.weather_reading = WeatherReading.find_between @lh.start, @lh.finish
-
     @lh.last_sensor = values[3]
     @lh.last_sensor_height = values[4]
     @lh.first_sensor_to_crown_top = values[5]
@@ -22,7 +18,7 @@ class LightHangingImporter < RowImporter
     @lh.vd = values[7]
     @lh.hd = values[8]
     @lh.note = values[9]
-
+    @lh.finish = Time.strptime(values[11] + ' UTC', "%Y-%m-%d %H:%M:%S %Z") unless values[11] == 'NA'
     save_with_status!
   end
 

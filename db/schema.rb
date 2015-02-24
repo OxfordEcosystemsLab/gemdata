@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150223140206) do
+ActiveRecord::Schema.define(version: 20150224112528) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 20150223140206) do
   end
 
   add_index "branch_light_placements", ["branch_id"], name: "index_branch_light_placements_on_branch_id", using: :btree
+  add_index "branch_light_placements", ["start", "finish"], name: "index_branch_light_placements_on_start_and_finish", using: :btree
 
   create_table "branches", force: true do |t|
     t.string   "code",       null: false
@@ -723,6 +724,7 @@ ActiveRecord::Schema.define(version: 20150223140206) do
     t.string   "code"
   end
 
+  add_index "leaf_parts", ["code"], name: "index_leaf_parts_on_code", using: :btree
   add_index "leaf_parts", ["leaf_id"], name: "index_leaf_parts_on_leaf_id", using: :btree
 
   create_table "leaf_repellencies", force: true do |t|
@@ -805,14 +807,13 @@ ActiveRecord::Schema.define(version: 20150223140206) do
 
   create_table "light_hangings", force: true do |t|
     t.integer  "tree_id"
-    t.integer  "weather_reading_id"
     t.integer  "last_sensor"
     t.float    "last_sensor_height"
     t.float    "first_sensor_to_crown_top"
     t.float    "az"
     t.float    "vd"
     t.float    "hd"
-    t.string   "note"
+    t.text     "note"
     t.datetime "start"
     t.datetime "finish"
     t.datetime "created_at"
@@ -821,7 +822,6 @@ ActiveRecord::Schema.define(version: 20150223140206) do
   end
 
   add_index "light_hangings", ["tree_id"], name: "index_light_hangings_on_tree_id", using: :btree
-  add_index "light_hangings", ["weather_reading_id"], name: "index_light_hangings_on_weather_reading_id", using: :btree
 
   create_table "light_references", force: true do |t|
     t.integer  "number"
@@ -2222,7 +2222,6 @@ ActiveRecord::Schema.define(version: 20150223140206) do
   add_foreign_key "leaves", "branches", name: "leaves_branch_id_fk"
 
   add_foreign_key "light_hangings", "trees", name: "light_hangings_tree_id_fk"
-  add_foreign_key "light_hangings", "weather_readings", name: "light_hangings_weather_reading_id_fk"
 
   add_foreign_key "light_references", "plots", name: "light_references_plot_id_fk"
 
