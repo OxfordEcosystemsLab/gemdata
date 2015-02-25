@@ -64,7 +64,7 @@ class CodeReader
       result = false
       #                     csp              redundent  redundent
       #                     code             tree code  branch code                      remainder
-      match = code.match(/^(CSP-?\d\d\d\d\d)(?:-T?\d+)?(?:-(SHADE|SUN|H|(B\d\d?[SH]?)))?(?:(-.*)?)$/)
+      match = code.match(/^(CSP-?\d\d\d\d\d)(?:-T?\d+)?(?:-(SHADE|SUN|H|S|(B\d\d?[SH]?)))?(?:(-.*)?)$/)
       if match then
         csp_code = match[1].gsub(/-/, '')
         csp_translation = CspTranslation.find_by! csp_code: csp_code
