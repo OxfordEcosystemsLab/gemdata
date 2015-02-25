@@ -7,11 +7,10 @@ class BranchArchitectureImporter < RowImporter
   def read_row(values, logger)
 
     @ba = find_or_new({
-      :branch => find_or_create_branch(values[3]),
-      :date   => Date.strptime(values[1], "%d/%m/%Y")
+      :branch => find_or_create_branch(values[3])
     })
     attempt_to_overwrite!(@ba)
-
+    # Date - 1
     @ba.evaluator = values[2]
     @ba.section = values[5]
     @ba.parent = zero_if_base(values[6])
@@ -20,7 +19,6 @@ class BranchArchitectureImporter < RowImporter
     @ba.diam_sup = nil_if_zero(values[9])
     @ba.longitude = nil_if_zero(values[10])
     @ba.comments = values[11]
-
     save_with_status!
   end
 

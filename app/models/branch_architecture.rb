@@ -6,8 +6,6 @@ class BranchArchitecture < ActiveRecord::Base
   belongs_to :branch
 
   validates :branch,    presence: true
-  validates :date,      presence: true
-  validates :evaluator, presence: true
   validates :section,   presence: true
   validates :parent,    presence: true
   validates :tip,       presence: true
