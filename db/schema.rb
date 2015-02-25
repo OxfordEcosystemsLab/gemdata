@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150225122850) do
+ActiveRecord::Schema.define(version: 20150225151535) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -209,25 +209,30 @@ ActiveRecord::Schema.define(version: 20150225122850) do
   add_index "cn_measurements", ["leaf_id"], name: "index_cn_measurements_on_leaf_id", using: :btree
 
   create_table "cnp_measurements", force: true do |t|
-    t.integer  "leaf_id"
-    t.string   "row"
-    t.integer  "column"
     t.float    "c_percent"
     t.float    "n_percent"
     t.float    "cn_ratio"
     t.float    "n15_delta"
-    t.float    "n13_delta"
     t.string   "cn_assays_file"
-    t.float    "p_corrected_avg"
-    t.float    "p_corrected_var_coef"
     t.string   "p_assays_file"
-    t.integer  "box_number"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "batch_id"
+    t.string   "c_percent_quality"
+    t.string   "n_percent_quality"
+    t.string   "cn_ration_quality"
+    t.string   "n15_delta_quality"
+    t.float    "c13_delta"
+    t.string   "c13_delta_quality"
+    t.string   "original_cn_leafcode"
+    t.string   "original_P_leafcode"
+    t.float    "p_corrected_percent"
+    t.float    "p_corrected_percent_cv"
+    t.string   "p_corrected_percent_quality"
+    t.integer  "leaf_part_id"
   end
 
-  add_index "cnp_measurements", ["leaf_id"], name: "index_cnp_measurements_on_leaf_id", using: :btree
+  add_index "cnp_measurements", ["leaf_part_id"], name: "index_cnp_measurements_on_leaf_part_id", using: :btree
 
   create_table "coarse_woody_debris_imports", force: true do |t|
     t.string   "plot_code",                null: false
@@ -2163,8 +2168,6 @@ ActiveRecord::Schema.define(version: 20150225122850) do
 
   add_foreign_key "cn_measurements", "cn_curves", name: "cn_measurements_cn_curve_id_fk"
   add_foreign_key "cn_measurements", "leaves", name: "cn_measurements_leaf_id_fk"
-
-  add_foreign_key "cnp_measurements", "leaves", name: "cnp_measurements_leaf_id_fk"
 
   add_foreign_key "coarse_woody_debris_values", "cwd_sub_transects", name: "coarse_woody_debris_values_cwd_sub_transect_id_fk"
 
