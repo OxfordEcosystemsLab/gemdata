@@ -1,24 +1,26 @@
 require 'csv'
 
-class PhotosynthesisMeasurement < ActiveRecord::Base
+class PhotosynthesisCurve < ActiveRecord::Base
   include BatchImport
   
   belongs_to :leaf_part
   validates :leaf_part, presence: true
 
-  validates :filename, presence: true
   validates :code, presence: true
+  validates :reading, presence: true
+
+  validates :filename, presence: true
   validates :area_corr, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 1 }, allow_nil: true
-  validates :pm_type, inclusion: { in: %w(ASAT AMAX), message: "%{value} is not a valid type" }
+  validates :data_type, inclusion: { in: %w(CO2 LIGHT), message: "%{value} is not a valid type" }
   validates :date, presence: true
   # time can't be validated in the model!
   # if a badly formed time is put in the field it'll end up as nil
   # which would be fine for validation BUT time is sometimes nil anyway
   # this will have to be validated in the importer
   validates :photosynthesis, presence: true
-  validates :photosynthesis_std, numericality: { greater_than: 0 }
+  validates :photosynthesis_std, numericality: { equal_to: 0 }
   validates :conductance, presence: true
-  validates :conductance_std, numericality: { greater_than: 0 }
+  validates :conductance_std, numericality: { equal_to: 0 }
   validates :internal_co2, numericality: { greater_than: 0, less_than: 2000 }
   validates :transpiration, presence: true
   validates :vpd, numericality: { greater_than: 0 } # vapor pressure deficit

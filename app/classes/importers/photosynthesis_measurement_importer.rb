@@ -15,7 +15,7 @@ class PhotosynthesisMeasurementImporter < RowImporter
     @pm.comment = values[2] unless values[2] == 'NA'
     @pm.quality_flag = values[3]
     @pm.area_corr = values[4] unless values[4] == 'NA'
-    # :pm_type => values[5]
+    # :pm_type => values[5] (key)
     # CO2R = values[6]
     @pm.date = Date.strptime(values[7], "%Y-%m-%d")
     if values[8] != 'NA' then
