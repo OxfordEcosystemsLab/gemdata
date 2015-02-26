@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150226130555) do
+ActiveRecord::Schema.define(version: 20150226164505) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,20 @@ ActiveRecord::Schema.define(version: 20150226130555) do
   end
 
   add_index "branch_architectures", ["branch_id"], name: "index_branch_architectures_on_branch_id", using: :btree
+
+  create_table "branch_leaf_masses", force: true do |t|
+    t.integer  "branch_id"
+    t.string   "person"
+    t.date     "date"
+    t.string   "original_branchcode"
+    t.float    "leaf_weight"
+    t.float    "leaf_rachis_weight"
+    t.string   "quality_flag"
+    t.string   "comments"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "batch_id"
+  end
 
   create_table "branch_light_measurements", force: true do |t|
     t.integer  "number"
