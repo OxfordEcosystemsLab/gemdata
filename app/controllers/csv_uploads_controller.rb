@@ -43,6 +43,7 @@ class CsvUploadsController < ApplicationController
       OsmometryImporter,
       PhosphorusImporter,
       PhotosynthesisMeasurementImporter,
+      SpecificLeafAreaImporter,
       SpectraMeasurementImporter,
       ToughnessMeasurementImporter,
       WeatherReadingImporter,

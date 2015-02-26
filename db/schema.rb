@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150225151535) do
+ActiveRecord::Schema.define(version: 20150226104615) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -1255,6 +1255,16 @@ ActiveRecord::Schema.define(version: 20150225151535) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "batch_id"
+    t.float    "lamina_area"
+    t.float    "lamina_drymass"
+    t.float    "laminapetiole_area"
+    t.float    "laminapetiole_drymass"
+    t.string   "comment"
+    t.string   "quality_flag"
+    t.float    "sla_lamina"
+    t.float    "sla_lamina_petiole"
+    t.float    "lma_lamina"
+    t.float    "lma_lamina_petiole"
   end
 
   add_index "specific_leaf_areas", ["leaf_id"], name: "index_specific_leaf_areas_on_leaf_id", using: :btree
