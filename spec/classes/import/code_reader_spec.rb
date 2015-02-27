@@ -220,6 +220,11 @@ describe CodeReader do
     expect(reader.leaf_part).to eq('C2')
   end
 
-
+  it 'can read codes from Branch Leaf Mass' do
+    reader = CodeReader.new 'ACJ01-T846-B11H-Ar'
+    expect(reader.plot_code).to eq('ACJ-01')
+    expect(reader.tree_code).to eq('T846')
+    expect(reader.branch_code).to eq('B11H')
+  end
 
 end

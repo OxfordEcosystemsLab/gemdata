@@ -91,7 +91,7 @@ class CodeReader
       # Branch codes should be validated to only be in this range:
       # B[1-10]S  - B[11-20]H
       #
-      match = code.match(/^(B\d\d?[SH]?)-?(.*)$/)
+      match = code.match(/^(B\d\d?[SH]?)(?:-AR)?-?(.*)$/)
       if not match then
         raise Gemdata::CodeUnreadable, "Could not get branch from code [#{code}] (full code: [#{@full_code}])"
       end
