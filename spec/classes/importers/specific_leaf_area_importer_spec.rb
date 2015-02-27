@@ -26,4 +26,12 @@ describe SpecificLeafAreaImporter do
     expect(sla).to be_valid
   end
 
+  it 'can read the line that Lisa is having problems with' do
+    leaf = set_up_leaf('SPD-01', 'T22', 'B11H', 'L1', 1)
+    values = CSV.parse_line '"SPD01-T22-B11H-L1","CSP28358","na","na","7.733452275","0.16","SR/A : meaning ?","c","NA","0.0048334077","NA","206.8933696239"'
+    importer = SpecificLeafAreaImporter.new(1, 2)
+    status = importer.read_row(values, Array.new)
+    expect(status).to eq(Lookup::ImportStatus.inserted)
+  end
+
 end
