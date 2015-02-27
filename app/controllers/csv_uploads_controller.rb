@@ -23,6 +23,7 @@ class CsvUploadsController < ApplicationController
   def traits
     @importer_classes = [
       BranchArchitectureImporter,
+      BranchLeafMassImporter,
       BranchLightMeasurementImporter,
       BranchLightPlacementImporter,
       CarnegieBulkLeafChemistryImporter,
