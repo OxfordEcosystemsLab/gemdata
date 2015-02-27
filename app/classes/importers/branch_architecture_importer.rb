@@ -5,14 +5,13 @@ class BranchArchitectureImporter < RowImporter
   end
 
   def read_row(values, logger)
-
     @ba = find_or_new({
-      :branch => find_or_create_branch(values[3])
+      :branch => find_or_create_branch(values[3]),
+      :section => values[5]
     })
     attempt_to_overwrite!(@ba)
     # Date - 1
     @ba.evaluator = values[2]
-    @ba.section = values[5]
     @ba.parent = zero_if_base(values[6])
     @ba.tip = values[7]
     @ba.diam_inf = nil_if_zero(values[8])
