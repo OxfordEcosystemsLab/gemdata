@@ -21,6 +21,8 @@ Gemdata::Application.routes.draw do
   resources :cn_curves
   resources :cn_measurements
 
+  get 'pages/:pagename' => 'pages#show'
+  
   root 'pages#show'
   # root 'csv_uploads#traits'
 

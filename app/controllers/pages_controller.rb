@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
 
   def show
-    params[:pagename] ||= "welcome"
+    params[:pagename] ||= "homepage"
     render "pages/#{params[:pagename]}"
   end
 
