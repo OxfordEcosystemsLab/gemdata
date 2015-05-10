@@ -227,4 +227,12 @@ describe CodeReader do
     expect(reader.branch_code).to eq('B11H')
   end
 
+  it 'can read herbivory leaves' do
+    reader = CodeReader.new 'WAY01-T1050-2A-B1S-HR3'
+    expect(reader.plot_code).to eq('WAY-01')
+    expect(reader.tree_code).to eq('T10502A')
+    expect(reader.branch_code).to eq('B1S')
+    expect(reader.leaf_code).to eq('HR3')
+  end
 end
+

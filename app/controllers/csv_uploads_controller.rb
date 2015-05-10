@@ -33,6 +33,7 @@ class CsvUploadsController < ApplicationController
       CrownPerimeterImporter,
       CspTranslationImporter,
       ForestPlotsImporter,
+      HerbivoryImporter,
       LeafAreaImporter,
       LeafPartCharacteristicsImporter,
       LeafPartTranslationImporter,

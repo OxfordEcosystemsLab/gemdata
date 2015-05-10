@@ -101,7 +101,7 @@ class CodeReader
 
     def extract_leaf_code(code, ar_class)
       # extract the leaf code from beggining and return the remainder
-      match = code.match(/^(L\d+)((?:\w+\d*)?)-?(.*)$/)
+      match = code.match(/^((?:L|HR)\d+)((?:\w+\d*)?)-?(.*)$/)
       if not match then
         raise Gemdata::CodeUnreadable, "Could not get leaf from code [#{code}] (full code: [#{@full_code}])"
       end
