@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150227131801) do
+ActiveRecord::Schema.define(version: 20150510163040) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -570,13 +570,21 @@ ActiveRecord::Schema.define(version: 20150227131801) do
   add_index "hemi_photos", ["tree_id"], name: "index_hemi_photos_on_tree_id", using: :btree
 
   create_table "herbivories", force: true do |t|
-    t.integer  "branch_id"
+    t.integer  "leaf_id"
+    t.string   "original_code"
+    t.datetime "date"
+    t.float    "estimated_full_la"
+    t.float    "observed_remaining_la"
+    t.float    "consumed_la"
+    t.float    "percent_consumed"
+    t.string   "note"
+    t.string   "quality_flag"
+    t.integer  "batch_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "batch_id"
   end
 
-  add_index "herbivories", ["branch_id"], name: "index_herbivories_on_branch_id", using: :btree
+  add_index "herbivories", ["leaf_id"], name: "index_herbivories_on_leaf_id", using: :btree
 
   create_table "ingrowth_core_imports", force: true do |t|
     t.string   "plot_code",                  null: false
@@ -837,6 +845,48 @@ ActiveRecord::Schema.define(version: 20150227131801) do
   end
 
   add_index "light_hangings", ["tree_id"], name: "index_light_hangings_on_tree_id", using: :btree
+
+  create_table "light_photon_measurements", force: true do |t|
+    t.integer  "light_hanging_id"
+    t.datetime "datetime"
+    t.integer  "record"
+    t.float    "m0"
+    t.float    "m0_5"
+    t.float    "m1"
+    t.float    "m1_5"
+    t.float    "m2"
+    t.float    "m2_5"
+    t.float    "m3"
+    t.float    "m3_5"
+    t.float    "m4"
+    t.float    "m4_5"
+    t.float    "m5"
+    t.float    "m6"
+    t.float    "m7"
+    t.float    "m8"
+    t.float    "m9"
+    t.float    "m10"
+    t.float    "m11"
+    t.float    "m12"
+    t.float    "m13"
+    t.float    "m14"
+    t.float    "m15"
+    t.float    "m16"
+    t.float    "m17"
+    t.float    "m18"
+    t.float    "m19"
+    t.float    "m20"
+    t.float    "m21"
+    t.float    "m22"
+    t.float    "m23"
+    t.float    "m24"
+    t.float    "m25"
+    t.float    "m26"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "light_photon_measurements", ["light_hanging_id"], name: "index_light_photon_measurements_on_light_hanging_id", using: :btree
 
   create_table "light_references", force: true do |t|
     t.integer  "number"
@@ -1178,8 +1228,7 @@ ActiveRecord::Schema.define(version: 20150227131801) do
     t.integer  "batch_id"
   end
 
-  add_index "plots", ["plot_code", "fp_id"], name: "index_plots_on_plot_code_and_fp_id", unique: true, using: :btree
-  add_index "plots", ["plot_code"], name: "index_plots_on_plot_code", using: :btree
+  add_index "plots", ["plot_code"], name: "index_plots_on_plot_code", unique: true, using: :btree
   add_index "plots", ["site_id"], name: "index_plots_on_site_id", using: :btree
 
   create_table "region_countries", force: true do |t|
@@ -2253,8 +2302,6 @@ ActiveRecord::Schema.define(version: 20150227131801) do
 
   add_foreign_key "hemi_photos", "trees", name: "hemi_photos_tree_id_fk"
 
-  add_foreign_key "herbivories", "branches", name: "herbivories_branch_id_fk"
-
   add_foreign_key "ingrowth_core_values", "ingrowth_cores", name: "ingrowth_core_values_ingrowth_core_id_fk"
 
   add_foreign_key "ingrowth_cores", "plots", name: "ingrowth_cores_plot_id_fk"
@@ -2276,6 +2323,8 @@ ActiveRecord::Schema.define(version: 20150227131801) do
   add_foreign_key "leaves", "branches", name: "leaves_branch_id_fk"
 
   add_foreign_key "light_hangings", "trees", name: "light_hangings_tree_id_fk"
+
+  add_foreign_key "light_photon_measurements", "light_hangings", name: "light_photon_measurements_light_hanging_id_fk"
 
   add_foreign_key "light_references", "plots", name: "light_references_plot_id_fk"
 

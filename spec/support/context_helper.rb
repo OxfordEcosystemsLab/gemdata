@@ -57,7 +57,7 @@ module ContextHelper
   end
 
   def find_batch(batch_id)
-    batch = Batch.find_or_create_by(id: batch_id)
+    Batch.find_or_create_by(id: batch_id)
   end
-
 end
+
