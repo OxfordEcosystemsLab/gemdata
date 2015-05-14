@@ -1,9 +1,9 @@
 DROP VIEW basic_leaf_part_view;
 DROP VIEW basic_leaf_view;
+DROP VIEW carnegie_view;
 DROP VIEW basic_branch_view;
 DROP VIEW basic_tree_view;
 DROP VIEW trees_with_latest_dbh_view;
-DROP VIEW carnegie_view;
 
 -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- ---
 
