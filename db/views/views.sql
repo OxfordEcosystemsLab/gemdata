@@ -3,6 +3,7 @@ DROP VIEW basic_leaf_view;
 DROP VIEW basic_branch_view;
 DROP VIEW basic_tree_view;
 DROP VIEW trees_with_latest_dbh_view;
+DROP VIEW carnegie_view;
 
 -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- ---
 
@@ -155,11 +156,11 @@ GRANT SELECT ON basic_leaf_part_view TO gemdata_reader;
 CREATE VIEW trees_with_latest_dbh_view AS
 SELECT
 	d.id, 
-	d.tree_id, 
 	d.census_id, 
+	d.tree_id, 
 	d.value as DBH 
 FROM
-	dbh_measurements d 
+	dbh_measurements d
 	INNER JOIN 
 		(SELECT
 			tree_id,
@@ -173,3 +174,59 @@ ORDER BY id
 GRANT SELECT ON trees_with_latest_dbh_view TO gemdata_reader;
 
 -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- ---
+
+CREATE VIEW carnegie_view AS
+SELECT carnegie_bulk_leaf_chemistries.csp_code       AS carn_csp,
+       carnegie_bulk_leaf_chemistries.branch_1       AS carn_branch1,
+       carnegie_bulk_leaf_chemistries.branch_2       AS carn_branch2,
+       carnegie_bulk_leaf_chemistries.branch_3       AS carn_branch3,
+       carnegie_bulk_leaf_chemistries.flagged        AS carn_flagged,
+       carnegie_bulk_leaf_chemistries.reason         AS carn_reason,
+       carnegie_bulk_leaf_chemistries.date_collected AS carn_date,
+       carnegie_bulk_leaf_chemistries.n              AS carn_n,
+       carnegie_bulk_leaf_chemistries.chl_a          AS carn_chla,
+       carnegie_bulk_leaf_chemistries.chl_b          AS carn_chlb,
+       carnegie_bulk_leaf_chemistries.carotenoids    AS carn_carotenoids,
+       carnegie_bulk_leaf_chemistries.soluble_c      AS carn_soluble_c,
+       carnegie_bulk_leaf_chemistries.delta_13c      AS carn_d13c,
+       carnegie_bulk_leaf_chemistries.water          AS carn_h2o,
+       carnegie_bulk_leaf_chemistries.p              AS carn_p,
+       carnegie_bulk_leaf_chemistries.ca             AS carn_ca,
+       carnegie_bulk_leaf_chemistries.k              AS carn_k,
+       carnegie_bulk_leaf_chemistries.mg             AS carn_mg,
+       carnegie_bulk_leaf_chemistries.lma            AS carn_lma,
+       carnegie_bulk_leaf_chemistries.c              AS carn_c,
+       carnegie_bulk_leaf_chemistries.lignin         AS carn_lignin,
+       carnegie_bulk_leaf_chemistries.cellulose      AS carn_cellulose,
+       carnegie_bulk_leaf_chemistries.hemi_cellulose AS carn_hemicellulose,
+       carnegie_bulk_leaf_chemistries.phenols        AS carn_phenols,
+       carnegie_bulk_leaf_chemistries.tannins        AS carn_tannins,
+       carnegie_bulk_leaf_chemistries.b              AS carn_b,
+       carnegie_bulk_leaf_chemistries.fe             AS carn_fe,
+       carnegie_bulk_leaf_chemistries.mn             AS carn_mn,
+       carnegie_bulk_leaf_chemistries.zn             AS carn_zn,
+       basic_branch_view.branch_id                   AS carn_branch_id,
+       basic_branch_view.branch_code                 AS carn_branch_code,
+       basic_branch_view.tree_id                     AS carn_tree_id,
+       basic_branch_view.tree_code                   AS carn_tree_code,
+       basic_branch_view.fp_tree_id                  AS carn_fp_tree_id,
+       basic_branch_view.fp_species_name             AS carn_fp_species_name,
+       basic_branch_view.fp_species_id               AS carn_fp_species_id,
+       basic_branch_view.fp_genus_name               AS carn_fp_genus_name,
+       basic_branch_view.fp_genus_id                 AS carn_fp_genus_id,
+       basic_branch_view.fp_family_name              AS carn_fp_family_name,
+       basic_branch_view.fp_family_apg_id            AS carn_fp_family_apg_id,
+       basic_branch_view.sub_plot_code               AS carn_sub_plot_code,
+       basic_branch_view.plot_code                   AS carn_plot_code,
+       basic_branch_view.csp_site                    AS carn_csp_site,
+       basic_branch_view.csp_tree_code               AS carn_csp_tree_code,
+       basic_branch_view.csp_species                 AS carn_csp_species,
+       basic_branch_view.csp_family                  AS carn_csp_family,
+       basic_branch_view.csp_full_name               AS carn_csp_full_name,
+       basic_branch_view.csp_taxon_info              AS carn_csp_taxon_info
+FROM   carnegie_bulk_leaf_chemistries
+       JOIN basic_branch_view
+         ON carnegie_bulk_leaf_chemistries.branch_1 =
+            basic_branch_view.branch_id; 
+			
+GRANT SELECT ON carnegie_view TO gemdata_reader;
