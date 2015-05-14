@@ -1,7 +1,8 @@
-DROP VIEW basic_leaf_part_view AS
-DROP VIEW basic_leaf_view AS
+DROP VIEW basic_leaf_part_view;
+DROP VIEW basic_leaf_view;
 DROP VIEW basic_branch_view;
 DROP VIEW basic_tree_view;
+DROP VIEW trees_with_latest_dbh_view;
 
 -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- ---
 
@@ -151,4 +152,24 @@ GRANT SELECT ON basic_leaf_part_view TO gemdata_reader;
 
 -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- ---
 
+CREATE VIEW trees_with_latest_dbh_view AS
+SELECT
+	d.id, 
+	d.tree_id, 
+	d.census_id, 
+	d.value as DBH 
+FROM
+	dbh_measurements d 
+	INNER JOIN 
+		(SELECT
+			tree_id,
+			max(census_id) census_id 
+		FROM
+			dbh_measurements 
+		GROUP BY tree_id) ss ON (d.tree_id = ss.tree_id and d.census_id = ss.census_id)
+ORDER BY id
+;
 
+GRANT SELECT ON trees_with_latest_dbh_view TO gemdata_reader;
+
+-- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- --- -- ---
