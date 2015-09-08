@@ -90,10 +90,9 @@ class RowImporter
     def nil_if_blank(value)
       value.blank? ? nil : value
     end
-
-    def find_or_new(ar_class = nil, unique_identifiers)
-      ar_class ||= self.class.ar_class
-      ar_class.batch_find_or_initialize_by(@batch_id, unique_identifiers)
+    
+    def nil_if_blank_or_na(value)
+      nil_if_na(nil_if_blank(value))
     end
 
     def find_or_create_plot(plot_code)
@@ -149,6 +148,13 @@ class RowImporter
       find_or_create(IngrowthCore,
         plot: plot,
         ingrowth_core_num: core_num
+      )
+    end
+
+    def find_or_create_cwd_transect(plot, transect_num)
+      find_or_create(CwdTransect,
+        plot: plot,
+        transect_num: transect_num
       )
     end
 

@@ -14,7 +14,20 @@ class BaseCsvHandler
   # Import in another thread
   def import!
     t = Thread.new do
+      begin
+        do_import
+      rescue Exception => ex
+        Rails.logger.error "ERROR in import thread: #{ex.inspect}"
+        throw ex
+      end
+    end
+    at_exit { t.join }
+    t
+  end
 
+  private
+  
+    def do_import
       @batch = Batch.new :started => Time.new, :import_address => @logger.address
       @batch.started = Time.new
       @batch.save!
@@ -45,15 +58,8 @@ class BaseCsvHandler
 
       ActiveRecord::Base.connection.close
     end
-    at_exit { t.join }
-    t
-  end
-
-
-  private
 
     def handle_csv
-
       transaction_is_ok = true
 
       prepare_pre_import
@@ -65,7 +71,8 @@ class BaseCsvHandler
 
         row_number = 0
 
-        open_file(@csv_file).each_line do |line|
+        sep = separator(@csv_file)
+        open_file(@csv_file).each_line(sep) do |line|
 
           row_number += 1
 
@@ -82,7 +89,7 @@ class BaseCsvHandler
           line.strip!
 
           row = CSV.parse_line(line, @importer_class.csv_options)
-
+          
           if skip_row?(row_number, row)
             next
           end
@@ -148,6 +155,24 @@ class BaseCsvHandler
 
     def skip_row?(n, values)
       n == 1
+    end
+
+    # Deal with different row ending types. Copied from here:
+    #   http://stackoverflow.com/questions/28162639/read-files-line-by-line-with-r-n-or-r-n-as-line-separator
+    def separator(fname)
+      f = File.open(fname)
+      enum = f.each_char
+      c = enum.next
+      loop do
+        case c[/\r|\n/]
+        when "\n" then break
+        when "\r"
+          c << "\n" if enum.peek == "\n"
+          break
+        end
+        c = enum.next
+      end
+      c[0][/\r|\n/] ? c : "\n"
     end
 
 end

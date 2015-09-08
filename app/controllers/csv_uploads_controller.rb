@@ -16,7 +16,11 @@ class CsvUploadsController < ApplicationController
       FineLitterfallImporter,
       IngrowthCoreImporter,
       CoarseWoodyDebrisImporter,
-      EgmRespirationImporter
+      EgmSoilRespirationImporter,
+      EgmStemRespirationImporter,
+      EgmCWDRespirationImporter,
+      EgmIngrowthCoreRespirationImporter,
+      EgmLeafRespirationImporter
     ]
   end
 

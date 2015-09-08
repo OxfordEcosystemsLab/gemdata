@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150510163040) do
+ActiveRecord::Schema.define(version: 20150711110250) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -409,6 +409,7 @@ ActiveRecord::Schema.define(version: 20150510163040) do
   end
 
   create_table "egm_respiration_collars", force: true do |t|
+    t.string   "collar_type",      null: false
     t.integer  "plot_id",          null: false
     t.integer  "sub_plot_id"
     t.integer  "tree_id"
@@ -424,10 +425,17 @@ ActiveRecord::Schema.define(version: 20150510163040) do
   add_index "egm_respiration_collars", ["tree_id"], name: "index_egm_respiration_collars_on_tree_id", using: :btree
 
   create_table "egm_respiration_values", force: true do |t|
+    t.string   "respiration_value_type",    null: false
+    t.integer  "plot_id",                   null: false
+    t.integer  "sub_plot_id"
+    t.integer  "tree_id"
     t.integer  "egm_respiration_collar_id"
     t.integer  "ingrowth_core_id"
+    t.integer  "cwd_transect_id"
+    t.integer  "cwd_sub_transect_id"
+    t.string   "cwd_num"
     t.datetime "datetime",                  null: false
-    t.string   "measurement_code",          null: false
+    t.string   "measurement_code"
     t.string   "treatment_code"
     t.string   "litter_code"
     t.string   "disturbance_code"
@@ -447,8 +455,13 @@ ActiveRecord::Schema.define(version: 20150510163040) do
     t.datetime "updated_at"
   end
 
+  add_index "egm_respiration_values", ["cwd_sub_transect_id"], name: "index_egm_respiration_values_on_cwd_sub_transect_id", using: :btree
+  add_index "egm_respiration_values", ["cwd_transect_id"], name: "index_egm_respiration_values_on_cwd_transect_id", using: :btree
   add_index "egm_respiration_values", ["egm_respiration_collar_id"], name: "index_egm_respiration_values_on_egm_respiration_collar_id", using: :btree
   add_index "egm_respiration_values", ["ingrowth_core_id"], name: "index_egm_respiration_values_on_ingrowth_core_id", using: :btree
+  add_index "egm_respiration_values", ["plot_id"], name: "index_egm_respiration_values_on_plot_id", using: :btree
+  add_index "egm_respiration_values", ["sub_plot_id"], name: "index_egm_respiration_values_on_sub_plot_id", using: :btree
+  add_index "egm_respiration_values", ["tree_id"], name: "index_egm_respiration_values_on_tree_id", using: :btree
 
   create_table "fine_litterfall_imports", force: true do |t|
     t.string   "plot_code",               null: false
@@ -2289,8 +2302,16 @@ ActiveRecord::Schema.define(version: 20150510163040) do
   add_foreign_key "dbh_measurements", "trees", name: "dbh_measurements_tree_id_fk"
 
   add_foreign_key "egm_respiration_collars", "plots", name: "egm_respiration_collars_plot_id_fk"
+  add_foreign_key "egm_respiration_collars", "sub_plots", name: "egm_respiration_collars_sub_plot_id_fk"
+  add_foreign_key "egm_respiration_collars", "trees", name: "egm_respiration_collars_tree_id_fk"
 
+  add_foreign_key "egm_respiration_values", "cwd_sub_transects", name: "egm_respiration_values_cwd_sub_transect_id_fk"
+  add_foreign_key "egm_respiration_values", "cwd_transects", name: "egm_respiration_values_cwd_transect_id_fk"
   add_foreign_key "egm_respiration_values", "egm_respiration_collars", name: "egm_respiration_values_egm_respiration_collar_id_fk"
+  add_foreign_key "egm_respiration_values", "ingrowth_cores", name: "egm_respiration_values_ingrowth_core_id_fk"
+  add_foreign_key "egm_respiration_values", "plots", name: "egm_respiration_values_plot_id_fk"
+  add_foreign_key "egm_respiration_values", "sub_plots", name: "egm_respiration_values_sub_plot_id_fk"
+  add_foreign_key "egm_respiration_values", "trees", name: "egm_respiration_values_tree_id_fk"
 
   add_foreign_key "fine_litterfall_values", "litterfall_traps", name: "fine_litterfall_values_litterfall_trap_id_fk"
 
