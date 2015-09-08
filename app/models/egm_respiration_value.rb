@@ -86,7 +86,8 @@ class EgmRespirationValue < ActiveRecord::Base
   validates :atmp_mb,          allow_nil: true, numericality: { greater_than_or_equal_to: 400, less_than_or_equal_to: 2000 }
   validates :probe_type,       allow_nil: true, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
 
-  validates :quality_code,     allow_nil: true, inclusion: { in: QUALITY_CODES }
+  validates :quality_code,     allow_nil: true, inclusion: { in: QUALITY_CODES,
+                                                message: "should be 'good', 'not_sure' or 'do_not_use'." }
 
   private
   

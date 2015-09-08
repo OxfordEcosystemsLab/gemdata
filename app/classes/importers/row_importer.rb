@@ -154,7 +154,7 @@ class RowImporter
     def find_or_create_cwd_transect(plot, transect_num)
       find_or_create(CwdTransect,
         plot: plot,
-        transect_num: transect_num
+        cwd_transect_num: transect_num
       )
     end
 

@@ -15,14 +15,15 @@ class FineLitterfallImporter < RowImporter
       twigs_g_per_trap:      nil_if_na(values[7]),
       flowers_g_per_trap:    nil_if_na(values[8]),
       fruits_g_per_trap:     nil_if_na(values[9]),
-      bromeliads_g_per_trap: nil_if_na(values[10]),
-      epiphytes_g_per_trap:  nil_if_na(values[11]),
-      other_g_per_trap:      nil_if_na(values[12]),
-      palm_leaves_g:         nil_if_na(values[13]),
-      palm_flower_g:         nil_if_na(values[14]),
-      palm_fruit_g:          nil_if_na(values[15]),
-      quality_code:          values[16],
-      comments:              values[17]
+      seeds_g_per_trap:      nil_if_na(values[10]),
+      bromeliads_g_per_trap: nil_if_na(values[11]),
+      epiphytes_g_per_trap:  nil_if_na(values[12]),
+      other_g_per_trap:      nil_if_na(values[13]),
+      palm_leaves_g:         nil_if_na(values[14]),
+      palm_flower_g:         nil_if_na(values[15]),
+      palm_fruit_g:          nil_if_na(values[16]),
+      quality_code:          values[17],
+      comments:              values[18]
     })
     attempt_to_overwrite!(@rec)
     save_with_status!

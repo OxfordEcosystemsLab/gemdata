@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150711110250) do
+ActiveRecord::Schema.define(version: 20150908092248) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -279,8 +279,8 @@ ActiveRecord::Schema.define(version: 20150711110250) do
     t.string   "cwd_num",             null: false
     t.string   "size_class"
     t.string   "decay_class"
-    t.float    "diameter_1_cm"
-    t.float    "diameter_2_cm"
+    t.float    "diametertop_1_cm"
+    t.float    "diametertop_2_cm"
     t.float    "length_cm"
     t.float    "dry_weight_g"
     t.string   "quality_code"
@@ -288,6 +288,8 @@ ActiveRecord::Schema.define(version: 20150711110250) do
     t.integer  "batch_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.float    "diameterbottom_1_cm"
+    t.float    "diameterbottom_2_cm"
   end
 
   add_index "coarse_woody_debris_values", ["cwd_sub_transect_id", "date", "cwd_num"], name: "index_cwd_values_on_sub_transect_date_and_cwd_num", unique: true, using: :btree
@@ -367,14 +369,14 @@ ActiveRecord::Schema.define(version: 20150711110250) do
   add_index "cwd_sub_transects", ["cwd_transect_id"], name: "index_cwd_sub_transects_on_cwd_transect_id", using: :btree
 
   create_table "cwd_transects", force: true do |t|
-    t.integer  "plot_id",      null: false
-    t.string   "transect_num", null: false
+    t.integer  "plot_id",          null: false
+    t.string   "cwd_transect_num", null: false
     t.integer  "batch_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "cwd_transects", ["plot_id", "transect_num"], name: "index_cwd_transects_on_plot_id_and_transect_num", unique: true, using: :btree
+  add_index "cwd_transects", ["plot_id", "cwd_transect_num"], name: "index_cwd_transects_on_plot_id_and_cwd_transect_num", unique: true, using: :btree
   add_index "cwd_transects", ["plot_id"], name: "index_cwd_transects_on_plot_id", using: :btree
 
   create_table "dbh_measurements", force: true do |t|
@@ -506,6 +508,7 @@ ActiveRecord::Schema.define(version: 20150711110250) do
     t.integer  "batch_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.float    "seeds_g_per_trap"
   end
 
   add_index "fine_litterfall_values", ["litterfall_trap_id"], name: "index_fine_litterfall_values_on_litterfall_trap_id", using: :btree
@@ -637,6 +640,16 @@ ActiveRecord::Schema.define(version: 20150711110250) do
     t.integer  "batch_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.float    "ol_layer_depth_cm"
+    t.float    "ml_layer_depth_cm"
+    t.float    "ol_2to3_mm_g"
+    t.float    "ml_2to3_mm_g"
+    t.float    "ol_3to4_mm_g"
+    t.float    "ml_3to4_mm_g"
+    t.float    "ol_4to5_mm_g"
+    t.float    "ml_4to5_mm_g"
+    t.float    "ol_above_5mm_g"
+    t.float    "ml_above_5mm_g"
   end
 
   add_index "ingrowth_core_values", ["ingrowth_core_id"], name: "index_ingrowth_core_values_on_ingrowth_core_id", using: :btree
@@ -656,7 +669,7 @@ ActiveRecord::Schema.define(version: 20150711110250) do
     t.integer  "tree_id",                         null: false
     t.datetime "date",                            null: false
     t.float    "pom_height_m"
-    t.float    "dendrometer_reading_mm",          null: false
+    t.float    "dendrometer_reading_mm"
     t.float    "dendrometer_reading_replaced_mm"
     t.string   "status_code"
     t.string   "mortality_code"
@@ -1342,8 +1355,8 @@ ActiveRecord::Schema.define(version: 20150711110250) do
   end
 
   create_table "small_tree_dendrometer_readings", force: true do |t|
-    t.integer  "tree_id",           null: false
-    t.datetime "date",              null: false
+    t.integer  "tree_id",            null: false
+    t.datetime "date",               null: false
     t.float    "wood_density_g_m2"
     t.float    "tree_height_m"
     t.float    "pom_height_m"
@@ -1357,6 +1370,7 @@ ActiveRecord::Schema.define(version: 20150711110250) do
     t.integer  "batch_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.float    "dbh_nodirection_cm"
   end
 
   add_index "small_tree_dendrometer_readings", ["tree_id"], name: "index_small_tree_dendrometer_readings_on_tree_id", using: :btree
