@@ -98,7 +98,9 @@ AS
          basic_tree_view.csp_species,
          basic_tree_view.csp_family,
          basic_tree_view.csp_full_name,
-         basic_tree_view.csp_taxon_info
+         basic_tree_view.csp_taxon_info,
+         basic_tree_view.dbh,
+         basic_tree_view.census_date
   FROM   (branches
           join basic_tree_view
             ON (( basic_tree_view.tree_id = branches.tree_id ))); 
@@ -133,7 +135,9 @@ AS
          basic_branch_view.csp_species,
          basic_branch_view.csp_family,
          basic_branch_view.csp_full_name,
-         basic_branch_view.csp_taxon_info
+         basic_branch_view.csp_taxon_info,
+         basic_branch_view.dbh,
+         basic_branch_view.census_date
   FROM   (leaves
           JOIN basic_branch_view
             ON (( basic_branch_view.branch_id = leaves.branch_id ))); 
@@ -170,7 +174,9 @@ AS
          basic_leaf_view.csp_species,
          basic_leaf_view.csp_family,
          basic_leaf_view.csp_full_name,
-         basic_leaf_view.csp_taxon_info
+         basic_leaf_view.csp_taxon_info,
+         basic_leaf_view.dbh,
+         basic_leaf_view.census_date
   FROM   (leaf_parts
           JOIN basic_leaf_view
             ON (( basic_leaf_view.leaf_id = leaf_parts.leaf_id ))); 
@@ -231,7 +237,9 @@ AS
          basic_branch_view.csp_species                 AS carn_csp_species,
          basic_branch_view.csp_family                  AS carn_csp_family,
          basic_branch_view.csp_full_name               AS carn_csp_full_name,
-         basic_branch_view.csp_taxon_info              AS carn_csp_taxon_info
+         basic_branch_view.csp_taxon_info              AS carn_csp_taxon_info,
+         basic_branch_view.dbh                         AS carn_fp_dbh,
+         basic_branch_view.census_date                 AS carn_fp_census_date
   FROM   (carnegie_bulk_leaf_chemistries
           JOIN basic_branch_view
             ON (( carnegie_bulk_leaf_chemistries.branch_1 =
