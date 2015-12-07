@@ -12,7 +12,7 @@ DROP VIEW trees_with_latest_dbh_view;
 
 CREATE VIEW basic_tree_view
 AS
-  SELECT trees.id           AS tree_id,
+  SELECT   trees.id           AS tree_id,
          trees.tree_code,
          trees.fp_id        AS fp_tree_id,
          fp_species.name    AS fp_species_name,
@@ -28,18 +28,26 @@ AS
          csp_sub_query.csp_species,
          csp_sub_query.csp_family,
          csp_sub_query.csp_full_name,
-         csp_sub_query.csp_taxon_info
-  FROM   ((((((trees
-               left join fp_species
-                      ON (( fp_species.id = trees.fp_species_id )))
-              left join fp_genera
-                     ON (( fp_genera.id = fp_species.fp_genus_id )))
-             left join fp_families
-                    ON (( fp_families.id = fp_genera.fp_family_id )))
-            join sub_plots
-              ON (( sub_plots.id = trees.sub_plot_id )))
-           join plots
-             ON (( plots.id = sub_plots.plot_id )))
+         csp_sub_query.csp_taxon_info,
+		 d.value as DBH,
+		 c.mean_date as census_date
+  FROM   (((((((trees
+				   left join fp_species
+						  ON (( fp_species.id = trees.fp_species_id )))
+				  left join fp_genera
+						 ON (( fp_genera.id = fp_species.fp_genus_id )))
+				 left join fp_families
+						ON (( fp_families.id = fp_genera.fp_family_id )))
+				join sub_plots
+				  ON (( sub_plots.id = trees.sub_plot_id )))
+			   join plots
+				 ON (( plots.id = sub_plots.plot_id )))
+			left join
+                  (select d.id, d.tree_id, d.census_id, d.value from dbh_measurements d
+                    inner join (select tree_id, max(census_id) census_id from dbh_measurements group by tree_id) ss
+                    ON d.tree_id = ss.tree_id and d.census_id = ss.census_id ORDER BY id) d
+                ON d.tree_id = trees.id
+                inner join censuses c ON (d.census_id = c.id))
           left join (SELECT DISTINCT csp_translations.site       AS csp_site,
                                      csp_translations.tree_code  AS
                                      csp_tree_code,
@@ -55,8 +63,7 @@ AS
                  ON (( ( ( csp_sub_query.csp_site ) :: text =
                        ( plots.plot_code ) :: text )
                        AND ( ( csp_sub_query.csp_tree_code ) :: text =
-                               ( trees.tree_code ) :: text ) ))); 
-
+                               ( trees.tree_code ) :: text ) )));
 
 ALTER TABLE public.basic_tree_view OWNER TO gemdata_user;
 
