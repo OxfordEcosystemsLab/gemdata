@@ -29,8 +29,8 @@ AS
          csp_sub_query.csp_family,
          csp_sub_query.csp_full_name,
          csp_sub_query.csp_taxon_info,
-		 d.value as DBH,
-		 c.mean_date as census_date
+         d."value" AS DBH,
+         c.mean_date AS census_date
   FROM   (((((((trees
 				   left join fp_species
 						  ON (( fp_species.id = trees.fp_species_id )))
@@ -42,7 +42,7 @@ AS
 				  ON (( sub_plots.id = trees.sub_plot_id )))
 			   join plots
 				 ON (( plots.id = sub_plots.plot_id )))
-			left join
+            left join
                   (select d.id, d.tree_id, d.census_id, d.value from dbh_measurements d
                     inner join (select tree_id, max(census_id) census_id from dbh_measurements group by tree_id) ss
                     ON d.tree_id = ss.tree_id and d.census_id = ss.census_id ORDER BY id) d
