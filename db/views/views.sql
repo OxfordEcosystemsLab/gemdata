@@ -47,7 +47,7 @@ AS
                     inner join (select tree_id, max(census_id) census_id from dbh_measurements group by tree_id) ss
                     ON d.tree_id = ss.tree_id and d.census_id = ss.census_id ORDER BY id) d
                 ON d.tree_id = trees.id
-                inner join censuses c ON (d.census_id = c.id))
+                left join censuses c ON (d.census_id = c.id))
           left join (SELECT DISTINCT csp_translations.site       AS csp_site,
                                      csp_translations.tree_code  AS
                                      csp_tree_code,
