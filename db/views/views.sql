@@ -29,8 +29,8 @@ AS
          csp_sub_query.csp_family,
          csp_sub_query.csp_full_name,
          csp_sub_query.csp_taxon_info,
-         d."value" AS DBH,
-         c.mean_date AS census_date
+         d."value" AS dbh_latest,
+         c.mean_date AS census_date_latest
   FROM   (((((((trees
 				   left join fp_species
 						  ON (( fp_species.id = trees.fp_species_id )))
@@ -99,8 +99,8 @@ AS
          basic_tree_view.csp_family,
          basic_tree_view.csp_full_name,
          basic_tree_view.csp_taxon_info,
-         basic_tree_view.dbh,
-         basic_tree_view.census_date
+         basic_tree_view.dbh_latest,
+         basic_tree_view.census_date_latest
   FROM   (branches
           join basic_tree_view
             ON (( basic_tree_view.tree_id = branches.tree_id ))); 
@@ -136,8 +136,8 @@ AS
          basic_branch_view.csp_family,
          basic_branch_view.csp_full_name,
          basic_branch_view.csp_taxon_info,
-         basic_branch_view.dbh,
-         basic_branch_view.census_date
+         basic_branch_view.dbh_latest,
+         basic_branch_view.census_date_latest
   FROM   (leaves
           JOIN basic_branch_view
             ON (( basic_branch_view.branch_id = leaves.branch_id ))); 
@@ -175,8 +175,8 @@ AS
          basic_leaf_view.csp_family,
          basic_leaf_view.csp_full_name,
          basic_leaf_view.csp_taxon_info,
-         basic_leaf_view.dbh,
-         basic_leaf_view.census_date
+         basic_leaf_view.dbh_latest,
+         basic_leaf_view.census_date_latest
   FROM   (leaf_parts
           JOIN basic_leaf_view
             ON (( basic_leaf_view.leaf_id = leaf_parts.leaf_id ))); 
@@ -238,8 +238,8 @@ AS
          basic_branch_view.csp_family                  AS carn_csp_family,
          basic_branch_view.csp_full_name               AS carn_csp_full_name,
          basic_branch_view.csp_taxon_info              AS carn_csp_taxon_info,
-         basic_branch_view.dbh                         AS carn_fp_dbh,
-         basic_branch_view.census_date                 AS carn_fp_census_date
+         basic_branch_view.dbh_latest                  AS carn_fp_dbh_latest,
+         basic_branch_view.census_date_latest          AS carn_fp_census_date_latest
   FROM   (carnegie_bulk_leaf_chemistries
           JOIN basic_branch_view
             ON (( carnegie_bulk_leaf_chemistries.branch_1 =
@@ -254,7 +254,7 @@ SELECT
 	d.id, 
 	d.census_id, 
 	d.tree_id, 
-	d.value as DBH 
+	d.value as dbh 
 FROM
 	dbh_measurements d
 	INNER JOIN 
