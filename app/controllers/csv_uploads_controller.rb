@@ -55,6 +55,7 @@ class CsvUploadsController < ApplicationController
       ToughnessMeasurementImporter,
       WeatherReadingImporter,
       WoodDensityImporter,
+      TestImporter,
     ]
   end
 
