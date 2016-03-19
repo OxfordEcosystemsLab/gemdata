@@ -108,7 +108,7 @@ class EgmIngrowthCoreRespirationImporter < EgmRespirationImporter
 
     def datetime
       dt_string = "#{@values[RST + 1]}-#{@values[RST + 5]}-#{@values[RST + 4]} #{@values[RST + 6]}:#{@values[RST + 7]}:00 UTC"
-      Time.strptime(dt_string, "%Y-%m-%d %H:%M:%S %Z")
+      Time.strptime(dt_string.gsub('NA','00'), "%Y-%m-%d %H:%M:%S %Z")
     rescue Exception => ex
       raise "dt_string: #{dt_string} - #{ex.message}"
     end

@@ -16,7 +16,8 @@ class EgmRespirationCollar < ActiveRecord::Base
                                                                    Type::STEM,
                                                                    Type::IC ] }
   validates :collar_num,        allow_nil: true,
-                                numericality: { only_integer: true, greater_than_or_equal_to: 1 }
+                                format: { with: /\A[0-9]+\z/,
+                                          message: "should be an integer." } 
   validates :plot_corner_code,  allow_nil: true,
                                 format: { with: /\A[012345],[012345]\z/,
                                           message: "should be in format 'N,N' (no quotes) where N is 0 to 5" } 

@@ -43,18 +43,19 @@ class EgmRespirationValue < ActiveRecord::Base
 
   # Stem
   with_options if: :is_stem do |rec|
-    rec.validates :tree,            presence: true
+    rec.validates :tree,                   presence: true
+    rec.validates :egm_respiration_collar, presence: true
   end
 
   # Coarse woody debris
   with_options if: :is_cwd do |rec|
-    rec.validates :egm_respiration_collar, presence: true
   end
 
   # Ingrowth core
   with_options if: :is_ic do |rec|
-    rec.validates :ingrowth_core,   presence: true
-    rec.validates :litter_code,     presence: true, inclusion: { in: LITTER_CODES }
+    rec.validates :egm_respiration_collar, presence: true
+    rec.validates :ingrowth_core,          presence: true
+    rec.validates :litter_code,            presence: true, inclusion: { in: LITTER_CODES }
   end
 
   # Leaf
@@ -79,7 +80,7 @@ class EgmRespirationValue < ActiveRecord::Base
   validates :replica,          allow_nil: true, numericality: { greater_than_or_equal_to: 1,   less_than_or_equal_to: 10 }
   validates :egm_measurement,  allow_nil: true, numericality: { greater_than_or_equal_to: 1,   less_than_or_equal_to: 1000 }
   validates :recno,            allow_nil: true, numericality: { greater_than_or_equal_to: 1,   less_than_or_equal_to: 1000 }
-  validates :co2ref_ppm,       allow_nil: true, numericality: { greater_than_or_equal_to: 200, less_than_or_equal_to: 800 }
+  validates :co2ref_ppm,       allow_nil: true, numericality: { greater_than_or_equal_to: 1,   less_than_or_equal_to: 1000 }
   validates :inputd,           allow_nil: true, numericality: { greater_than_or_equal_to: 0,   less_than_or_equal_to: 1000 }
   validates :time,             allow_nil: true, numericality: { greater_than_or_equal_to: 0,   less_than_or_equal_to: 1000 }
   validates :inputf,           allow_nil: true, numericality: { greater_than_or_equal_to: -10, less_than_or_equal_to: 10 }

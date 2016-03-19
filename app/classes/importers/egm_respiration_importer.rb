@@ -24,12 +24,6 @@ class EgmRespirationImporter < RowImporter
     end
 
     def get_respiration_collar(collar_type)
-      if collar_num.present?
-        find_or_create_egm_respiration_collar_by_collar_num(collar_type)
-      end
-    end
-
-    def find_or_create_egm_respiration_collar_by_collar_num(collar_type)
       collar = find_or_new(EgmRespirationCollar,
         plot: plot,
         collar_num: collar_num,

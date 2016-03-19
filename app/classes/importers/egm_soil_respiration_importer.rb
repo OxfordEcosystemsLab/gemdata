@@ -62,7 +62,7 @@ class EgmSoilRespirationImporter < EgmRespirationImporter
       disturbance_code:       values[6],
       litter_code:            values[7],
       replica:                values[RST],
-      egm_measurement:        values[RST + 2],
+      egm_measurement:        egm_measurement,
       recno:                  values[RST + 3],
       co2ref_ppm:             values[RST + 8],
       inputd:                 values[RST + 9],
@@ -115,13 +115,17 @@ class EgmSoilRespirationImporter < EgmRespirationImporter
       nil
     end
     
+    def egm_measurement
+      nil_if_blank_or_na(@values[RST + 2])
+    end
+    
     def quality_code
       nil_if_blank_or_na(@values[RST + 14])
     end
 
     def datetime
       dt_string = "#{@values[RST + 1]}-#{@values[RST + 5]}-#{@values[RST + 4]} #{@values[RST + 6]}:#{@values[RST + 7]}:00 UTC"
-      Time.strptime(dt_string, "%Y-%m-%d %H:%M:%S %Z")
+      Time.strptime(dt_string.gsub('NA','00'), "%Y-%m-%d %H:%M:%S %Z")
     rescue Exception => ex
       raise "dt_string: #{dt_string} - #{ex.message}"
     end
