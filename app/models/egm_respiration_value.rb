@@ -49,10 +49,12 @@ class EgmRespirationValue < ActiveRecord::Base
 
   # Coarse woody debris
   with_options if: :is_cwd do |rec|
+    rec.validates :egm_measurement, presence: true
   end
 
   # Ingrowth core
   with_options if: :is_ic do |rec|
+    rec.validates :egm_measurement,        presence: true
     rec.validates :egm_respiration_collar, presence: true
     rec.validates :ingrowth_core,          presence: true
     rec.validates :litter_code,            presence: true, inclusion: { in: LITTER_CODES }
@@ -61,12 +63,12 @@ class EgmRespirationValue < ActiveRecord::Base
   # Leaf
   with_options if: :is_leaf do |rec|
     rec.validates :tree,            presence: true
+    rec.validates :egm_measurement, presence: true
   end
   
   # All but soil
   with_options unless: :is_soil do |rec|
     rec.validates :replica,         presence: true
-    rec.validates :egm_measurement, presence: true
     rec.validates :co2ref_ppm,      presence: true
   end
 

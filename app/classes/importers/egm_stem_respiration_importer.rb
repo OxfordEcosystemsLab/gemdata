@@ -35,10 +35,12 @@ class EgmStemRespirationImporter < EgmRespirationImporter
 
   def read_row(values, logger)
     @values = values
+    sub_plot = get_sub_plot
     @rec = find_or_new({
       respiration_value_type: EgmRespirationValue::Type::STEM,
       plot:                   plot,
-      sub_plot:               get_sub_plot,
+      sub_plot:               sub_plot,
+      tree:                   get_tree(sub_plot),
       egm_respiration_collar: get_respiration_collar(EgmRespirationCollar::Type::STEM),
       ingrowth_core:          ingrowth_core,
       cwd_transect:           cwd_transect,
@@ -49,7 +51,7 @@ class EgmStemRespirationImporter < EgmRespirationImporter
       disturbance_code:       nil,
       litter_code:            nil,
       replica:                values[RST],
-      egm_measurement:        values[RST + 2],
+      egm_measurement:        egm_measurement,
       recno:                  values[RST + 3],
       co2ref_ppm:             values[RST + 8],
       inputd:                 values[RST + 9],
@@ -100,6 +102,10 @@ class EgmStemRespirationImporter < EgmRespirationImporter
 
     def ingrowth_core_num
       nil
+    end
+
+    def egm_measurement
+      nil_if_blank_or_na(@values[RST + 2])
     end
 
     def quality_code

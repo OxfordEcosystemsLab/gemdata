@@ -22,6 +22,19 @@ class EgmRespirationImporter < RowImporter
         )
       end
     end
+    
+    def get_tree(sub_plot)
+      if sub_plot.blank?
+        raise Gemdata::TreeNotFound, "A sub-plot must be specified to find tree with tag #{tree_tag}."
+      else
+        tree = sub_plot.trees.find_by(tree_code: tree_tag)
+        unless tree.present?
+          plot = "plot #{sub_plot.plot.plot_code} sub-plot #{sub_plot.sub_plot_code}"
+          raise Gemdata::TreeNotFound, "Tree with tag #{tree_tag} not found in #{plot}."
+        end
+      end
+      tree
+    end
 
     def get_respiration_collar(collar_type)
       collar = find_or_new(EgmRespirationCollar,

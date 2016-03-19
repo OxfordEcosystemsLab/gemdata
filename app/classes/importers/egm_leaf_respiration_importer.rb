@@ -34,10 +34,12 @@ class EgmLeafRespirationImporter < EgmRespirationImporter
 
   def read_row(values, logger)
     @values = values
+    sub_plot = get_sub_plot
     @rec = find_or_new({
       respiration_value_type: EgmRespirationValue::Type::LEAF,
       plot:                   plot,
-      sub_plot:               get_sub_plot,
+      sub_plot:               sub_plot,
+      tree:                   get_tree(sub_plot),
       egm_respiration_collar: nil,
       ingrowth_core:          ingrowth_core,
       cwd_transect:           cwd_transect,
