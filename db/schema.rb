@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150908092248) do
+ActiveRecord::Schema.define(version: 20160319145213) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -427,8 +427,8 @@ ActiveRecord::Schema.define(version: 20150908092248) do
   add_index "egm_respiration_collars", ["tree_id"], name: "index_egm_respiration_collars_on_tree_id", using: :btree
 
   create_table "egm_respiration_values", force: true do |t|
-    t.string   "respiration_value_type",    null: false
-    t.integer  "plot_id",                   null: false
+    t.string   "respiration_value_type",                null: false
+    t.integer  "plot_id",                               null: false
     t.integer  "sub_plot_id"
     t.integer  "tree_id"
     t.integer  "egm_respiration_collar_id"
@@ -436,7 +436,7 @@ ActiveRecord::Schema.define(version: 20150908092248) do
     t.integer  "cwd_transect_id"
     t.integer  "cwd_sub_transect_id"
     t.string   "cwd_num"
-    t.datetime "datetime",                  null: false
+    t.datetime "datetime",                              null: false
     t.string   "measurement_code"
     t.string   "treatment_code"
     t.string   "litter_code"
@@ -455,6 +455,7 @@ ActiveRecord::Schema.define(version: 20150908092248) do
     t.integer  "batch_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.float    "manually_collected_final_flux_ppm_sec"
   end
 
   add_index "egm_respiration_values", ["cwd_sub_transect_id"], name: "index_egm_respiration_values_on_cwd_sub_transect_id", using: :btree

@@ -71,7 +71,7 @@ class EgmSoilRespirationImporter < EgmRespirationImporter
       atmp_mb:                values[RST + 12],
       probe_type:             values[RST + 13],
       quality_code:           quality_code,
-      comments:               values[RST + 15]
+      comments:               values[RST + 16]
     })
     attempt_to_overwrite!(@rec)
     save_with_status!
@@ -119,8 +119,12 @@ class EgmSoilRespirationImporter < EgmRespirationImporter
       nil_if_blank_or_na(@values[RST + 2])
     end
     
-    def quality_code
+    def manually_collected_final_flux_ppm_sec
       nil_if_blank_or_na(@values[RST + 14])
+    end
+    
+    def quality_code
+      nil_if_blank_or_na(@values[RST + 15])
     end
 
     def datetime

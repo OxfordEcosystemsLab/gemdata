@@ -86,6 +86,8 @@ class EgmRespirationValue < ActiveRecord::Base
   validates :inputf,           allow_nil: true, numericality: { greater_than_or_equal_to: -10, less_than_or_equal_to: 10 }
   validates :atmp_mb,          allow_nil: true, numericality: { greater_than_or_equal_to: 400, less_than_or_equal_to: 2000 }
   validates :probe_type,       allow_nil: true, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
+  validates :manually_collected_final_flux_ppm_sec,
+                               allow_nil: true, numericality: { greater_than_or_equal_to: 1,   less_than_or_equal_to: 1000 }
 
   validates :quality_code,     allow_nil: true, inclusion: { in: QUALITY_CODES,
                                                 message: "should be 'good', 'not_sure' or 'do_not_use'." }
