@@ -50,10 +50,10 @@ class EgmLeafRespirationImporter < EgmRespirationImporter
       disturbance_code:       nil,
       litter_code:            nil,
       replica:                values[RST],
-      egm_measurement:        values[RST + 2],
+      egm_measurement:        egm_measurement,
       recno:                  values[RST + 3],
       co2ref_ppm:             values[RST + 8],
-      inputd:                 values[RST + 9],
+      inputd:                 inputd,
       time:                   values[RST + 10],
       inputf:                 values[RST + 11],
       atmp_mb:                values[RST + 12],
@@ -101,6 +101,14 @@ class EgmLeafRespirationImporter < EgmRespirationImporter
 
     def ingrowth_core_num
       nil
+    end
+
+    def egm_measurement
+      nil_if_blank_or_na(@values[RST + 2])
+    end
+
+    def inputd
+      nil_if_blank_or_na(@values[RST + 9])
     end
 
     def quality_code
