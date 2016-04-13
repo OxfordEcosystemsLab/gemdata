@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160223112950) do
+ActiveRecord::Schema.define(version: 20160406124433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -2206,6 +2206,11 @@ ActiveRecord::Schema.define(version: 20160223112950) do
   add_index "trees", ["fp_species_id"], name: "index_trees_on_fp_species_id", using: :btree
   add_index "trees", ["sub_plot_id"], name: "index_trees_on_sub_plot_id", using: :btree
   add_index "trees", ["tree_code", "sub_plot_id"], name: "index_trees_on_tree_code_and_sub_plot_id", unique: true, using: :btree
+
+  create_table "usc_waxes", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

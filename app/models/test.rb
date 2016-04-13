@@ -1,4 +1,6 @@
-class test < ActiveRecord::Base
+class Test < ActiveRecord::Base
+  require 'csv'
+  
    include BatchImport
    
    include CSVImportTable
@@ -6,9 +8,7 @@ class test < ActiveRecord::Base
    include ValidatePlotAndDate
    include ValidateTreeTag
   
-   require 'csv'
-   CSV.foreach(file.path, headers: true) do |row|
-    test.create! row.to_hash
+  
   end
 end
   
