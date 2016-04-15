@@ -1,0 +1,48 @@
+building a dev machine, from alex blair
+
+	rvm list known
+	rvm install ruby-2.0.0-p195
+	
+
+	rvm use ruby 2.0.0
+	rvm gemset create gemdata
+	rvm use ruby-2.0.0-p195@gemdata
+	
+
+	gem install rails --version 4.0.0.rc1 --no-ri --no-rdoc
+	
+Navigate to required directory
+	rails new gemdata --skip-bundle --database=postgresql
+	
+
+	cd ~/.pow
+	ln -s /Users/path_to_directory
+	
+
+	----------------------------
+	
+
+	Getting it to run on server:
+	
+
+	$ rvm info
+	$ rvm use 2.0.0
+	$ rvm gemset create gemdata
+	$ rvm use 2.0.0-p195@gemdata
+	$ cd /Navigate to directory
+$ git clone https://github.com/OxfordEcosystemsLab/gemdata.git
+$ bundle install
+
+$ bundle exec rake db:create
+$ bundle exec rake db:migrate
+$ bundle exec rake assets:clean assets:precompile
+$ psql gemdata_development
+$ psql CREATE USER gemdata_user 
+$ psql ALTER ROLE gemdata_user SUPERUSER
+
+then create readily user of “gemdata_reader” (see http://stackoverflow.com/questions/760210/how-do-you-create-a-read-only-user-in-postgresql) 
+navigate in browser to gemdata.dev/pages/welcome
+
+
+
+
