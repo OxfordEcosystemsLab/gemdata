@@ -11,8 +11,8 @@ class IngrowthCoreValue < ActiveRecord::Base
   validates :soil_humidity_pcnt,         allow_nil: true, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 }
   validates :soil_temperature_c,         allow_nil: true, numericality: { greater_than_or_equal_to: 0 }
 
-  validates :time_step,                                   numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 4 }
-  validates :time_step_minutes,                           numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 20 }
+  validates :time_step,                  allow_nil: true, numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 4 }
+  validates :time_step_minutes,          allow_nil: true, numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 20 }
 
   validates :ol_layer_depth_cm,          allow_nil: true, numericality: { greater_than_or_equal_to: 0 }
   validates :ml_layer_depth_cm,          allow_nil: true, numericality: { greater_than_or_equal_to: 0 }
