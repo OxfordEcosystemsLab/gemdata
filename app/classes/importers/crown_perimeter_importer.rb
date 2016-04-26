@@ -6,10 +6,9 @@ class CrownPerimeterImporter < RowImporter
 
   def read_row(values, logger)
 
-    @cp = find_or_new({
-      :tree => find_tree(values[3])
-    })
-    attempt_to_overwrite!(@cp)
+    @cp = CrownPerimeter.new
+    @cp.tree = find_tree values[3]
+    @cp.batch_id = @batch_id
 
     @cp.seq = values[4]
     @cp.sun = nil_if_na values[5]
