@@ -1,0 +1,9 @@
+Server install notes - allie
+
+carrierwave gem versioning conflight with activesupport.  Don't use master branch in gemnet/Gemfile - just use normal carrierwave.  Also note that, while carrierwave is in gemnet/Gemfile, it's not actually installed (gem list doesn't show it anyway).  strange.
+
+need to install older version of gem devise in gemdata
+
+passenger 4.0.2 doesn't seem to compile with current nginx.  So, using current passenger instead.
+
+need to add AWS keys in sites/gemnet/config/private.yml
