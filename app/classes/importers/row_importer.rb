@@ -60,8 +60,9 @@ class RowImporter
     end
 
     def find_or_new(ar_class = nil, unique_identifiers)
+      batch_id = use_batch_if_it_exists(unique_identifiers)
       ar_class ||= self.class.ar_class
-      ar_class.batch_find_or_initialize_by(@batch_id, unique_identifiers)
+      ar_class.batch_find_or_initialize_by(batch_id, unique_identifiers)
     end
 
     def find_or_create(ar_class = nil, unique_identifiers)
@@ -69,8 +70,17 @@ class RowImporter
       ar_class.batch_find_or_create_by!(@batch_id, unique_identifiers)
     end
 
+    def use_batch_if_it_exists(unique_identifiers)
+      batch_id = unique_identifiers[:sub_plot][:batch_id] || unique_identifiers[:plot][:batch_id]
+      if batch_id
+        batch_id
+      else
+        @batch_id
+      end
+    end
+
     def attempt_to_overwrite!(object)
-      unless object.can_overwrite(@batch_id, @overwrite_batch_id)
+      unless object.can_overwrite(object.batch_id, @overwrite_batch_id)
         raise Gemdata::NoPermissionToOverwrite, "No permission to override #{object.class.name} from a different batch: #{object.to_json}"
       end
     end

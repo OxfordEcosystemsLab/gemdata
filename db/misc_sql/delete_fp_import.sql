@@ -11,4 +11,4 @@ WHERE t.sub_plot_id = sp.id
 AND  sp.plot_id = p.id
 AND p.plot_code = 'INSERT_PLOTCODE_HERE';
 
-COMMIT;
+COMMIT;   

@@ -37,10 +37,13 @@ class ForestPlotsImporter < RowImporter
 
     sub_plot = @sub_plots_cache[sub_plot_code]
 
+    puts "sub_plot_code in forest_place is #{sub_plot}"
+
     if sub_plot.nil?
       # Sub-plots have other columns which are not being imported here
       # type, area and all that lot.
       sub_plot = find_or_create(SubPlot, :plot_id => plot.id, :sub_plot_code => sub_plot_code)
+      attempt_to_overwrite!(sub_plot)
       @sub_plots_cache[sub_plot_code] = sub_plot
     end
 
