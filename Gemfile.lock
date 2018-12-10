@@ -150,7 +150,7 @@ GEM
       rbvmomi
     orm_adapter (0.5.0)
     pg (0.17.1)
-    rack (1.5.2)
+    rack (~> 1.6.11)
     rack-test (0.6.2)
       rack (>= 1.0)
     rails (4.1.8)
